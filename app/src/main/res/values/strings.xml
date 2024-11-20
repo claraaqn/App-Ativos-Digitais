@@ -4,4 +4,8 @@
     <string name="digite_sua_senha">Digite sua senha</string>
     <string name="entrar_com_o_google_ou_facebook">Entrar com o Google ou Facebook</string>
     <string name="login">Login</string>
+    <string name="confirme_sua_senha">Confirme sua senha</string>
+    <string name="cadastrar">Cadastrar</string>
+    <string name="cadastrar_com_google_ou_facebook">Cadastrar com Google ou Facebook</string>
+    <string name="continuando_voc_concorda_com_os_termos_e_condi_es">Continuando você concorda com os Termos e Condições</string>
 </resources>

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    tools:layout_editor_absoluteX="1dp"
+    tools:layout_editor_absoluteY="-17dp">
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="193dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="56dp"
+        android:src="@drawable/logo"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="109dp" />
+
+    <ImageView
+        android:id="@+id/fundo_mascote"
+        android:layout_width="246dp"
+        android:layout_height="222dp"
+        android:layout_marginStart="72dp"
+        android:layout_marginTop="32dp"
+        android:src="@drawable/fundo_mascote"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logo"
+        tools:ignore="MissingConstraints" />
+
+    <ImageView
+        android:id="@+id/mascote"
+        android:layout_width="162dp"
+        android:layout_height="170dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/mascote"
+        app:layout_constraintStart_toStartOf="@+id/fundo_mascote"
+        app:layout_constraintTop_toTopOf="@+id/fundo_mascote"
+        tools:ignore="MissingConstraints" />
+
+    <EditText
+        android:id="@+id/edit_text_email"
+        android:layout_width="300dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="52dp"
+        android:layout_marginTop="25dp"
+        android:hint="@string/digite_seu_email"
+        android:inputType="textEmailAddress"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fundo_mascote" />
+
+    <EditText
+        android:id="@+id/edit_text_senha"
+        android:layout_width="300dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="52dp"
+        android:layout_marginTop="20dp"
+        android:hint="@string/digite_sua_senha"
+        android:inputType="textPassword"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_text_email" />
+
+    <EditText
+        android:id="@+id/edit_text_confirme_senha"
+        android:layout_width="300dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="52dp"
+        android:layout_marginTop="20dp"
+        android:hint="@string/confirme_sua_senha"
+        android:inputType="textPassword"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_text_senha" />
+
+    <EditText
+        android:id="@+id/edit_text_telefone"
+        android:layout_width="300dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="52dp"
+        android:layout_marginTop="20dp"
+        android:hint="Telefone"
+        android:inputType="textPassword"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_text_confirme_senha" />
+
+    <TextView
+        android:id="@+id/googleoufacebokk"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="92dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/cadastrar_com_google_ou_facebook"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_text_telefone" />
+
+    <TextView
+        android:id="@+id/termos_condicoes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="88dp"
+        android:text="@string/continuando_voc_concorda_com_os_termos_e_condi_es"
+        app:layout_constraintEnd_toEndOf="@+id/button_login"
+        app:layout_constraintStart_toStartOf="@+id/button_login"
+        app:layout_constraintTop_toBottomOf="@+id/googleoufacebokk" />
+
+    <Button
+        android:id="@+id/button_login"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="304dp"
+        android:background="@drawable/fundo_botao"
+        android:text="@string/cadastrar"
+        android:textColor="@android:color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_text_senha" />
+
+    <ImageView
+        android:id="@+id/google"
+        android:layout_width="49dp"
+        android:layout_height="49dp"
+        android:layout_marginStart="52dp"
+        android:layout_marginTop="12dp"
+        android:src="@drawable/google"
+        app:layout_constraintStart_toStartOf="@+id/googleoufacebokk"
+        app:layout_constraintTop_toBottomOf="@+id/googleoufacebokk"
+        tools:ignore="MissingConstraints" />
+
+    <ImageView
+        android:id="@+id/facebook"
+        android:layout_width="49dp"
+        android:layout_height="49dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="12dp"
+        android:src="@drawable/facebook"
+        app:layout_constraintEnd_toEndOf="@+id/googleoufacebokk"
+        app:layout_constraintHorizontal_bias="0.06"
+        app:layout_constraintStart_toEndOf="@+id/google"
+        app:layout_constraintTop_toBottomOf="@+id/googleoufacebokk"
+        tools:ignore="MissingConstraints" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
