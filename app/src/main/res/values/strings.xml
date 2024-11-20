@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Desing Brabo</string>
+    <string name="digite_seu_email">Digite seu email</string>
+    <string name="digite_sua_senha">Digite sua senha</string>
+    <string name="entrar_com_o_google_ou_facebook">Entrar com o Google ou Facebook</string>
+    <string name="login">Login</string>
+</resources>
