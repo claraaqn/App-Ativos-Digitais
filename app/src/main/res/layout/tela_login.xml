@@ -13,17 +13,18 @@
         android:layout_height="45dp"
         android:layout_marginTop="56dp"
         android:src="@drawable/logo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="109dp" />
+        tools:ignore="MissingConstraints" />
 
     <ImageView
         android:id="@+id/fundo_mascote"
         android:layout_width="246dp"
         android:layout_height="222dp"
-        android:layout_marginStart="72dp"
         android:layout_marginTop="88dp"
         android:src="@drawable/fundo_mascote"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/logo"
         tools:ignore="MissingConstraints" />
@@ -43,21 +44,41 @@
         android:id="@+id/edit_text_email"
         android:layout_width="300dp"
         android:layout_height="48dp"
-        android:layout_marginStart="52dp"
-        android:layout_marginTop="72dp"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/contorno_edit_text"
+        android:fontFamily="@font/poppins_semi_bold"
         android:hint="@string/digite_seu_email"
         android:inputType="textEmailAddress"
+        android:paddingStart="16dp"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fundo_mascote" />
+
+    <Button
+        android:id="@+id/button_login"
+        android:layout_width="320dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="156dp"
+        android:background="@drawable/fundo_botao"
+        android:text="@string/login"
+        android:textColor="@android:color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_text_senha" />
 
     <EditText
         android:id="@+id/edit_text_senha"
         android:layout_width="300dp"
         android:layout_height="48dp"
-        android:layout_marginStart="52dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/contorno_edit_text"
+        android:fontFamily="@font/poppins_semi_bold"
         android:hint="@string/digite_sua_senha"
         android:inputType="textPassword"
+        android:paddingStart="16dp"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edit_text_email" />
 
@@ -65,9 +86,9 @@
         android:id="@+id/googleoufacebokk"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
         android:layout_marginTop="24dp"
         android:text="@string/entrar_com_o_google_ou_facebook"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edit_text_senha" />
 
@@ -94,17 +115,5 @@
         app:layout_constraintStart_toStartOf="@+id/googleoufacebokk"
         app:layout_constraintTop_toBottomOf="@+id/googleoufacebokk"
         tools:ignore="MissingConstraints" />
-
-    <Button
-        android:id="@+id/button_login"
-        android:layout_width="320dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="44dp"
-        android:layout_marginTop="148dp"
-        android:background="@drawable/fundo_botao"
-        android:text="@string/login"
-        android:textColor="@android:color/white"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_text_senha" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

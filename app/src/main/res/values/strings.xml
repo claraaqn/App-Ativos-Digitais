@@ -22,4 +22,11 @@
     <string name="bot_o_meu_carrinho">Botão Meu Carrinho</string>
     <string name="bot_o_meu_perfil">Botão Meu Perfil</string>
     <string name="bot_o_voltar">Botão Voltar</string>
+    <string name="editar_foto">Editar Foto</string>
+    <string name="digite_seu_nome">Digite seu nome</string>
+    <string name="telefone">Telefone</string>
+    <string name="nome">Nome</string>
+    <string name="senha">Senha</string>
+    <string name="email">Email</string>
+    <string name="salvar">SALVAR</string>
 </resources>
