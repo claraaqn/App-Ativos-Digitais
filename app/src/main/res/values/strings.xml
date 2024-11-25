@@ -8,4 +8,18 @@
     <string name="cadastrar">Cadastrar</string>
     <string name="cadastrar_com_google_ou_facebook">Cadastrar com Google ou Facebook</string>
     <string name="continuando_voc_concorda_com_os_termos_e_condi_es">Continuando você concorda com os Termos e Condições</string>
+    <string name="premium">Premium</string>
+    <string name="ademir_brabo">Ademir Brabo</string>
+    <string name="ademiroemo_gmail_com">ademiroemo@gmail.com</string>
+    <string name="editar_perfil">Editar Perfil</string>
+    <string name="minha_assinatura">Minha Assinatura</string>
+    <string name="configura_es">Configurações</string>
+    <string name="sair">SAIR</string>
+    <string name="perfil">Perfil</string>
+    <string name="bot_o_home">Botão Home</string>
+    <string name="bot_o_updownload">Botão Updownload</string>
+    <string name="bot_o_minha_cole_o">Botão Minha Coleção</string>
+    <string name="bot_o_meu_carrinho">Botão Meu Carrinho</string>
+    <string name="bot_o_meu_perfil">Botão Meu Perfil</string>
+    <string name="bot_o_voltar">Botão Voltar</string>
 </resources>
