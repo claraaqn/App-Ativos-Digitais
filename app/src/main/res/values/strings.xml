@@ -29,4 +29,7 @@
     <string name="senha">Senha</string>
     <string name="email">Email</string>
     <string name="salvar">SALVAR</string>
+    <string name="nome_teste">Ademir Brabo</string>
+    <string name="email_teste">ademiroemo@gmail.com</string>
+    <string name="telefone_text">(99) 99999-9999</string>
 </resources>

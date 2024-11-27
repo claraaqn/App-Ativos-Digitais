@@ -33,7 +33,7 @@
         android:id="@+id/mascote"
         android:layout_width="162dp"
         android:layout_height="170dp"
-        android:layout_marginStart="36dp"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="20dp"
         android:src="@drawable/mascote"
         app:layout_constraintStart_toStartOf="@+id/fundo_mascote"
