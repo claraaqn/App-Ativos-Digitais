@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F2F2F2"
+    tools:layout_editor_absoluteX="5dp"
+    tools:layout_editor_absoluteY="0dp"
+    >
+
+    <ImageView
+        android:id="@+id/fundo_cima"
+        android:layout_width="411dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/fundo_parte_cima"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.032"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/perfil"
+        android:layout_width="158dp"
+        android:layout_height="27dp"
+        android:fontFamily="@font/poppins_semi_bold"
+        android:gravity="center"
+        android:text="@string/configura_es"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/fundo_cima"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/fundo_cima" />
+
+    <Button
+        android:id="@+id/button_voltar"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="20dp"
+        android:background="@drawable/icon_voltar"
+        android:fontFamily="@font/archivo_bold"
+        android:textColor="@android:color/white"
+        android:contentDescription="@string/bot_o_voltar"
+        app:layout_constraintBottom_toBottomOf="@+id/fundo_cima"
+        app:layout_constraintEnd_toStartOf="@+id/perfil"
+        app:layout_constraintHorizontal_bias="0.192"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/fundo_cima"
+        tools:ignore="TouchTargetSizeCheck"/>
+
+<!-- A caixa do botão de segurança-->
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="411dp"
+        android:layout_height="93dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteY="85dp">
+
+        <Button
+            android:id="@+id/button_seguranca"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/fundo_botao_das_config"
+            android:fontFamily="@font/poppins_bold"
+            android:gravity="top|start"
+            android:padding="16dp"
+            android:text="@string/seguran_a"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/texto_sobre_botao"
+            android:layout_width="296dp"
+            android:layout_height="42dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_gravity="center"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="44dp"
+            android:layout_marginEnd="99dp"
+            android:layout_marginBottom="-78dp"
+            android:elevation="8dp"
+            android:fontFamily="@font/poppins_regular"
+            android:text="@string/text_seguranca"
+            android:textColor="#000000"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+    <!-- A caixa do botão de contas conectadas-->
+    <RelativeLayout
+        android:id="@+id/layout_contas_conectadas"
+        android:layout_width="411dp"
+        android:layout_height="93dp"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout"
+        tools:ignore="MissingConstraints">
+
+        <Button
+            android:id="@+id/button_contas"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/fundo_botao_das_config"
+            android:fontFamily="@font/poppins_bold"
+            android:gravity="top|start"
+            android:padding="16dp"
+            android:text="@string/contas_conectadas"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/texto_sobre_botao_contas"
+            android:layout_width="296dp"
+            android:layout_height="42dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_gravity="center"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="44dp"
+            android:layout_marginEnd="99dp"
+            android:layout_marginBottom="-78dp"
+            android:elevation="8dp"
+            android:fontFamily="@font/poppins_regular"
+            android:text="@string/text_button_contas_conectadas"
+            android:textColor="#000000"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+    <!-- A caixa do botão de termos e condições-->
+    <RelativeLayout
+        android:id="@+id/layout_termos"
+        android:layout_width="411dp"
+        android:layout_height="93dp"
+        app:layout_constraintTop_toBottomOf="@+id/layout_contas_conectadas"
+        tools:ignore="MissingConstraints">
+
+        <Button
+            android:id="@+id/button_termos"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/fundo_botao_das_config"
+            android:fontFamily="@font/poppins_bold"
+            android:gravity="top|start"
+            android:padding="16dp"
+            android:text="@string/termos_e_condicoes"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/texto_sobre_termos"
+            android:layout_width="296dp"
+            android:layout_height="42dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_gravity="center"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="44dp"
+            android:layout_marginEnd="99dp"
+            android:layout_marginBottom="-78dp"
+            android:elevation="8dp"
+            android:fontFamily="@font/poppins_regular"
+            android:text="@string/text_termos"
+            android:textColor="#000000"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
