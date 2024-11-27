@@ -95,86 +95,56 @@
         android:id="@+id/edit_nome"
         android:layout_width="300dp"
         android:layout_height="48dp"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="80dp"
+        android:background="@drawable/contorno_edit_text"
         android:fontFamily="@font/poppins_semi_bold"
-        android:hint="@string/nome"
+        android:hint="@string/nome_teste"
         android:inputType="text"
-        android:textSize="14sp"
         android:paddingStart="16dp"
-        android:background="@drawable/contorno_edit_text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fundo_botao_editar_foto" />
-
-    <EditText
-        android:id="@+id/edit_text_email"
-        android:layout_width="300dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="24dp"
-        android:fontFamily="@font/poppins_semi_bold"
-        android:hint="@string/email"
-        android:inputType="textEmailAddress"
         android:textSize="14sp"
-        android:paddingStart="16dp"
-        android:background="@drawable/contorno_edit_text"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_nome"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintTop_toBottomOf="@+id/fundo_botao_editar_foto"
+        tools:ignore="RtlSymmetry" />
 
     <EditText
         android:id="@+id/edit_text_telefone"
         android:layout_width="300dp"
         android:layout_height="48dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/contorno_edit_text"
         android:fontFamily="@font/poppins_semi_bold"
-        android:hint="@string/telefone"
+        android:hint="@string/telefone_text"
         android:inputType="phone"
-        android:textSize="14sp"
         android:paddingStart="16dp"
-        android:background="@drawable/contorno_edit_text"
+        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_text_email" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_text_email"
+        tools:ignore="RtlSymmetry" />
 
     <EditText
-        android:id="@+id/edit_text_senha"
+        android:id="@+id/edit_text_email"
         android:layout_width="300dp"
         android:layout_height="48dp"
-        android:layout_marginStart="56dp"
-        android:layout_marginTop="24dp"
-        android:fontFamily="@font/poppins_semi_bold"
-        android:hint="@string/senha"
-        android:inputType="textPassword"
-        android:textSize="14sp"
-        android:paddingStart="16dp"
+        android:layout_marginTop="28dp"
         android:background="@drawable/contorno_edit_text"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_text_telefone" />
-
-    <EditText
-        android:id="@+id/edit_text_confirme_senha"
-        android:layout_width="300dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="24dp"
         android:fontFamily="@font/poppins_semi_bold"
-        android:hint="@string/confirme_sua_senha"
-        android:inputType="textPassword"
-        android:textSize="14sp"
+        android:hint="@string/email_teste"
+        android:inputType="textEmailAddress"
         android:paddingStart="16dp"
-        android:background="@drawable/contorno_edit_text"
+        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_text_senha" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_nome"
+        tools:ignore="MissingConstraints,RtlSymmetry" />
 
     <Button
         android:layout_width="130dp"
         android:layout_height="48dp"
-        android:layout_marginTop="52dp"
         android:background="@drawable/fundo_botao_ver"
         android:fontFamily="@font/poppins_extra_bold"
         android:text="@string/salvar"
@@ -183,7 +153,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_text_confirme_senha"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_text_telefone" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
