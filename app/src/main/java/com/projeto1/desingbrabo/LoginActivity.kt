@@ -41,9 +41,26 @@ class LoginActivity : AppCompatActivity() {
         RetrofitInstance.api.loginUser(loginRequest).enqueue(object : Callback<LoginResponse> {
             override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
                 if (response.isSuccessful && response.body()?.success == true) {
-                    Toast.makeText(this@LoginActivity, "Login realizado com sucesso!", Toast.LENGTH_SHORT).show()
-                    // val intent = Intent(this@LoginActivity, HomeActivity::class.java)
-                    // startActivity(intent)
+                    val userId = response.body()?.userId
+                    if (userId != null) {
+                        saveUserId(userId)
+                        Toast.makeText(this@LoginActivity,"Login realizado com sucesso!",
+                            Toast.LENGTH_SHORT).show()
+
+                        val userName = response.body()?.nome
+                        val userEmail = response.body()?.email
+
+                        val sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE)
+                        val editor = sharedPreferences.edit()
+                        editor.putString("user_name", userName)
+                        editor.putString("user_email", userEmail)
+                        editor.apply()
+
+                        val intent = Intent(this@LoginActivity, PerfilActivity::class.java)
+                        startActivity(intent)
+                    } else {
+                        Toast.makeText(this@LoginActivity, "Erro: ID do usuário não encontrado!", Toast.LENGTH_SHORT).show()
+                    }
                 } else {
                     Toast.makeText(this@LoginActivity, "E-mail ou senha inválidos!", Toast.LENGTH_SHORT).show()
                 }
@@ -53,5 +70,11 @@ class LoginActivity : AppCompatActivity() {
                 Toast.makeText(this@LoginActivity, "Erro na conexão: ${t.message}", Toast.LENGTH_SHORT).show()
             }
         })
+    }
+    private fun saveUserId(userId: Int) {
+        val sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putInt("user_id", userId)
+        editor.apply()
     }
 }
