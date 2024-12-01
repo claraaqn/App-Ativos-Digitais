@@ -7,14 +7,14 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.projeto1.desingbrabo.model.User
+import com.projeto1.desingbrabo.model.Cadastro
 import com.projeto1.desingbrabo.api.RetrofitInstance
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class CadastroActivity: AppCompatActivity() {
+class CadastroActivity : AppCompatActivity() {
 
     private lateinit var editTextEmail: EditText
     private lateinit var editTextNome: EditText
@@ -78,7 +78,7 @@ class CadastroActivity: AppCompatActivity() {
             return
         }
 
-        val user = User(
+        val cadastro = Cadastro(
             userName = nome,
             email = email,
             password = senha,
@@ -87,7 +87,7 @@ class CadastroActivity: AppCompatActivity() {
         )
 
         val apiService = RetrofitInstance.api
-        val call = apiService.registerUser(user)
+        val call = apiService.registerUser(cadastro)
 
         call.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {

@@ -45,6 +45,56 @@ def cadastrar_usuario():
     except Exception as e:
         print(f"Erro: {str(e)}")  # Adicione esse print para ver o erro no console
         return jsonify({"success": False, "message": str(e)}), 500
+    
+
+@app.route('/login', methods=['POST'])
+def login_usuario():
+    try:
+        data = request.get_json()
+        email = data.get('email')
+        senha = data.get('password')
+
+        conn = mysql.connection
+        cursor = conn.cursor()
+
+        cursor.execute("SELECT id, userName, password FROM ad_users WHERE email = %s", (email,))
+        result = cursor.fetchone()
+
+        if result:
+            user_id, userName, hashed_password = result
+            if bcrypt.checkpw(senha.encode('utf-8'), hashed_password.encode('utf-8')):
+                return jsonify({
+                    "success": True,
+                    "userId": user_id,
+                    "message": "Login realizado com sucesso",
+                    "nome": userName,
+                    "email": email
+                }), 200
+            return jsonify({"success": True, "message": "Login realizado com sucesso"}), 200
+        else:
+            return jsonify({"success": False, "message": "E-mail ou senha inválidos"}), 401
+
+    except Exception as e:
+        print(f"Erro: {str(e)}")
+        return jsonify({"success": False, "message": "Erro interno no servidor"}), 500
+
+@app.route('/user/<int:id>', methods=['GET'])
+def get_user(id):
+    try:
+        conn = mysql.connection
+        cursor = conn.cursor()
+
+        cursor.execute("SELECT userName, email FROM ad_users WHERE id = %s", (id,))
+        user = cursor.fetchone()
+
+        if user:
+            return jsonify({'id': id, 'name': user[0], 'email': user[1]}), 200
+        else:
+            return jsonify({'message': 'User not found'}), 404
+
+    except Exception as e:
+        print(f"Erro: {str(e)}")
+        return jsonify({"success": False, "message": "Erro interno no servidor"}), 500
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
