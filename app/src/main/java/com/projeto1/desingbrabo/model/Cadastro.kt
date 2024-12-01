@@ -1,6 +1,6 @@
 package com.projeto1.desingbrabo.model
 
-data class User(
+data class Cadastro(
     val userName: String,
     val email: String,
     val password: String,
