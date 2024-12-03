@@ -38,4 +38,10 @@
     <string name="text_button_contas_conectadas">Gerencie a conta do Google e/ou Conta do Facebbok de acesso</string>
     <string name="termos_e_condicoes">Termos e Condições</string>
     <string name="text_termos">Revise os Termos e COndições do Aplicativo</string>
+    <string name="permiss_es">Permissões</string>
+    <string name="tema_escuro">Tema escuro</string>
+    <string name="acesso_a_camera">Acesso a câmera</string>
+    <string name="acesso_ao_armazenamento">Acesso ao armazenamento</string>
+    <string name="permitir_notificacoes">Permitir notificações</string>
+    <string name="excluir_conta">Excluir Conta</string>
 </resources>

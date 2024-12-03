@@ -22,7 +22,7 @@ class EditarPerfilActivity : AppCompatActivity() {
         nomeEditText = findViewById(R.id.edit_nome)
         emailEditText = findViewById(R.id.edit_text_email)
         telefoneEditText = findViewById(R.id.edit_text_telefone)
-        salvarButton = findViewById(R.id.salvar_button) 
+        salvarButton = findViewById(R.id.salvar_button)
 
         val sharedPreferences = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
