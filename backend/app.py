@@ -2,10 +2,13 @@ from flask import Flask, request, jsonify
 from flask_mysqldb import MySQL
 from flask_cors import CORS
 import bcrypt
+import dotenv
 
 app = Flask(__name__)
 CORS(app)
 
+# criar em arquivo .env para puxar as informações de configurações
+# criar .gitignore do .env
 app.config['MYSQL_HOST'] = '26.158.46.162' 
 app.config['MYSQL_USER'] = 'dev_user'      
 app.config['MYSQL_PASSWORD'] = '5QKGMhFnnEikbv4'       
@@ -46,7 +49,6 @@ def cadastrar_usuario():
         print(f"Erro: {str(e)}")  # Adicione esse print para ver o erro no console
         return jsonify({"success": False, "message": str(e)}), 500
     
-
 @app.route('/login', methods=['POST'])
 def login_usuario():
     try:
@@ -95,6 +97,29 @@ def get_user(id):
     except Exception as e:
         print(f"Erro: {str(e)}")
         return jsonify({"success": False, "message": "Erro interno no servidor"}), 500
+
+@app.route('/update_profile', methods=['POST'])
+def update_profile():
+    try:
+        data = request.get_json()
+        user_id = data.get('userId')
+        nome = data.get('nome')
+        email = data.get('email')
+        telefone = data.get('userPhone')
+
+        conn = mysql.connection
+        cursor = conn.cursor()
+        cursor.execute("""
+            UPDATE ad_users
+            SET userName = %s, email = %s, userPhone = %s
+            WHERE id = %s
+        """, (nome, email, telefone, user_id))
+        conn.commit()
+
+        return jsonify({"success": True, "message": "Perfil atualizado com sucesso"})
+    except Exception as e:
+        print(f"Erro: {str(e)}")
+        return jsonify({"success": False, "message": "Erro interno no servidor"})
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)

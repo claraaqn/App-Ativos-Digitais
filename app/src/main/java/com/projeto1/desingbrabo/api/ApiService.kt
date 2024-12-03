@@ -3,7 +3,9 @@ package com.projeto1.desingbrabo.api
 import com.projeto1.desingbrabo.model.Cadastro
 import com.projeto1.desingbrabo.model.LoginRequest
 import com.projeto1.desingbrabo.model.LoginResponse
-import com.projeto1.desingbrabo.model.User
+import com.projeto1.desingbrabo.model.UpdateProfileRequest
+import com.projeto1.desingbrabo.model.GenericResponse
+import com.projeto1.desingbrabo.model.UserProfileResponse
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.Body
@@ -20,5 +22,9 @@ interface ApiService {
     fun loginUser(@Body loginRequest: LoginRequest): Call<LoginResponse>
 
     @GET("user/{id}")
-    fun getUser(@Path("id") userId: Int): Call<User>
+    fun getUser(@Path("id") userId: Int): Call<UserProfileResponse>
+
+    @POST("update_profile")
+    fun updateProfile(@Body updateRequest: UpdateProfileRequest): Call<GenericResponse>
+
 }
