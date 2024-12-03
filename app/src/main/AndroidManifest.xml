@@ -25,7 +25,11 @@
         </activity>
 
         <activity android:name=".CadastroActivity" />
+
         <activity android:name="com.projeto1.desingbrabo.PerfilActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+
+        <activity android:name=".EditarPerfilActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
     </application>
 
