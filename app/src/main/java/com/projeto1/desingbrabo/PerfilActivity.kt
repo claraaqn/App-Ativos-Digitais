@@ -9,15 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import com.projeto1.desingbrabo.model.Perfil
-import com.projeto1.desingbrabo.model.UserProfileResponse
-import com.projeto1.desingbrabo.api.RetrofitInstance
-import kotlinx.coroutines.launch
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class PerfilActivity : AppCompatActivity() {
 
@@ -80,6 +72,11 @@ class PerfilActivity : AppCompatActivity() {
 
         voltarButton.setOnClickListener {
             finish()
+        }
+
+        configuracoesButton.setOnClickListener {
+            val intent = Intent(this, ConfiguracoesActivity::class.java)
+            startActivity(intent)
         }
     }
 

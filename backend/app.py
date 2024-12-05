@@ -12,7 +12,7 @@ CORS(app)
 app.config['MYSQL_HOST'] = '26.158.46.162' 
 app.config['MYSQL_USER'] = 'dev_user'      
 app.config['MYSQL_PASSWORD'] = '5QKGMhFnnEikbv4'       
-app.config['MYSQL_DB'] = 'ativos_digitais'  
+app.config['MYSQL_DB'] = 'ativos-digitais'  
 
 mysql = MySQL(app)
 
@@ -30,17 +30,25 @@ def cadastrar_usuario():
         descripition = data.get('userDescription', None)
         telefone = data.get('userPhone')
         date = data.get('userDate')
-        verificado = data.get('isVerify', False)
+        stripe_customer_id = data.get('stripe_customer_id', None)
+        reset_token = data.get('reset_token ', None)
+        reset_token_expires = data.get('reset_token_expires', None)
+        provider = data.get('provider', None)
+        created_at = data.get('created_at', None)
+        verificationToken = data.get('verificationToken', False)
+        verificado = data.get('isVerified', False)
         
         hashed_password = bcrypt.hashpw(senha.encode('utf-8'), bcrypt.gensalt())
 
         conn = mysql.connection
         cursor = conn.cursor()
         query  = """
-        INSERT INTO ad_users (userName, email, password, userProfile, userCape, id_endereco, userDescription, userPhone, userDate, isVerify)
-        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+        INSERT INTO ad_users (userName, email, password, userProfile, userCape, id_endereco, userDescription, userPhone, userDate, isVerified,
+        stripe_customer_id, reset_token, reset_token_expires, provider, created_at, verificationToken)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
         """
-        cursor.execute(query, (nome, email, hashed_password, profile, cape, id_endereco, descripition, telefone, date, verificado))
+        cursor.execute(query, (nome, email, hashed_password, profile, cape, id_endereco, descripition, telefone, date, verificado,
+                               stripe_customer_id, reset_token, reset_token_expires, provider, created_at, verificationToken))
         conn.commit()
 
         return jsonify({"success": True, "message": "Usuário cadastrado com sucesso"}), 201
@@ -120,6 +128,21 @@ def update_profile():
     except Exception as e:
         print(f"Erro: {str(e)}")
         return jsonify({"success": False, "message": "Erro interno no servidor"})
+
+@app.route('/delete_user/<int:id>', methods=['DELETE'])
+def delete_user(id):
+    try:
+        conn = mysql.connection
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM ad_users WHERE id = %s", (id,))
+        conn.commit()
+
+        return jsonify({"success": True, "message": "Usuário excluído com sucesso"}), 200
+
+    except Exception as e:
+        print(f"Erro: {str(e)}")
+        return jsonify({"success": False, "message": "Erro interno no servidor"}), 500
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)

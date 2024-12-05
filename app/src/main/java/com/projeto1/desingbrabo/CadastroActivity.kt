@@ -1,5 +1,6 @@
 package com.projeto1.desingbrabo
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import android.widget.EditText
@@ -42,6 +43,8 @@ class CadastroActivity : AppCompatActivity() {
 
         buttonCadastrar.setOnClickListener {
             cadastrarUsuario()
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
         }
 
     }
@@ -101,8 +104,6 @@ class CadastroActivity : AppCompatActivity() {
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 Toast.makeText(this@CadastroActivity, "Falha na conexão com o servidor", Toast.LENGTH_LONG).show()
             }
-
         })
-
     }
 }

@@ -55,162 +55,164 @@
         tools:ignore="TouchTargetSizeCheck"/>
 
 <!-- A caixa do botão de segurança-->
-    <RelativeLayout
-        android:id="@+id/relativeLayout"
-        android:layout_width="411dp"
-        android:layout_height="93dp"
-        android:layout_marginTop="0dp"
+
+    <Button
+        android:id="@+id/button_seguranca"
+        android:layout_width="413dp"
+        android:layout_height="90dp"
+        android:layout_marginTop="4dp"
+        android:background="@android:color/transparent"
+        android:fontFamily="@font/poppins_extra_bold"
+        android:gravity="top|start"
+        android:padding="16dp"
+        android:text="@string/seguran_a"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fundo_cima">
+        app:layout_constraintTop_toBottomOf="@+id/fundo_cima" />
 
-        <Button
-            android:id="@+id/button_seguranca"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/fundo_botao_das_config"
-            android:fontFamily="@font/poppins_bold"
-            android:gravity="top|start"
-            android:padding="16dp"
-            android:text="@string/seguran_a"
-            android:textSize="20sp" />
+    <TextView
+        android:id="@+id/texto_sobre_botao"
+        android:layout_width="296dp"
+        android:layout_height="42dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_gravity="center"
+        android:layout_marginTop="44dp"
+        android:elevation="8dp"
+        android:fontFamily="@font/poppins_regular"
+        android:text="@string/text_seguranca"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@+id/button_seguranca"
+        app:layout_constraintHorizontal_bias="0.141"
+        app:layout_constraintStart_toStartOf="@+id/button_seguranca"
+        app:layout_constraintTop_toBottomOf="@+id/fundo_cima" />
 
-        <TextView
-            android:id="@+id/texto_sobre_botao"
-            android:layout_width="296dp"
-            android:layout_height="42dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_gravity="center"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="44dp"
-            android:layout_marginEnd="99dp"
-            android:layout_marginBottom="-78dp"
-            android:elevation="8dp"
-            android:fontFamily="@font/poppins_regular"
-            android:text="@string/text_seguranca"
-            android:textColor="#000000"
-            android:textSize="16sp" />
-
-        <ImageView
-            android:layout_width="45dp"
-            android:layout_height="27dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginTop="33dp"
-            android:layout_marginEnd="29dp"
-            android:layout_marginBottom="33dp"
-            android:elevation="8dp"
-            android:src="@drawable/setas_config" />
-    </RelativeLayout>
+    <ImageView
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:elevation="8dp"
+        android:src="@drawable/setas_config"
+        app:layout_constraintBottom_toBottomOf="@+id/button_seguranca"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/texto_sobre_botao"
+        app:layout_constraintTop_toBottomOf="@+id/fundo_cima" />
 
     <!-- A caixa do botão de contas conectadas-->
-    <RelativeLayout
-        android:id="@+id/layout_contas_conectadas"
+
+    <Button
+        android:id="@+id/button_contas_conectadas"
         android:layout_width="411dp"
-        android:layout_height="93dp"
-        app:layout_constraintTop_toBottomOf="@+id/relativeLayout"
-        tools:ignore="MissingConstraints">
+        android:layout_height="91dp"
+        android:layout_marginTop="4dp"
+        android:background="@android:color/transparent"
+        android:fontFamily="@font/poppins_extra_bold"
+        android:gravity="top|start"
+        android:padding="16dp"
+        android:text="@string/contas_conectadas"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_seguranca" />
 
-        <Button
-            android:id="@+id/button_contas"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/fundo_botao_das_config"
-            android:fontFamily="@font/poppins_bold"
-            android:gravity="top|start"
-            android:padding="16dp"
-            android:text="@string/contas_conectadas"
-            android:textSize="20sp" />
+    <TextView
+        android:id="@+id/texto_sobre_botao_contas"
+        android:layout_width="296dp"
+        android:layout_height="42dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_gravity="center"
+        android:elevation="8dp"
+        android:fontFamily="@font/poppins_regular"
+        android:text="@string/text_button_contas_conectadas"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/button_contas_conectadas"
+        app:layout_constraintEnd_toEndOf="@+id/button_contas_conectadas"
+        app:layout_constraintHorizontal_bias="0.156"
+        app:layout_constraintStart_toStartOf="@+id/button_contas_conectadas"
+        app:layout_constraintTop_toTopOf="@+id/button_contas_conectadas"
+        app:layout_constraintVertical_bias="0.941" />
 
-        <TextView
-            android:id="@+id/texto_sobre_botao_contas"
-            android:layout_width="296dp"
-            android:layout_height="42dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_gravity="center"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="44dp"
-            android:layout_marginEnd="99dp"
-            android:layout_marginBottom="-78dp"
-            android:elevation="8dp"
-            android:fontFamily="@font/poppins_regular"
-            android:text="@string/text_button_contas_conectadas"
-            android:textColor="#000000"
-            android:textSize="16sp" />
-
-        <ImageView
-            android:layout_width="45dp"
-            android:layout_height="27dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginTop="33dp"
-            android:layout_marginEnd="29dp"
-            android:layout_marginBottom="33dp"
-            android:elevation="8dp"
-            android:src="@drawable/setas_config" />
-    </RelativeLayout>
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:elevation="8dp"
+        android:src="@drawable/setas_config"
+        app:layout_constraintBottom_toBottomOf="@+id/button_contas_conectadas"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.564"
+        app:layout_constraintStart_toEndOf="@+id/texto_sobre_botao_contas"
+        app:layout_constraintTop_toTopOf="@+id/button_contas_conectadas" />
 
     <!-- A caixa do botão de termos e condições-->
-    <RelativeLayout
-        android:id="@+id/layout_termos"
+
+    <Button
+        android:id="@+id/button_termos_condições"
         android:layout_width="411dp"
-        android:layout_height="93dp"
-        app:layout_constraintTop_toBottomOf="@+id/layout_contas_conectadas"
-        tools:ignore="MissingConstraints">
+        android:layout_height="91dp"
+        android:layout_marginTop="4dp"
+        android:background="@android:color/transparent"
+        android:fontFamily="@font/poppins_extra_bold"
+        android:gravity="top|start"
+        android:padding="16dp"
+        android:text="@string/termos_e_condicoes"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_contas_conectadas" />
 
-        <Button
-            android:id="@+id/button_termos"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/fundo_botao_das_config"
-            android:fontFamily="@font/poppins_bold"
-            android:gravity="top|start"
-            android:padding="16dp"
-            android:text="@string/termos_e_condicoes"
-            android:textSize="20sp" />
+    <TextView
+        android:id="@+id/texto_sobre_termos"
+        android:layout_width="296dp"
+        android:layout_height="42dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_gravity="center"
+        android:elevation="8dp"
+        android:fontFamily="@font/poppins_regular"
+        android:text="@string/text_termos"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/button_termos_condições"
+        app:layout_constraintEnd_toEndOf="@+id/button_termos_condições"
+        app:layout_constraintHorizontal_bias="0.168"
+        app:layout_constraintStart_toStartOf="@+id/button_termos_condições"
+        app:layout_constraintTop_toBottomOf="@+id/button_contas_conectadas"
+        app:layout_constraintVertical_bias="1.0" />
 
-        <TextView
-            android:id="@+id/texto_sobre_termos"
-            android:layout_width="296dp"
-            android:layout_height="42dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_gravity="center"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="44dp"
-            android:layout_marginEnd="99dp"
-            android:layout_marginBottom="-78dp"
-            android:elevation="8dp"
-            android:fontFamily="@font/poppins_regular"
-            android:text="@string/text_termos"
-            android:textColor="#000000"
-            android:textSize="16sp" />
-
-        <ImageView
-            android:layout_width="45dp"
-            android:layout_height="27dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginTop="33dp"
-            android:layout_marginEnd="29dp"
-            android:layout_marginBottom="33dp"
-            android:elevation="8dp"
-            android:src="@drawable/setas_config" />
-    </RelativeLayout>
+    <ImageView
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:elevation="8dp"
+        android:src="@drawable/setas_config"
+        app:layout_constraintBottom_toBottomOf="@+id/button_termos_condições"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/texto_sobre_termos"
+        app:layout_constraintTop_toTopOf="@+id/button_termos_condições" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="16dp"
         android:fontFamily="@font/poppins_semi_bold"
         android:text="@string/permiss_es"
         android:textColor="#010715"
@@ -218,10 +220,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.054"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layout_termos" />
+        app:layout_constraintTop_toBottomOf="@+id/button_termos_condições" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/tema_escuro"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -234,11 +236,26 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
-    <TextView
-        android:id="@+id/textView3"
+    <Switch
+        android:id="@+id/custom_switch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:minHeight="48dp"
+        android:thumb="@drawable/track"
+        android:track="@drawable/fundo_switch_desativadp"
+        app:layout_constraintBottom_toBottomOf="@+id/tema_escuro"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.877"
+        app:layout_constraintStart_toEndOf="@+id/tema_escuro"
+        app:layout_constraintTop_toTopOf="@+id/tema_escuro"
+        app:layout_constraintVertical_bias="0.5"
+        tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+    <TextView
+        android:id="@+id/acesso_camera"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:fontFamily="@font/poppins_regular"
         android:text="@string/acesso_a_camera"
         android:textColor="#010715"
@@ -246,13 +263,28 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.077"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintTop_toBottomOf="@+id/tema_escuro" />
 
-    <TextView
-        android:id="@+id/textView4"
+    <Switch
+        android:id="@+id/acesso_camera_witch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:minHeight="48dp"
+        android:thumb="@drawable/track"
+        android:track="@drawable/fundo_switch_desativadp"
+        app:layout_constraintBottom_toBottomOf="@+id/acesso_camera"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.856"
+        app:layout_constraintStart_toEndOf="@+id/acesso_camera"
+        app:layout_constraintTop_toTopOf="@+id/acesso_camera"
+        app:layout_constraintVertical_bias="0.428"
+        tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+    <TextView
+        android:id="@+id/acesso_armazenamento"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:fontFamily="@font/poppins_regular"
         android:text="@string/acesso_ao_armazenamento"
         android:textColor="#010715"
@@ -260,13 +292,28 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.11"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+        app:layout_constraintTop_toBottomOf="@+id/acesso_camera" />
 
-    <TextView
-        android:id="@+id/textView5"
+    <Switch
+        android:id="@+id/acesso_armazenamento_witch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:minHeight="48dp"
+        android:thumb="@drawable/track"
+        android:track="@drawable/fundo_switch_desativadp"
+        app:layout_constraintBottom_toBottomOf="@+id/acesso_armazenamento"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.76"
+        app:layout_constraintStart_toEndOf="@+id/acesso_armazenamento"
+        app:layout_constraintTop_toTopOf="@+id/acesso_armazenamento"
+        app:layout_constraintVertical_bias="0.333"
+        tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+    <TextView
+        android:id="@+id/permitir_notificacoes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:fontFamily="@font/poppins_regular"
         android:text="@string/permitir_notificacoes"
         android:textColor="#010715"
@@ -274,9 +321,25 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.084"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        app:layout_constraintTop_toBottomOf="@+id/acesso_armazenamento" />
+
+    <Switch
+        android:id="@+id/permitir_notificacoes_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
+        android:thumb="@drawable/track"
+        android:track="@drawable/fundo_switch_desativadp"
+        app:layout_constraintBottom_toBottomOf="@+id/permitir_notificacoes"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.837"
+        app:layout_constraintStart_toEndOf="@+id/permitir_notificacoes"
+        app:layout_constraintTop_toTopOf="@+id/permitir_notificacoes"
+        app:layout_constraintVertical_bias="0.285"
+        tools:ignore="UseSwitchCompatOrMaterialXml" />
 
     <Button
+        android:id="@+id/excluir_conta"
         android:layout_width="165dp"
         android:layout_height="48dp"
         android:layout_marginTop="136dp"
@@ -288,7 +351,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5"
+        app:layout_constraintTop_toBottomOf="@+id/permitir_notificacoes"
         app:layout_constraintVertical_bias="0.077" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
