@@ -18,7 +18,6 @@ class EditarPerfilActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.tela_editar_perfil)
 
-        // Inicializando as views corretamente
         nomeEditText = findViewById(R.id.edit_nome)
         emailEditText = findViewById(R.id.edit_text_email)
         telefoneEditText = findViewById(R.id.edit_text_telefone)

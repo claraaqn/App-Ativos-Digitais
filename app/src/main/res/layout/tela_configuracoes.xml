@@ -168,7 +168,7 @@
         android:fontFamily="@font/poppins_extra_bold"
         android:gravity="top|start"
         android:padding="16dp"
-        android:text="@string/contas_conectadas"
+        android:text="@string/termos_e_condicoes"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

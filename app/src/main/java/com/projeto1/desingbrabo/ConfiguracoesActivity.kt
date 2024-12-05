@@ -5,16 +5,16 @@ import android.widget.Button
 import android.widget.Switch
 import androidx.appcompat.app.AppCompatActivity
 import android.Manifest
+import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.os.Build
-import android.os.Environment
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import android.provider.Settings
-import android.net.Uri
-import android.provider.MediaStore
+import com.projeto1.desingbrabo.api.RetrofitInstance
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class ConfiguracoesActivity : AppCompatActivity() {
@@ -33,8 +33,8 @@ class ConfiguracoesActivity : AppCompatActivity() {
 
     companion object {
         private const val REQUEST_CODE_CAMERA = 100
-        private const val REQUEST_CODE_STORAGE = 101
         const val REQUEST_CODE_NOTIFICACAO = 1001
+        private const val REQUEST_PERMISSION_STORAGE = 200
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,16 +58,20 @@ class ConfiguracoesActivity : AppCompatActivity() {
         }
 
         buttonSeguranca.setOnClickListener {
-            // Lógica ao clicar no botão de segurança
+            // val intent = Intent(this, SegurancaActivity::class.java)
+            startActivity(intent)
         }
 
         buttonContas.setOnClickListener {
-            // Lógica ao clicar no botão de contas conectadas
+            // val intent = Intent(this, ContasConectadasActivity::class.java)
+            startActivity(intent)
         }
 
         buttonTermos.setOnClickListener {
-            // Lógica ao clicar no botão de termos e condições
+            // val intent = Intent(this, TermosCondicoesActivity::class.java)
+            startActivity(intent)
         }
+
 
         switchTemaEscuro.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
@@ -100,40 +104,16 @@ class ConfiguracoesActivity : AppCompatActivity() {
             if (isChecked) {
                 switchAcessoArmazenamento.thumbDrawable = getDrawable(R.drawable.track)
                 switchAcessoArmazenamento.trackDrawable = getDrawable(R.drawable.fundo_switch_ativado)
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                    val intent = Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION)
-                    startActivityForResult(intent, REQUEST_CODE_STORAGE)
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_IMAGES)
+                    != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_MEDIA_IMAGES), REQUEST_CODE_CAMERA)
                 } else {
-                    if (ContextCompat.checkSelfPermission(
-                            this,
-                            Manifest.permission.READ_EXTERNAL_STORAGE
-                        ) != PackageManager.PERMISSION_GRANTED
-                    ) {
-                        ActivityCompat.requestPermissions(
-                            this,
-                            arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
-                            REQUEST_CODE_STORAGE
-                        )
-                    }
+                    Toast.makeText(this, "Permissão já concedida!", Toast.LENGTH_SHORT).show()
                 }
             } else {
+                Toast.makeText(this, "Acesso ao armazenamento desativado", Toast.LENGTH_SHORT).show()
                 switchAcessoArmazenamento.thumbDrawable = getDrawable(R.drawable.track)
                 switchAcessoArmazenamento.trackDrawable = getDrawable(R.drawable.fundo_switch_desativadp)
-                Toast.makeText(this, "Acesso ao armazenamento desativado", Toast.LENGTH_SHORT).show()
-            }
-        }
-
-        fun acessarFotosEVideos() {
-            // Lógica para acessar fotos e vídeos usando MediaStore (Android 10 ou superior)
-            val cursor = contentResolver.query(
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                arrayOf(MediaStore.Images.Media._ID, MediaStore.Images.Media.DISPLAY_NAME),
-                null, null, null
-            )
-            // Aqui você pode processar o cursor para acessar as imagens, por exemplo.
-            cursor?.use {
-                // Processa as imagens (se necessário)
             }
         }
 
@@ -167,22 +147,50 @@ class ConfiguracoesActivity : AppCompatActivity() {
                 }
             }
 
-            buttonExcluirConta.setOnClickListener {
-                // Lógica para excluir a conta
-            }
+        buttonExcluirConta.setOnClickListener {
+            AlertDialog.Builder(this).setTitle("Excluir Conta")
+                .setMessage("Tem certeza de que deseja excluir sua conta? Esta ação não pode ser desfeita.")
+                .setPositiveButton("Sim") { dialog, _ ->
+                    val sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE)
+                    val userId = sharedPreferences.getInt("user_id", -1)
+
+                    if (userId != -1) {
+                        excluirConta(userId)
+                    } else {
+                        Toast.makeText(this@ConfiguracoesActivity, "Erro: ID do usuário não encontrado!", Toast.LENGTH_LONG).show()
+                    }
+
+                    dialog.dismiss()
+                }
+                .setNegativeButton("Cancelar") { dialog, _ ->
+                    dialog.dismiss()
+                }
+                .show()
+        }
     }
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        when (requestCode) {
-            REQUEST_CODE_STORAGE -> {
-                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // Permissão concedida
-                    Toast.makeText(this, "Permissão de acesso ao armazenamento concedida", Toast.LENGTH_SHORT).show()
+    private fun excluirConta(userId: Int) {
+        val apiService = RetrofitInstance.api
+        val call = apiService.delete_user(userId)
+
+        call.enqueue(object : Callback<Void> {
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                if (response.isSuccessful) {
+                    Toast.makeText(this@ConfiguracoesActivity, "Conta excluída com sucesso", Toast.LENGTH_LONG).show()
+                    val sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE)
+                    val editor = sharedPreferences.edit()
+                    editor.clear()
+                    editor.apply()
+
+                    val intent = Intent(this@ConfiguracoesActivity, LoginActivity::class.java)
+                    startActivity(intent)
+                    finish()
                 } else {
-                    // Permissão negada
-                    Toast.makeText(this, "Permissão de acesso ao armazenamento negada", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@ConfiguracoesActivity, "Erro ao excluir a conta", Toast.LENGTH_LONG).show()
                 }
             }
-        }
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+                Toast.makeText(this@ConfiguracoesActivity, "Falha ao conectar ao servidor", Toast.LENGTH_LONG).show()
+            }
+        })
     }
 }

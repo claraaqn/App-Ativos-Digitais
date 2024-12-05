@@ -6,12 +6,15 @@ import com.projeto1.desingbrabo.model.LoginResponse
 import com.projeto1.desingbrabo.model.UpdateProfileRequest
 import com.projeto1.desingbrabo.model.GenericResponse
 import com.projeto1.desingbrabo.model.UserProfileResponse
+import com.projeto1.desingbrabo.model.UserResponse
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.POST
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 
 interface ApiService {
@@ -26,5 +29,8 @@ interface ApiService {
 
     @POST("update_profile")
     fun updateProfile(@Body updateRequest: UpdateProfileRequest): Call<GenericResponse>
+
+    @DELETE("/delete_user/{id}")
+    fun delete_user(@Path("id") id: Int): Call<Void>
 
 }
