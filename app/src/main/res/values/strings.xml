@@ -48,4 +48,76 @@
     <string name="senha_atual">Senha Atual</string>
     <string name="nova_senha">Nova Senha</string>
     <string name="confirmar_nova_senha">Confirmar Nova Senha</string>
+    <string name="text_termos_condicoes">Termos de Uso e Política de Privacidade\n
+Última atualização: [inserir data]
+\n
+Este documento regula o uso da plataforma desenvolvida para a venda de ativos digitais voltados para design gráfico. Ele detalha de forma extensiva e descritiva como os dados pessoais e informações fornecidos pelos usuários são coletados, tratados, armazenados e protegidos, em conformidade com a Lei Geral de Proteção de Dados (LGPD - Lei nº 13.709/2018).
+\n
+Ao acessar ou utilizar esta plataforma, o usuário concorda com os termos aqui dispostos, assumindo total ciência de como seus dados serão processados, além de compreender os mecanismos de segurança adotados para protegê-los.
+\n
+Informações sobre a coleta e tratamento dos dados\n
+Durante o uso da plataforma, diversos dados pessoais do usuário serão coletados para possibilitar a funcionalidade dos serviços. A coleta é realizada no momento do cadastro, durante a navegação no site, e quando o usuário realiza transações financeiras.
+\n
+Dados Coletados e Finalidade de Uso\n
+1. Nome completo:\n
+O nome do usuário é coletado no momento do cadastro para identificar o titular da conta e personalizar a experiência de navegação e interação com a plataforma. Essa informação também é utilizada para a emissão de documentos fiscais, como notas fiscais, e no processamento de pagamentos, assegurando que as transações sejam realizadas com o titular correto.
+\n
+2. Endereço de e-mail:\n
+O e-mail é coletado para possibilitar o cadastro e o login na plataforma. Ele será usado como canal primário de comunicação, incluindo o envio de notificações sobre alterações de serviços, confirmações de pagamentos, alertas de vencimento de assinaturas e possíveis promoções ou atualizações relevantes da plataforma.
+\n
+3. Número de telefone:\n
+O telefone é solicitado para contato direto em caso de suporte técnico, verificação de segurança ou para confirmar informações relacionadas a pagamentos ou assinaturas, caso necessário. Esse dado será armazenado em bancos de dados protegidos e usado somente em circunstâncias previamente justificadas e consentidas pelo usuário.
+\n
+4. Senha de acesso:\n
+A senha informada no cadastro é criptografada antes de ser armazenada em nossos servidores. Ela é utilizada exclusivamente para autenticar o acesso do usuário à plataforma. Nenhum membro da equipe da plataforma tem acesso à senha em sua forma original. Em caso de perda ou esquecimento, o usuário poderá solicitar a redefinição, e um link seguro será enviado ao e-mail cadastrado.
+\n
+5. Dados bancários e financeiros:\n
+Informações como número do cartão de crédito, data de validade, código de segurança e dados bancários são coletados no momento da compra ou assinatura. Esses dados não são armazenados diretamente pela plataforma, mas transmitidos de forma segura e criptografada para o Stripe, nosso parceiro de processamento de pagamentos. A utilização desses dados é limitada exclusivamente ao processamento de transações e conformidade com normas financeiras aplicáveis.
+\n
+6. Dados de navegação e comportamento no site:\n
+A plataforma coleta dados relacionados à navegação, como endereço IP, data e hora de acesso, dispositivo utilizado e histórico de interações dentro do site. Esses dados são utilizados para:
+\n
+Melhorar a experiência do usuário, ajustando o layout e funcionalidades conforme o dispositivo utilizado.\n
+Monitorar a segurança da plataforma, detectando atividades suspeitas.\n
+Personalizar as recomendações de ativos digitais com base nos interesses demonstrados pelo usuário durante a navegação.\n
+Armazenamento dos Dados\n
+Todos os dados coletados são armazenados em servidores seguros, com certificações reconhecidas internacionalmente. As informações são mantidas em ambientes de acesso restrito, protegidas por sistemas de criptografia de última geração.
+\n
+Os dados financeiros e de pagamento, por exemplo, são enviados diretamente ao Stripe, que opera em conformidade com os mais altos padrões de segurança, como o PCI DSS (Payment Card Industry Data Security Standard). A plataforma não retém números de cartão de crédito ou qualquer dado sensível após a transação ser processada.
+\n
+Processos de Tratamento e Compartilhamento de Dados\n
+Os dados coletados não serão compartilhados com terceiros sem o consentimento explícito do usuário, salvo em situações estritamente necessárias para a execução dos serviços oferecidos. Isso inclui:
+\n
+Stripe: Responsável pelo processamento de pagamentos e retenção segura de informações financeiras.\n
+Serviços de armazenamento de dados (AWS ou Wasabi): Utilizados para garantir que os arquivos digitais vendidos pela plataforma estejam disponíveis para download de forma segura e eficiente.
+        \n
+Segurança e Proteção dos Dados\n
+A segurança dos dados pessoais é tratada como prioridade absoluta. A plataforma implementa medidas rigorosas para proteger as informações coletadas, incluindo:
+\n
+Criptografia de dados em trânsito e em repouso: Todos os dados transferidos entre o usuário e os servidores da plataforma são protegidos por criptografia SSL (Secure Socket Layer).\n
+Autenticação segura: As senhas são armazenadas em formato criptografado, utilizando algoritmos robustos como o bcrypt, impossibilitando o acesso direto mesmo em caso de violação.\n
+Auditorias regulares: Testes de segurança são conduzidos regularmente para identificar e corrigir potenciais vulnerabilidades.\n
+Consentimento e Direitos do Titular\n
+O uso dos dados pessoais pela plataforma está condicionado ao consentimento expresso do titular. Ao realizar o cadastro, o usuário concorda de forma clara com as condições aqui dispostas.
+\n
+O titular dos dados possui os seguintes direitos, garantidos pela LGPD:
+\n
+Solicitar a confirmação sobre a existência de tratamento de dados pessoais.\n
+Acessar os dados coletados.\n
+Solicitar a correção de dados incorretos ou desatualizados.\n
+Requerer a exclusão de dados tratados com base no consentimento.\n
+Para exercer esses direitos, o titular pode entrar em contato com o responsável pelo tratamento de dados por meio do e-mail: [inserir e-mail de contato].
+\n
+Transferência Internacional de Dados\n
+Alguns dados podem ser armazenados ou processados em servidores localizados fora do Brasil, em países que asseguram níveis adequados de proteção de dados pessoais. Garantimos que essas transferências internacionais estão em conformidade com as disposições da LGPD.
+\n
+Vigência e Alterações\n
+Esta Política de Privacidade está em vigor a partir da data de sua publicação. Reservamo-nos o direito de alterá-la a qualquer momento, mediante aviso prévio aos usuários, para assegurar a conformidade com legislações futuras ou para aprimorar nossos serviços.
+\n
+Responsável pelo Tratamento de Dados:\n
+Ademir dos Santos Chaves\n
+CPF: 321.272.078-66
+\n\n\n</string>
+
+<string name="confirma_termos_condicoes">Você aceita nossos Termos e Condições</string>
 </resources>
