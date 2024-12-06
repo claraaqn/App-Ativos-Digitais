@@ -143,6 +143,48 @@ def delete_user(id):
         print(f"Erro: {str(e)}")
         return jsonify({"success": False, "message": "Erro interno no servidor"}), 500
 
+@app.route('/change_password', methods=['POST'])
+def change_password():
+    try:
+        data = request.get_json()
+
+        user_id = data.get("userId")
+        current_password = data.get("currentPassword")
+        new_password = data.get("newPassword")
+
+        # Verifica se todos os campos necessários foram enviados
+        if not user_id or not current_password or not new_password:
+            return jsonify({"success": False, "message": "Todos os campos são obrigatórios"}), 400
+
+        conn = mysql.connection
+        cursor = conn.cursor()
+
+        # Verifica a senha atual no banco de dados
+        cursor.execute("SELECT password FROM ad_users WHERE id = %s", (user_id,))
+        result = cursor.fetchone()
+
+        if not result:
+            return jsonify({"success": False, "message": "Usuário não encontrado"}), 404
+
+        stored_password = result[0]
+
+        # Verifica se a senha atual está correta
+        if not bcrypt.checkpw(current_password.encode('utf-8'), stored_password.encode('utf-8')):
+            return jsonify({"success": False, "message": "Senha atual incorreta"}), 401
+
+        # Gera o hash da nova senha
+        hashed_new_password = bcrypt.hashpw(new_password.encode('utf-8'), bcrypt.gensalt())
+
+        # Atualiza a senha no banco de dados
+        cursor.execute("UPDATE ad_users SET password = %s WHERE id = %s", (hashed_new_password, user_id))
+        conn.commit()
+
+        return jsonify({"success": True, "message": "Senha alterada com sucesso"}), 200
+
+    except Exception as e:
+        print(f"Erro: {str(e)}")
+        return jsonify({"success": False, "message": "Erro interno no servidor"}), 500
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)

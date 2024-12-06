@@ -44,4 +44,8 @@
     <string name="acesso_ao_armazenamento">Acesso ao armazenamento</string>
     <string name="permitir_notificacoes">Permitir notificações</string>
     <string name="excluir_conta">Excluir Conta</string>
+    <string name="trocar_senha">Trocar Senha</string>
+    <string name="senha_atual">Senha Atual</string>
+    <string name="nova_senha">Nova Senha</string>
+    <string name="confirmar_nova_senha">Confirmar Nova Senha</string>
 </resources>

@@ -32,6 +32,13 @@
 
         <activity android:name=".ConfiguracoesActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+
+        <activity android:name=".CadastroActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+
+        <activity android:name=".SegurancaActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+
     </application>
 
     <uses-permission android:name="android.permission.CAMERA" />

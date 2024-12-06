@@ -58,7 +58,7 @@ class ConfiguracoesActivity : AppCompatActivity() {
         }
 
         buttonSeguranca.setOnClickListener {
-            // val intent = Intent(this, SegurancaActivity::class.java)
+            val intent = Intent(this, SegurancaActivity::class.java)
             startActivity(intent)
         }
 
