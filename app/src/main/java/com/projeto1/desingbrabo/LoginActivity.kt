@@ -48,11 +48,13 @@ class LoginActivity : AppCompatActivity() {
 
                         val userName = response.body()?.nome
                         val userEmail = response.body()?.email
+                        val userPhone = response.body()?.phone
 
                         val sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE)
                         val editor = sharedPreferences.edit()
                         editor.putString("user_name", userName)
                         editor.putString("user_email", userEmail)
+                        editor.putString("user_phone", userPhone)
                         editor.apply()
 
                         val intent = Intent(this@LoginActivity, PerfilActivity::class.java)

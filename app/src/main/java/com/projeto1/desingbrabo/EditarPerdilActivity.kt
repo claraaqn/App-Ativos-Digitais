@@ -28,7 +28,7 @@ class EditarPerfilActivity : AppCompatActivity() {
 
         nomeEditText.setText(sharedPreferences.getString("user_name", ""))
         emailEditText.setText(sharedPreferences.getString("user_email", ""))
-        telefoneEditText.setText(sharedPreferences.getString("user_telefone", ""))
+        telefoneEditText.setText(sharedPreferences.getString("user_phone", ""))
 
         salvarButton.setOnClickListener {
             val novoNome = nomeEditText.text.toString()

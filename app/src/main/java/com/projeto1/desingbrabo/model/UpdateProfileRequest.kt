@@ -4,5 +4,5 @@ data class UpdateProfileRequest(
     val userId: Int,
     val nome: String,
     val email: String,
-    val telefone: String
+    val phone: String
 )
