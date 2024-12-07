@@ -35,7 +35,7 @@
     <string name="seguran_a">Segurança</string>
     <string name="text_seguranca">Gerencie o acesso da sua conta mudando a senha</string>
     <string name="contas_conectadas">Contas Conectadas</string>
-    <string name="text_button_contas_conectadas">Gerencie a conta do Google e/ou Conta do Facebbok de acesso</string>
+    <string name="text_button_contas_conectadas">Gerencie a conta do Google e/ou Conta do Facebbok</string>
     <string name="termos_e_condicoes">Termos e Condições</string>
     <string name="text_termos">Revise os Termos e COndições do Aplicativo</string>
     <string name="permiss_es">Permissões</string>

@@ -23,7 +23,6 @@ class ConfiguracoesActivity : AppCompatActivity() {
     private lateinit var buttonSeguranca: Button
     private lateinit var buttonContas: Button
     private lateinit var buttonTermos: Button
-
     private lateinit var switchTemaEscuro: Switch
     private lateinit var switchAcessoCamera: Switch
     private lateinit var switchAcessoArmazenamento: Switch
@@ -68,7 +67,7 @@ class ConfiguracoesActivity : AppCompatActivity() {
         }
 
         buttonTermos.setOnClickListener {
-            // val intent = Intent(this, TermosCondicoesActivity::class.java)
+            val intent = Intent(this, TermosCondicoesActivity::class.java)
             startActivity(intent)
         }
 

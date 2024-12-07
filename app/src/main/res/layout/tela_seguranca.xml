@@ -5,56 +5,44 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ImageView
-        android:id="@+id/fundo_cima"
-        android:layout_width="411dp"
-        android:layout_height="wrap_content"
-        android:src="@drawable/fundo_parte_cima"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        tools:ignore="ContentDescription,MissingConstraints" />
+    <include
+        layout="@layout/toolbar"
+        android:id="@+id/toolbar" />
 
     <TextView
         android:id="@+id/seguranca"
         android:layout_width="158dp"
         android:layout_height="27dp"
+        android:layout_marginTop="24dp"
         android:fontFamily="@font/poppins_semi_bold"
         android:gravity="center"
         android:text="@string/seguran_a"
         android:textColor="#FFFFFF"
         android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@+id/fundo_cima"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/fundo_cima"
-        app:layout_constraintVertical_bias="0.513" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/button_voltar"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="28dp"
         android:background="@drawable/icon_voltar"
+        android:contentDescription="@string/bot_o_voltar"
         android:fontFamily="@font/archivo_bold"
         android:textColor="@android:color/white"
-        android:contentDescription="@string/bot_o_voltar"
-        app:layout_constraintBottom_toBottomOf="@+id/fundo_cima"
-        app:layout_constraintEnd_toStartOf="@+id/perfil"
-        app:layout_constraintHorizontal_bias="0.192"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/fundo_cima"
-        tools:ignore="TouchTargetSizeCheck"/>
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="TouchTargetSizeCheck" />
 
     <TextView
         android:id="@+id/perfil"
         android:layout_width="158dp"
         android:layout_height="27dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="128dp"
         android:fontFamily="@font/poppins_semi_bold"
         android:gravity="center"
         android:text="@string/trocar_senha"
@@ -63,7 +51,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fundo_cima" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/senha_atual"
@@ -78,7 +66,7 @@
         android:textAlignment="textStart"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.513"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/perfil" />
 
@@ -86,7 +74,7 @@
         android:id="@+id/nova_senha"
         android:layout_width="300dp"
         android:layout_height="50dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/contorno_edit_text"
         android:fontFamily="@font/poppins_semi_bold"
         android:hint="@string/nova_senha"
@@ -103,6 +91,7 @@
         android:id="@+id/confirmar_nova_senha"
         android:layout_width="300dp"
         android:layout_height="50dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/contorno_edit_text"
         android:fontFamily="@font/poppins_semi_bold"
         android:hint="@string/confirmar_nova_senha"
@@ -110,12 +99,10 @@
         android:paddingStart="16dp"
         android:textAlignment="textStart"
         android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nova_senha"
-        app:layout_constraintVertical_bias="0.066" />
+        app:layout_constraintTop_toBottomOf="@+id/nova_senha" />
 
     <Button
         android:id="@+id/salvar_button"
@@ -126,11 +113,9 @@
         android:fontFamily="@font/poppins_extra_bold"
         android:text="@string/salvar"
         android:textColor="#010715"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/confirmar_nova_senha"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/confirmar_nova_senha" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

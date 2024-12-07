@@ -67,19 +67,20 @@ def login_usuario():
         conn = mysql.connection
         cursor = conn.cursor()
 
-        cursor.execute("SELECT id, userName, password FROM ad_users WHERE email = %s", (email,))
+        cursor.execute("SELECT id, userName, password, userPhone FROM ad_users WHERE email = %s", (email,))
         result = cursor.fetchone()
 
         if result:
-            user_id, userName, hashed_password = result
+            user_id, userName, hashed_password, telefone = result
             if bcrypt.checkpw(senha.encode('utf-8'), hashed_password.encode('utf-8')):
                 return jsonify({
                     "success": True,
                     "userId": user_id,
                     "message": "Login realizado com sucesso",
                     "nome": userName,
-                    "email": email
-                }), 200
+                    "email": email,
+                    "phone": telefone
+                }), 200 
             return jsonify({"success": True, "message": "Login realizado com sucesso"}), 200
         else:
             return jsonify({"success": False, "message": "E-mail ou senha inválidos"}), 401
@@ -113,7 +114,7 @@ def update_profile():
         user_id = data.get('userId')
         nome = data.get('nome')
         email = data.get('email')
-        telefone = data.get('userPhone')
+        telefone = data.get('phone')
 
         conn = mysql.connection
         cursor = conn.cursor()
