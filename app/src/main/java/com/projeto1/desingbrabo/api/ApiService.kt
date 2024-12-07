@@ -5,8 +5,8 @@ import com.projeto1.desingbrabo.model.LoginRequest
 import com.projeto1.desingbrabo.model.LoginResponse
 import com.projeto1.desingbrabo.model.UpdateProfileRequest
 import com.projeto1.desingbrabo.model.GenericResponse
+import com.projeto1.desingbrabo.model.PasswordChangeRequest
 import com.projeto1.desingbrabo.model.UserProfileResponse
-import com.projeto1.desingbrabo.model.UserResponse
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.Body
@@ -32,5 +32,8 @@ interface ApiService {
 
     @DELETE("/delete_user/{id}")
     fun delete_user(@Path("id") id: Int): Call<Void>
+
+    @POST("change_password")
+    fun changePassword(@Body passwordChangeRequest: PasswordChangeRequest): Call<GenericResponse>
 
 }

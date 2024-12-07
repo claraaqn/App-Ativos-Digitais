@@ -1,11 +1,13 @@
 package com.projeto1.desingbrabo
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
+import android.view.LayoutInflater
 import android.widget.EditText
 import android.widget.Button
-import android.widget.TextView
+import android.widget.CheckBox
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.projeto1.desingbrabo.model.Cadastro
@@ -23,7 +25,8 @@ class CadastroActivity : AppCompatActivity() {
     private lateinit var editTextSenha: EditText
     private lateinit var editTextConfirmeSenha: EditText
     private lateinit var buttonCadastrar: Button
-    private lateinit var termosCondicoes: TextView
+    private lateinit var termosCondicoes: CheckBox
+    private lateinit var termosCondicoesBurron: Button
 
     // CONECTAR NAS API
     // private lateinit var googleButton: ImageView
@@ -40,13 +43,33 @@ class CadastroActivity : AppCompatActivity() {
         editTextConfirmeSenha = findViewById(R.id.edit_text_confirme_senha)
         buttonCadastrar = findViewById(R.id.button_login)
         termosCondicoes = findViewById(R.id.termos_condicoes)
+        termosCondicoesBurron = findViewById(R.id.termos_condicoes_button)
 
-        buttonCadastrar.setOnClickListener {
-            cadastrarUsuario()
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
+        termosCondicoesBurron.setOnClickListener {
+            val dialogView = LayoutInflater.from(this).inflate(R.layout.popup_termos_condicoes, null)
+
+            val dialogBuilder = AlertDialog.Builder(this)
+                .setView(dialogView)
+
+            val alertDialog = dialogBuilder.create()
+
+            val fecharButton = dialogView.findViewById<Button>(R.id.rechar)
+            fecharButton.setOnClickListener {
+                alertDialog.dismiss()
+            }
+
+            alertDialog.show()
         }
 
+        buttonCadastrar.setOnClickListener {
+            if(termosCondicoes.isChecked) {
+                cadastrarUsuario()
+                val intent = Intent(this, LoginActivity::class.java)
+                startActivity(intent)
+            } else {
+                Toast.makeText(this@CadastroActivity, "Você precisa concordar com nossos Termos e Condições para se cadastrar", Toast.LENGTH_LONG).show()
+            }
+        }
     }
 
     private fun cadastrarUsuario() {
