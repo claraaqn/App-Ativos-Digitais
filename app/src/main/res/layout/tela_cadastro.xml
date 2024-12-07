@@ -48,79 +48,94 @@
         <EditText
             android:id="@+id/edit_text_email"
             android:layout_width="300dp"
-            android:layout_height="48dp"
-            android:layout_marginTop="92dp"
+            android:layout_height="54dp"
+            android:layout_marginTop="88dp"
             android:background="@drawable/contorno_edit_text"
             android:fontFamily="@font/poppins_semi_bold"
+            android:gravity="center|start"
             android:hint="@string/digite_seu_email"
             android:inputType="textEmailAddress"
             android:paddingStart="16dp"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.495"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fundo_mascote" />
+            app:layout_constraintTop_toBottomOf="@+id/fundo_mascote"
+            tools:ignore="RtlSymmetry" />
 
         <EditText
             android:id="@+id/edit_nome"
             android:layout_width="300dp"
-            android:layout_height="48dp"
+            android:layout_height="54dp"
             android:layout_marginTop="32dp"
             android:background="@drawable/contorno_edit_text"
             android:fontFamily="@font/poppins_semi_bold"
+            android:gravity="center|start"
             android:hint="@string/digite_seu_nome"
             android:inputType="text"
             android:paddingStart="16dp"
             android:textSize="14sp"
             app:layout_constraintBottom_toTopOf="@+id/edit_text_email"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.495"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fundo_mascote"
-            app:layout_constraintVertical_bias="0.5" />
+            app:layout_constraintVertical_bias="0.0"
+            tools:ignore="RtlCompat,RtlSymmetry" />
 
         <EditText
             android:id="@+id/edit_text_telefone"
             android:layout_width="300dp"
-            android:layout_height="48dp"
-            android:layout_marginTop="12dp"
+            android:layout_height="54dp"
+            android:layout_marginTop="4dp"
             android:background="@drawable/contorno_edit_text"
             android:fontFamily="@font/poppins_semi_bold"
+            android:gravity="center|start"
             android:hint="@string/telefone"
             android:inputType="phone"
             android:paddingStart="16dp"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.495"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edit_text_confirme_senha" />
+            app:layout_constraintTop_toBottomOf="@+id/edit_text_confirme_senha"
+            tools:ignore="RtlSymmetry" />
 
         <EditText
             android:id="@+id/edit_text_senha"
             android:layout_width="300dp"
-            android:layout_height="48dp"
-            android:layout_marginTop="12dp"
+            android:layout_height="54dp"
+            android:layout_marginTop="8dp"
             android:background="@drawable/contorno_edit_text"
             android:fontFamily="@font/poppins_semi_bold"
+            android:gravity="center|start"
             android:hint="@string/digite_sua_senha"
             android:inputType="textPassword"
             android:paddingStart="16dp"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.495"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edit_text_email" />
+            app:layout_constraintTop_toBottomOf="@+id/edit_text_email"
+            tools:ignore="RtlSymmetry" />
 
         <EditText
             android:id="@+id/edit_text_confirme_senha"
             android:layout_width="300dp"
-            android:layout_height="48dp"
+            android:layout_height="54dp"
             android:layout_marginTop="8dp"
             android:background="@drawable/contorno_edit_text"
             android:fontFamily="@font/poppins_semi_bold"
+            android:gravity="center|start"
             android:hint="@string/confirme_sua_senha"
             android:inputType="textPassword"
             android:paddingStart="16dp"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.495"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edit_text_senha" />
+            app:layout_constraintTop_toBottomOf="@+id/edit_text_senha"
+            tools:ignore="RtlSymmetry" />
 
         <TextView
             android:id="@+id/googleoufacebokk"
@@ -137,11 +152,22 @@
             android:layout_width="49dp"
             android:layout_height="49dp"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="12dp"
             android:src="@drawable/facebook"
             app:layout_constraintEnd_toEndOf="@+id/googleoufacebokk"
-            app:layout_constraintHorizontal_bias="0.22"
+            app:layout_constraintHorizontal_bias="0.259"
             app:layout_constraintStart_toEndOf="@+id/google"
+            app:layout_constraintTop_toBottomOf="@+id/googleoufacebokk"
+            tools:ignore="MissingConstraints" />
+
+        <ImageView
+            android:id="@+id/google"
+            android:layout_width="49dp"
+            android:layout_height="49dp"
+            android:layout_marginStart="48dp"
+            android:layout_marginTop="12dp"
+            android:src="@drawable/google"
+            app:layout_constraintStart_toStartOf="@+id/googleoufacebokk"
             app:layout_constraintTop_toBottomOf="@+id/googleoufacebokk"
             tools:ignore="MissingConstraints" />
 
@@ -149,36 +175,43 @@
             android:id="@+id/button_login"
             android:layout_width="320dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="284dp"
+            android:layout_marginTop="332dp"
             android:background="@drawable/fundo_botao"
             android:text="@string/cadastrar"
             android:textColor="@android:color/white"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.494"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/edit_text_senha" />
 
-        <!-- precisa ajeitar -->
-        <TextView
+        <CheckBox
             android:id="@+id/termos_condicoes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="92dp"
+            android:layout_marginTop="128dp"
+            android:buttonTint="#47DABA"
+            android:fontFamily="@font/poppins_regular"
+            android:gravity="center"
             android:text="@string/continuando_voc_concorda_com_os_termos_e_condi_es"
-            app:layout_constraintEnd_toEndOf="@+id/button_login"
-            app:layout_constraintHorizontal_bias="0.388"
-            app:layout_constraintStart_toStartOf="@+id/button_login"
-            app:layout_constraintTop_toBottomOf="@+id/googleoufacebokk" />
+            android:textColor="#010715"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.506"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edit_text_telefone"
+            tools:ignore="TouchTargetSizeCheck" />
 
-        <ImageView
-            android:id="@+id/google"
-            android:layout_width="49dp"
-            android:layout_height="49dp"
-            android:layout_marginStart="52dp"
-            android:layout_marginTop="24dp"
-            android:src="@drawable/google"
-            app:layout_constraintStart_toStartOf="@+id/googleoufacebokk"
-            app:layout_constraintTop_toBottomOf="@+id/googleoufacebokk"
-            tools:ignore="MissingConstraints" />
+        <Button
+            android:id="@+id/termos_condicoes_button"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:background="@android:color/transparent"
+            android:text="@string/termos_e_condicoes_subliado"
+            android:textColor="#5F97FF"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.496"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/termos_condicoes"
+            tools:ignore="TouchTargetSizeCheck" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

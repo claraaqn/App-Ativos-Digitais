@@ -149,17 +149,15 @@ def change_password():
         data = request.get_json()
 
         user_id = data.get("userId")
-        current_password = data.get("currentPassword")
-        new_password = data.get("newPassword")
+        current_password = data.get("senha_atual")
+        new_password = data.get("nova_senha")
 
-        # Verifica se todos os campos necessários foram enviados
         if not user_id or not current_password or not new_password:
             return jsonify({"success": False, "message": "Todos os campos são obrigatórios"}), 400
 
         conn = mysql.connection
         cursor = conn.cursor()
 
-        # Verifica a senha atual no banco de dados
         cursor.execute("SELECT password FROM ad_users WHERE id = %s", (user_id,))
         result = cursor.fetchone()
 
@@ -168,11 +166,10 @@ def change_password():
 
         stored_password = result[0]
 
-        # Verifica se a senha atual está correta
         if not bcrypt.checkpw(current_password.encode('utf-8'), stored_password.encode('utf-8')):
             return jsonify({"success": False, "message": "Senha atual incorreta"}), 401
+        
 
-        # Gera o hash da nova senha
         hashed_new_password = bcrypt.hashpw(new_password.encode('utf-8'), bcrypt.gensalt())
 
         # Atualiza a senha no banco de dados

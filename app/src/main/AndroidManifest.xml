@@ -15,7 +15,7 @@
         android:usesCleartextTraffic="true">
 
         <activity
-            android:name=".TermosCondicoesActivity"
+            android:name=".CadastroActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
@@ -33,7 +33,7 @@
         <activity android:name=".ConfiguracoesActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
 
-        <activity android:name=".CadastroActivity"
+        <activity android:name=".TermosCondicoesActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
 
         <activity android:name=".SegurancaActivity"
