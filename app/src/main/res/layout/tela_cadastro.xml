@@ -213,5 +213,14 @@
             app:layout_constraintTop_toBottomOf="@+id/termos_condicoes"
             tools:ignore="TouchTargetSizeCheck" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="0dp"
+            android:text="\n"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button_login" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
