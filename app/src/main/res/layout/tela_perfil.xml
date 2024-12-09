@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F2F2F2"
+    tools:layout_editor_absoluteX="5dp"
+    tools:layout_editor_absoluteY="0dp"
+    >
+
+    <include
+        layout="@layout/toolbar"
+        android:id="@+id/toolbar" />
+
+    <Button
+        android:id="@+id/button_sair"
+        android:layout_width="195dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/fundo_botao_vermelho"
+        android:fontFamily="@font/poppins_extra_bold"
+        android:text="@string/sair"
+        android:textColor="@android:color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_configuracoes"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/button_voltar"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="28dp"
+        android:background="@drawable/icon_voltar"
+        android:contentDescription="@string/bot_o_voltar"
+        android:fontFamily="@font/archivo_bold"
+        android:textColor="@android:color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="TouchTargetSizeCheck" />
+
+    <TextView
+        android:id="@+id/perfil"
+        android:layout_width="158dp"
+        android:layout_height="27dp"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/poppins_semi_bold"
+        android:gravity="center"
+        android:text="@string/perfil"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/foto_perfil"
+        android:layout_width="178dp"
+        android:layout_height="178dp"
+        android:layout_marginTop="48dp"
+        android:src="@drawable/foto_perfil_teste"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/perfil" />
+
+    <ImageView
+        android:id="@+id/fundo_plano"
+        android:layout_width="138dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/fundo_premium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/foto_perfil" />
+
+    <ImageView
+        android:id="@+id/simbolo_premimu"
+        android:layout_width="20dp"
+        android:layout_height="19dp"
+        android:src="@drawable/botao_premium"
+        app:layout_constraintBottom_toBottomOf="@+id/fundo_plano"
+        app:layout_constraintEnd_toStartOf="@+id/nome_plano"
+        app:layout_constraintHorizontal_bias="0.533"
+        app:layout_constraintStart_toStartOf="@+id/fundo_plano"
+        app:layout_constraintTop_toTopOf="@+id/fundo_plano"
+        app:layout_constraintVertical_bias="0.636" />
+
+    <TextView
+        android:id="@+id/nome_usuario"
+        android:layout_width="wrap_content"
+        android:layout_height="27dp"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/poppins_bold"
+        android:gravity="center"
+        android:text="@string/ademir_brabo"
+        android:textColor="#344859"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fundo_plano" />
+
+    <TextView
+        android:id="@+id/nome_plano"
+        android:layout_width="wrap_content"
+        android:layout_height="19dp"
+        android:fontFamily="@font/poppins_extra_bold"
+        android:text="@string/premium"
+        android:textColor="#48DBBB"
+        app:layout_constraintBottom_toBottomOf="@+id/fundo_plano"
+        app:layout_constraintEnd_toEndOf="@+id/fundo_plano"
+        app:layout_constraintHorizontal_bias="0.8"
+        app:layout_constraintStart_toStartOf="@+id/fundo_plano"
+        app:layout_constraintTop_toTopOf="@+id/fundo_plano" />
+
+    <TextView
+        android:id="@+id/email_cliente"
+        android:layout_width="280dp"
+        android:layout_height="27dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/poppins_medium"
+        android:gravity="center"
+        android:text="@string/ademiroemo_gmail_com"
+        android:textColor="#344859"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nome_usuario"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/button_minha_assinatura"
+        android:layout_width="320dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="456dp"
+        android:background="@drawable/fundo_botao"
+        android:fontFamily="@font/archivo_bold"
+        android:text="@string/minha_assinatura"
+        android:textColor="@android:color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/button_editar_perfil"
+        android:layout_width="320dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/fundo_botao"
+        android:fontFamily="@font/archivo_bold"
+        android:text="@string/editar_perfil"
+        android:textColor="@android:color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_minha_assinatura"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/button_configuracoes"
+        android:layout_width="320dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/fundo_botao"
+        android:fontFamily="@font/archivo_bold"
+        android:text="@string/configura_es"
+        android:textColor="@android:color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_editar_perfil"
+        tools:ignore="MissingConstraints" />
+
+    <ImageView
+        android:id="@+id/fundo_barra_baixo"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:src="@drawable/bara_baixo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+    <Button
+        android:id="@+id/button_home"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/icon_home"
+        android:contentDescription="@string/bot_o_home"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.094"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/fundo_barra_baixo"
+        tools:ignore="TouchTargetSizeCheck"/>
+
+    <Button
+        android:id="@+id/button_upload"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/icon_updowload"
+        android:contentDescription="@string/bot_o_updownload"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/button_colecao"
+        app:layout_constraintStart_toEndOf="@+id/button_home"
+        app:layout_constraintTop_toTopOf="@+id/fundo_barra_baixo"
+        tools:ignore="TouchTargetSizeCheck"/>
+
+    <Button
+        android:id="@+id/button_colecao"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/icon_minha_colecao"
+        android:contentDescription='@string/bot_o_minha_cole_o'
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/fundo_barra_baixo"
+        app:layout_constraintVertical_bias="0.5"
+        tools:ignore="TouchTargetSizeCheck" />
+
+    <Button
+        android:id="@+id/button_carrinho"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/icon_carrinho"
+        android:contentDescription="@string/bot_o_meu_carrinho"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/button_perfil"
+        app:layout_constraintStart_toEndOf="@+id/button_colecao"
+        app:layout_constraintTop_toTopOf="@+id/fundo_barra_baixo"
+        tools:ignore="TouchTargetSizeCheck"/>
+
+    <Button
+        android:id="@+id/button_perfil"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/icon_perfil"
+        android:contentDescription="@string/bot_o_meu_perfil"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.906"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/fundo_barra_baixo"
+        tools:ignore="TouchTargetSizeCheck"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
