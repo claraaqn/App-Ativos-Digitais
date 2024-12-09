@@ -85,7 +85,7 @@
             android:id="@+id/edit_text_telefone"
             android:layout_width="300dp"
             android:layout_height="54dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/contorno_edit_text"
             android:fontFamily="@font/archivo_semibold"
             android:gravity="center|start"
