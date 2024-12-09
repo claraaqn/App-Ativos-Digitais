@@ -289,7 +289,7 @@
         android:id="@+id/permitir_notificacoes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="36dp"
+        android:layout_marginStart="28dp"
         android:layout_marginTop="24dp"
         android:fontFamily="@font/poppins_regular"
         android:text="@string/permitir_notificacoes"
