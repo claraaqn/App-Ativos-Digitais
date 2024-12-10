@@ -9,7 +9,7 @@ CORS(app)
 
 # criar em arquivo .env para puxar as informações de configurações
 # criar .gitignore do .env
-app.config['MYSQL_HOST'] = '26.158.46.162' 
+app.config['MYSQL_HOST'] = '26.246.225.30' 
 app.config['MYSQL_USER'] = 'dev_user'      
 app.config['MYSQL_PASSWORD'] = '5QKGMhFnnEikbv4'       
 app.config['MYSQL_DB'] = 'ativos-digitais'  

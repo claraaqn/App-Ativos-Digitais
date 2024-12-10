@@ -180,7 +180,7 @@ class ConfiguracoesActivity : AppCompatActivity() {
                     editor.clear()
                     editor.apply()
 
-                    val intent = Intent(this@ConfiguracoesActivity, LoginActivity::class.java)
+                    val intent = Intent(this@ConfiguracoesActivity, CadastroActivity::class.java)
                     startActivity(intent)
                     finish()
                 } else {
