@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 
 class EditarPerfilActivity : AppCompatActivity() {
 
+    private lateinit var  voltar: Button
     private lateinit var nomeEditText: EditText
     private lateinit var emailEditText: EditText
     private lateinit var telefoneEditText: EditText
@@ -18,10 +19,15 @@ class EditarPerfilActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.tela_editar_perfil)
 
+        voltar = findViewById(R.id.button_voltar)
         nomeEditText = findViewById(R.id.edit_nome)
         emailEditText = findViewById(R.id.edit_text_email)
         telefoneEditText = findViewById(R.id.edit_text_telefone)
         salvarButton = findViewById(R.id.salvar_button)
+
+        voltar.setOnClickListener{
+            finish()
+        }
 
         val sharedPreferences = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
