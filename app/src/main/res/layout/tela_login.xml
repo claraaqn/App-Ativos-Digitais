@@ -61,7 +61,7 @@
         android:id="@+id/button_login"
         android:layout_width="320dp"
         android:layout_height="48dp"
-        android:layout_marginTop="140dp"
+        android:layout_marginTop="162dp"
         android:background="@drawable/fundo_botao"
         android:fontFamily="@font/poppins_extra_bold"
         android:text="@string/login"
@@ -121,5 +121,19 @@
         app:layout_constraintStart_toStartOf="@+id/googleoufacebokk"
         app:layout_constraintTop_toBottomOf="@+id/googleoufacebokk"
         tools:ignore="ContentDescription,MissingConstraints" />
+
+    <Button
+        android:id="@+id/button_esquecer_senha"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="114dp"
+        android:background="@android:color/transparent"
+        android:fontFamily="@font/archivo_regular"
+        android:text="@string/esquecei_a_senha"
+        android:textColor="#5F97FF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_text_senha" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
