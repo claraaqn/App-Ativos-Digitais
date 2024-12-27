@@ -1,11 +1,13 @@
 package com.projeto1.desingbrabo.api
 
 import com.projeto1.desingbrabo.model.Cadastro
+import com.projeto1.desingbrabo.model.ForgotPasswordRequest
 import com.projeto1.desingbrabo.model.LoginRequest
 import com.projeto1.desingbrabo.model.LoginResponse
 import com.projeto1.desingbrabo.model.UpdateProfileRequest
 import com.projeto1.desingbrabo.model.GenericResponse
 import com.projeto1.desingbrabo.model.PasswordChangeRequest
+import com.projeto1.desingbrabo.model.ResetPasswordRequest
 import com.projeto1.desingbrabo.model.UserProfileResponse
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -36,4 +38,9 @@ interface ApiService {
     @POST("change_password")
     fun changePassword(@Body passwordChangeRequest: PasswordChangeRequest): Call<GenericResponse>
 
+    @POST("enviar_email_redefinicao")
+    fun enviar_email_redefinicao(@Body forgotPasswordRequest: ForgotPasswordRequest): Call<GenericResponse>
+
+    @POST("/redefinir_senha")
+    fun redefinir_senha(@Body resetPasswordRequest: ResetPasswordRequest): Call<GenericResponse>
 }

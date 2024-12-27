@@ -15,7 +15,7 @@
         android:usesCleartextTraffic="true">
 
         <activity
-            android:name=".CadastroActivity"
+            android:name=".LoginActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
@@ -24,8 +24,6 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".LoginActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
 
         <activity android:name=".EditarPerfilActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
