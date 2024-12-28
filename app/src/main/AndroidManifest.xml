@@ -24,7 +24,6 @@
             </intent-filter>
         </activity>
 
-
         <activity android:name=".EditarPerfilActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
 
@@ -39,6 +38,20 @@
 
         <activity android:name="com.projeto1.desingbrabo.PerfilActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+
+        <activity android:name=".EsqueceuSenhaActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:scheme="myapp"
+                    android:host="resetpassword" />
+            </intent-filter>
+        </activity>
 
     </application>
 

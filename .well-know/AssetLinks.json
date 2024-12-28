@@ -1,0 +1,12 @@
+[
+    {
+        "relation": ["delegate_permission/common.handle_all_urls"],
+        "target": {
+            "namespace": "Desing Brabo",
+            "package_name": "com.projeto1.desingbrabo",
+            "sha256_cert_fingerprints": [
+                "0D:E8:D3:7C:5C:AE:51:E3:BE:67:39:A0:04:CD:AB:26:C7:A3:BA:32:34:A0:90:A5:A1:CC:F4:73:0A:4D:C5:39"
+            ]
+        }
+    }
+]

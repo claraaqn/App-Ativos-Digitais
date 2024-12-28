@@ -4,6 +4,10 @@ from flask_mysqldb import MySQL
 from flask_cors import CORS
 import bcrypt
 import dotenv
+from datetime import datetime, timedelta, timezone
+import secrets
+from flask_mail import Message, Mail
+
 
 app = Flask(__name__)
 CORS(app)
@@ -15,7 +19,17 @@ app.config['MYSQL_USER'] = 'dev_user'
 app.config['MYSQL_PASSWORD'] = '5QKGMhFnnEikbv4'       
 app.config['MYSQL_DB'] = 'ativos-digitais'  
 
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USE_SSL'] = False
+app.config['MAIL_USERNAME'] = 'vigorize0@gmail.com'
+app.config['MAIL_PASSWORD'] = 'rcexxotmxjlxlrna'
+app.config['MAIL_DEFAULT_SENDER'] = 'vigorize0@gmail.com'
+
+
 mysql = MySQL(app)
+mail = Mail(app)
 
 @app.route('/register', methods=['POST'])
 def cadastrar_usuario():
@@ -32,7 +46,7 @@ def cadastrar_usuario():
         telefone = data.get('userPhone')
         date = data.get('userDate')
         stripe_customer_id = data.get('stripe_customer_id', None)
-        reset_token = data.get('reset_token ', None)
+        reset_token = data.get('reset_token', None)
         reset_token_expires = data.get('reset_token_expires', None)
         provider = data.get('provider', None)
         created_at = data.get('created_at', None)
@@ -185,86 +199,99 @@ def change_password():
         return jsonify({"success": False, "message": "Erro interno no servidor"}), 500
 
 #ESQUECI SENHA
-
-def enviar_email(to, subject, body):
-    from flask_mail import Message, Mail
-
-    msg = Message(subject, recipients=[to], body=body)
-    Mail.send(msg)
-
-
-@app.route('/api/enviar_email_redefinicao', methods=['POST'])
+@app.route('/enviar_email_redefinicao', methods=['POST'])
 def enviar_email_redefinicao():
     try:
         data = request.get_json()
         email = data.get('email')
 
-        # Verifica se o e-mail existe no banco de dados
-        cursor = mysql.connection.cursor()
+        if not email:
+            return jsonify({"success": False, "message": "E-mail é obrigatório"}), 400
+
+        conn = mysql.connection
+        cursor = conn.cursor()
+
         cursor.execute("SELECT id FROM ad_users WHERE email = %s", (email,))
         user = cursor.fetchone()
 
         if not user:
-            return jsonify({"success": False, "message": "E-mail não encontrado"}), 404
+            return jsonify({"success": False, "message": "Usuário não encontrado"}), 404
 
-        user_id = user[0]
-        # Gera um token único para redefinição de senha
-        token = str(uuid.uuid4())
+        # Gera o token de redefinição
+        token = secrets.token_urlsafe(32)
+        expiration_time = datetime.now(timezone.utc) + timedelta(hours=1)
 
-        # Salva o token no banco com validade de 1 hora
-        cursor.execute(
-            "INSERT INTO password_reset_tokens (user_id, token, expires_at) VALUES (%s, %s, NOW() + INTERVAL 1 HOUR)",
-            (user_id, token),
-        )
-        mysql.connection.commit()
+        # Atualiza o token no banco de dados
+        cursor.execute("""
+            UPDATE ad_users
+            SET reset_token = %s, reset_token_expires = %s
+            WHERE email = %s
+        """, (token, expiration_time, email))
+        conn.commit()
 
-        # Envia o e-mail (simulação)
-        reset_link = f"https://seu-app.com/redefinir_senha?token={token}"
-        enviar_email(
-            destinatario=email,
-            assunto="Redefinição de Senha",
-            corpo=f"Para redefinir sua senha, clique no link: {reset_link}",
-        )
+        # Envia o e-mail
+        link = f"myapp://resetpassword?token={token}"
+        subject = "Redefinição de Senha"
+        body = f"Use este link para redefinir sua senha: {link}"
+
+        msg = Message(subject, recipients=[email], body=body)
+        try:
+            mail.send(msg)
+        except Exception as e:
+            print(f"Erro ao enviar e-mail: {str(e)}")
+            return jsonify({"success": False, "message": "Erro ao enviar e-mail"}), 500
 
         return jsonify({"success": True, "message": "E-mail enviado com sucesso"}), 200
 
     except Exception as e:
-        print(f"Erro: {e}")
-        return jsonify({"success": False, "message": "Erro interno no servidor"}), 500
+        print(f"Erro: {str(e)}")
+        return jsonify({"success": False, "message": "Erro ao enviar e-mail"}), 500
 
-@app.route('/api/redefinir_senha', methods=['POST'])
+
+@app.route('/redefinir_senha', methods=['POST'])
 def redefinir_senha():
     try:
         data = request.get_json()
         token = data.get('token')
         nova_senha = data.get('novaSenha')
 
-        # Verifica se o token é válido e não expirou
-        cursor = mysql.connection.cursor()
-        cursor.execute(
-            "SELECT user_id FROM password_reset_tokens WHERE token = %s AND expires_at > NOW()", (token,)
-        )
-        result = cursor.fetchone()
+        if not token or not nova_senha:
+            return jsonify({"success": False, "message": "Token e nova senha são obrigatórios"}), 400
 
-        if not result:
-            return jsonify({"success": False, "message": "Token inválido ou expirado"}), 400
+        conn = mysql.connection
+        cursor = conn.cursor()
 
-        user_id = result[0]
+        cursor.execute("""
+            SELECT id, reset_token_expires
+            FROM ad_users
+            WHERE reset_token = %s
+        """, (token,))
+        user = cursor.fetchone()
 
-        # Atualiza a senha do usuário
-        hashed_senha = bcrypt.hashpw(nova_senha.encode('utf-8'), bcrypt.gensalt())
-        cursor.execute("UPDATE ad_users SET password = %s WHERE id = %s", (hashed_senha, user_id))
+        if not user:
+            return jsonify({"success": False, "message": "Token inválido"}), 400
 
-        # Remove o token usado
-        cursor.execute("DELETE FROM password_reset_tokens WHERE token = %s", (token,))
-        mysql.connection.commit()
+        user_id, token_expires = user
+
+        if datetime.now(timezone.utc) > token_expires:
+            return jsonify({"success": False, "message": "Token expirado"}), 400
+
+        # Atualiza a senha no banco
+        hashed_password = bcrypt.hashpw(nova_senha.encode('utf-8'), bcrypt.gensalt())
+        cursor.execute("""
+            UPDATE ad_users
+            SET password = %s, reset_token = NULL, reset_token_expires = NULL
+            WHERE id = %s
+        """, (hashed_password, user_id))
+        conn.commit()
 
         return jsonify({"success": True, "message": "Senha redefinida com sucesso"}), 200
 
     except Exception as e:
-        print(f"Erro: {e}")
-        return jsonify({"success": False, "message": "Erro interno no servidor"}), 500
+        print(f"Erro: {str(e)}")
+        return jsonify({"success": False, "message": "Erro ao redefinir senha"}), 500
 
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
+    

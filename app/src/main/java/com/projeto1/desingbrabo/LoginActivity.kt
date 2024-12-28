@@ -35,7 +35,7 @@ class LoginActivity : AppCompatActivity() {
             if (email.isNotEmpty() && password.isNotEmpty()) {
                 login(email, password)
             } else {
-                showToast("Preencha todos os campos!")
+                Toast.makeText(this@LoginActivity, "Preencha todos os campos!", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -53,12 +53,12 @@ class LoginActivity : AppCompatActivity() {
                     salvarDadosUsuario(response.body()!!)
                     irParaTelaPerfil()
                 } else {
-                    showToast("E-mail ou senha inválidos!")
+                    Toast.makeText(this@LoginActivity, "E-mail ou senha inválidos!", Toast.LENGTH_SHORT).show()
                 }
             }
 
             override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
-                showToast("Erro na conexão: ${t.message}")
+                Toast.makeText(this@LoginActivity, "Erro na conexão: ${t.message}", Toast.LENGTH_SHORT).show()
             }
         })
     }
@@ -74,7 +74,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun irParaTelaPerfil() {
-        showToast("Login realizado com sucesso!")
+        Toast.makeText(this@LoginActivity, "Login realizado com sucesso!", Toast.LENGTH_SHORT).show()
         val intent = Intent(this@LoginActivity, PerfilActivity::class.java)
         startActivity(intent)
     }
@@ -98,9 +98,10 @@ class LoginActivity : AppCompatActivity() {
             val email = etEmail.text.toString().trim()
 
             if (email.isEmpty()) {
-                showToast("Por favor, insira um e-mail válido")
+                Toast.makeText(this@LoginActivity, "Por favor, insira um e-mail válido", Toast.LENGTH_SHORT).show()
             } else {
                 enviarEmailRedefinicaoSenha(email)
+                Toast.makeText(this@LoginActivity, "E-mail enviado com sucesso!", Toast.LENGTH_SHORT).show()
                 alertDialog.dismiss()
             }
         }
@@ -114,19 +115,14 @@ class LoginActivity : AppCompatActivity() {
         apiService.enviar_email_redefinicao(forgotPasswordRequest).enqueue(object : Callback<GenericResponse> {
                 override fun onResponse(call: Call<GenericResponse>, response: Response<GenericResponse>) {
                     if (response.isSuccessful && response.body()?.success == true) {
-                        showToast("E-mail enviado com sucesso!")
+                        Toast.makeText(this@LoginActivity, "E-mail enviado com sucesso!", Toast.LENGTH_SHORT).show()
                     } else {
-                        showToast("Erro: ${response.body()?.message ?: "Tente novamente mais tarde."}")
+                        Toast.makeText(this@LoginActivity, "Tente novamente mais tarde.", Toast.LENGTH_SHORT).show()
                     }
                 }
-
                 override fun onFailure(call: Call<GenericResponse>, t: Throwable) {
-                    showToast("Erro ao enviar e-mail: ${t.message}")
+                    Toast.makeText(this@LoginActivity, "Erro ao enviar e-mail: ${t.message}", Toast.LENGTH_SHORT).show()
                 }
             })
-    }
-
-    private fun showToast(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 }
