@@ -9,6 +9,7 @@ from datetime import datetime, timedelta, timezone
 import secrets
 from flask_mail import Message, Mail
 import boto3
+import random
 
 load_dotenv()
 app = Flask(__name__)
@@ -221,6 +222,8 @@ def enviar_email_redefinicao():
 
         conn = mysql.connection
         cursor = conn.cursor()
+        
+        code = random.randint(100000, 999999)
 
         cursor.execute("SELECT id FROM ad_users WHERE email = %s", (email,))
         user = cursor.fetchone()
@@ -228,25 +231,23 @@ def enviar_email_redefinicao():
         if not user:
             return jsonify({"success": False, "message": "Usuário não encontrado"}), 404
 
-        token = secrets.token_urlsafe(32)
-        expiration_time = datetime.now(timezone.utc) + timedelta(hours=1)
+        expiration_time = datetime.now(timezone.utc) + timedelta(minutes=2)
 
         cursor.execute("""
             UPDATE ad_users
             SET reset_token = %s, reset_token_expires = %s
             WHERE email = %s
-        """, (token, expiration_time, email))
+        """, (code, expiration_time, email))
         conn.commit()
         
-        
-        link = f"http://esqueci-senha?token={token}" # tem que colocar com o HTML de Luis ativo no host
         subject = "Redefinição de Senha"
         
         body = f"""
         <html>
             <body>
-                <p>Use o seguinte link para redefinir sua senha:</p>
-                <a href="{link}">{link}</a>
+                <p>Use o seguinte código para redefinir sua senha:</p>
+                <h2>{code}</h2>
+                <p>Este código é válido por 2 minutos.</p>
             </body>
         </html>
         """
@@ -257,13 +258,58 @@ def enviar_email_redefinicao():
         try:
             mail.send(msg)
             print("E-mail enviado com sucesso!")
+            print(f"Código para {email}: {code}")
+            return jsonify({"success": True, "message": "E-mail enviado com sucesso"}), 200
         except Exception as e:
             print(f"Erro ao enviar e-mail: {e}")
-            return jsonify({"success": True, "message": "E-mail enviado com sucesso"}), 200
+            return jsonify({"success": False, "message": "Erro ao enviar o e-mail"}), 500
+            
 
     except Exception as e:
         print(f"Erro: {str(e)}")
         return jsonify({"success": False, "message": "Erro ao enviar e-mail"}), 500
+
+@app.route('/validar_codigo', methods=['POST'])
+def validar_codigo():
+    try:
+        data = request.get_json()
+        email = data.get('email')
+        code = data.get('token')
+        
+        if not email or not code:
+            return jsonify({"success": False, "message": "E-mail e código são obrigatórios"}), 400
+
+        conn = mysql.connection
+        cursor = conn.cursor()
+
+        # Verificar o código e a validade
+        cursor.execute("""
+            SELECT reset_token, reset_token_expires
+            FROM ad_users
+            WHERE email = %s
+        """, (email,))
+        user = cursor.fetchone()
+
+        if not user:
+            return jsonify({"success": False, "message": "Usuário não encontrado"}), 404
+
+        reset_code, reset_code_expires = user
+        print(f'O reset_code é {reset_code}')
+
+        if reset_code != code:
+            return jsonify({"success": False, "message": "Código inválido"}), 400
+
+        if reset_code_expires.tzinfo is None:
+            reset_code_expires = reset_code_expires.replace(tzinfo=timezone.utc)
+
+        if datetime.now(timezone.utc) > reset_code_expires:
+            return jsonify({"success": False, "message": "Código expirado"}), 400
+
+        return jsonify({"success": True, "message": "Código validado com sucesso"}), 200
+
+    except Exception as e:
+        print(f"Erro: {str(e)}")
+        return jsonify({"success": False, "message": "Erro ao validar código"}), 500
 
 
 

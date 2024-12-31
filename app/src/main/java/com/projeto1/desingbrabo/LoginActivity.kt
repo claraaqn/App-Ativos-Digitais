@@ -100,8 +100,8 @@ class LoginActivity : AppCompatActivity() {
             if (email.isEmpty()) {
                 Toast.makeText(this@LoginActivity, "Por favor, insira um e-mail válido", Toast.LENGTH_SHORT).show()
             } else {
+                salvarEmailUsuario(email)
                 enviarEmailRedefinicaoSenha(email)
-                Toast.makeText(this@LoginActivity, "E-mail enviado com sucesso!", Toast.LENGTH_SHORT).show()
                 alertDialog.dismiss()
             }
         }
@@ -115,7 +115,8 @@ class LoginActivity : AppCompatActivity() {
         apiService.enviar_email_redefinicao(forgotPasswordRequest).enqueue(object : Callback<GenericResponse> {
                 override fun onResponse(call: Call<GenericResponse>, response: Response<GenericResponse>) {
                     if (response.isSuccessful && response.body()?.success == true) {
-                        Toast.makeText(this@LoginActivity, "E-mail enviado com sucesso!", Toast.LENGTH_SHORT).show()
+                        val intent = Intent(this@LoginActivity, VerificacaoActivity::class.java)
+                        startActivity(intent)
                     } else {
                         Toast.makeText(this@LoginActivity, "Tente novamente mais tarde.", Toast.LENGTH_SHORT).show()
                     }
@@ -123,6 +124,13 @@ class LoginActivity : AppCompatActivity() {
                 override fun onFailure(call: Call<GenericResponse>, t: Throwable) {
                     Toast.makeText(this@LoginActivity, "Erro ao enviar e-mail: ${t.message}", Toast.LENGTH_SHORT).show()
                 }
-            })
+        })
+    }
+
+    private fun salvarEmailUsuario(email: String) {
+        val sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putString("user_email_redefinicao", email)
+        editor.apply()
     }
 }
