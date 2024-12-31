@@ -123,4 +123,5 @@ CPF: 321.272.078-66
     <string name="termos_e_condicoes_subliado"><u>Termos e COndições</u></string>
     <string name="confirmar">Confirmar</string>
     <string name="esquecei_a_senha"><u>Esquecei a senha</u></string>
+    <string name="reenviar"><u>Reenviar</u></string>
 </resources>

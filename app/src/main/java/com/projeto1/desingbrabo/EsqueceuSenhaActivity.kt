@@ -22,24 +22,28 @@ class EsqueceuSenhaActivity : AppCompatActivity() {
         val etConfirmarSenha: EditText = findViewById(R.id.confirmar_nova_senha)
         val btnConfirmar: Button = findViewById(R.id.button_confirmar)
 
-        btnConfirmar.setOnClickListener {
-            val novaSenha = etNovaSenha.text.toString().trim()
-            val confirmarSenha = etConfirmarSenha.text.toString().trim()
-            val token = intent.getStringExtra("token") // Token recebido no link
+        val uri = intent?.data
+        if (uri != null && uri.scheme == "myapp" && uri.host == "esqueci-senha") {
+            btnConfirmar.setOnClickListener {
+                val novaSenha = etNovaSenha.text.toString().trim()
+                val confirmarSenha = etConfirmarSenha.text.toString().trim()
+                val token = intent.getStringExtra("token") // Token recebido no link
 
-            if (novaSenha.isEmpty() || confirmarSenha.isEmpty()) {
-                Toast.makeText(this, "Por favor, preencha todos os campos", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
+                if (novaSenha.isEmpty() || confirmarSenha.isEmpty()) {
+                    Toast.makeText(this, "Por favor, preencha todos os campos", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+
+                if (novaSenha != confirmarSenha) {
+                    Toast.makeText(this, "As senhas não coincidem", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+
+                // Faz a requisição para redefinir a senha
+                redefinirSenha(token, novaSenha)
             }
-
-            if (novaSenha != confirmarSenha) {
-                Toast.makeText(this, "As senhas não coincidem", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-
-            // Faz a requisição para redefinir a senha
-            redefinirSenha(token, novaSenha)
         }
+
     }
 
     private fun redefinirSenha(token: String?, novaSenha: String) {
