@@ -13,46 +13,44 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class EsqueceuSenhaActivity : AppCompatActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.tela_esqueceu_senha)
 
-        val etNovaSenha: EditText = findViewById(R.id.nova_senha)
-        val etConfirmarSenha: EditText = findViewById(R.id.confirmar_nova_senha)
-        val btnConfirmar: Button = findViewById(R.id.button_confirmar)
+        val sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE)
+        val email = sharedPreferences.getString("user_email_redefinicao", null)
 
-        val uri = intent?.data
-        if (uri != null && uri.scheme == "myapp" && uri.host == "esqueci-senha") {
-            btnConfirmar.setOnClickListener {
-                val novaSenha = etNovaSenha.text.toString().trim()
-                val confirmarSenha = etConfirmarSenha.text.toString().trim()
-                val token = intent.getStringExtra("token") // Token recebido no link
-
-                if (novaSenha.isEmpty() || confirmarSenha.isEmpty()) {
-                    Toast.makeText(this, "Por favor, preencha todos os campos", Toast.LENGTH_SHORT).show()
-                    return@setOnClickListener
-                }
-
-                if (novaSenha != confirmarSenha) {
-                    Toast.makeText(this, "As senhas não coincidem", Toast.LENGTH_SHORT).show()
-                    return@setOnClickListener
-                }
-
-                // Faz a requisição para redefinir a senha
-                redefinirSenha(token, novaSenha)
-            }
-        }
-
-    }
-
-    private fun redefinirSenha(token: String?, novaSenha: String) {
-        if (token.isNullOrEmpty()) {
-            Toast.makeText(this, "Token inválido", Toast.LENGTH_SHORT).show()
+        if (email == null) {
+            Toast.makeText(this, "E-mail não encontrado. Tente novamente.", Toast.LENGTH_SHORT).show()
+            finish()
             return
         }
 
-        val resetPasswordRequest = ResetPasswordRequest(token, novaSenha)
+        val nova_senha: EditText = findViewById(R.id.nova_senha)
+        val confirmar_senha: EditText = findViewById(R.id.confirmar_nova_senha)
+        val button_confirmar: Button = findViewById(R.id.button_confirmar)
+
+
+        button_confirmar.setOnClickListener {
+            val novaSenha = nova_senha.text.toString().trim()
+            val confirmarSenha = confirmar_senha.text.toString().trim()
+
+            if (novaSenha.isEmpty() || confirmarSenha.isEmpty()) {
+                Toast.makeText(this, "Por favor, preencha todos os campos", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            if (novaSenha != confirmarSenha) {
+                Toast.makeText(this, "As senhas não coincidem", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            redefinirSenha(email, novaSenha)
+            }
+
+    }
+
+    private fun redefinirSenha(email: String, novaSenha: String) {
+        val resetPasswordRequest = ResetPasswordRequest(email, novaSenha)
 
         RetrofitInstance.api.redefinir_senha(resetPasswordRequest).enqueue(object : Callback<GenericResponse> {
             override fun onResponse(call: Call<GenericResponse>, response: Response<GenericResponse>) {
@@ -67,7 +65,6 @@ class EsqueceuSenhaActivity : AppCompatActivity() {
                     ).show()
                 }
             }
-
             override fun onFailure(call: Call<GenericResponse>, t: Throwable) {
                 Toast.makeText(this@EsqueceuSenhaActivity, "Erro na conexão: ${t.message}", Toast.LENGTH_SHORT).show()
             }

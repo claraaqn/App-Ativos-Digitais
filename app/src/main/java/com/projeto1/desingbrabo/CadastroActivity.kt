@@ -12,6 +12,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.projeto1.desingbrabo.model.Cadastro
 import com.projeto1.desingbrabo.api.RetrofitInstance
+import com.projeto1.desingbrabo.model.ForgotPasswordRequest
+import com.projeto1.desingbrabo.model.GenericResponse
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -27,10 +29,6 @@ class CadastroActivity : AppCompatActivity() {
     private lateinit var buttonCadastrar: Button
     private lateinit var termosCondicoes: CheckBox
     private lateinit var termosCondicoesBurron: Button
-
-    // CONECTAR NAS API
-    // private lateinit var googleButton: ImageView
-    // private lateinit var facebookButton: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,12 +60,10 @@ class CadastroActivity : AppCompatActivity() {
         }
 
         buttonCadastrar.setOnClickListener {
-            if(termosCondicoes.isChecked) {
+            if (termosCondicoes.isChecked) {
                 cadastrarUsuario()
-                val intent = Intent(this, LoginActivity::class.java)
-                startActivity(intent)
             } else {
-                Toast.makeText(this@CadastroActivity, "Você precisa concordar com nossos Termos e Condições para se cadastrar", Toast.LENGTH_LONG).show()
+                Toast.makeText(this@CadastroActivity,"Você precisa concordar com nossos Termos e Condições para se cadastrar", Toast.LENGTH_LONG).show()
             }
         }
     }
@@ -119,6 +115,8 @@ class CadastroActivity : AppCompatActivity() {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 if (response.isSuccessful) {
                     Toast.makeText(this@CadastroActivity, "Cadastro realizado com sucesso!", Toast.LENGTH_LONG).show()
+
+                    enviarCodigoVerificacao(email)
                 } else {
                     Toast.makeText(this@CadastroActivity, "Erro ao cadastrar usuário", Toast.LENGTH_LONG).show()
                 }
@@ -126,6 +124,28 @@ class CadastroActivity : AppCompatActivity() {
 
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 Toast.makeText(this@CadastroActivity, "Falha na conexão com o servidor", Toast.LENGTH_LONG).show()
+            }
+        })
+    }
+
+    private fun enviarCodigoVerificacao(email: String) {
+        val apiService = RetrofitInstance.api
+        val forgotPasswordRequest = ForgotPasswordRequest(email)
+
+        apiService.enviar_email_redefinicao(forgotPasswordRequest).enqueue(object : Callback<GenericResponse> {
+            override fun onResponse(call: Call<GenericResponse>, response: Response<GenericResponse>) {
+                if (response.isSuccessful) {
+                    Toast.makeText(this@CadastroActivity, "Código de verificação enviado!", Toast.LENGTH_LONG).show()
+                    val intent = Intent(this@CadastroActivity, VerificacaoEmailActivity::class.java)
+                    intent.putExtra("email", email)
+                    startActivity(intent)
+                    finish()
+                } else {
+                    Toast.makeText(this@CadastroActivity, "Erro ao enviar código de verificação", Toast.LENGTH_LONG).show()
+                }
+            }
+            override fun onFailure(call: Call<GenericResponse>, t: Throwable) {
+                Toast.makeText(this@CadastroActivity, "Erro de conexão ao enviar código", Toast.LENGTH_LONG).show()
             }
         })
     }

@@ -8,7 +8,6 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import com.projeto1.desingbrabo.api.ApiService
 import com.projeto1.desingbrabo.api.RetrofitInstance
 import com.projeto1.desingbrabo.model.LoginRequest
 import com.projeto1.desingbrabo.model.LoginResponse
@@ -115,7 +114,7 @@ class LoginActivity : AppCompatActivity() {
         apiService.enviar_email_redefinicao(forgotPasswordRequest).enqueue(object : Callback<GenericResponse> {
                 override fun onResponse(call: Call<GenericResponse>, response: Response<GenericResponse>) {
                     if (response.isSuccessful && response.body()?.success == true) {
-                        val intent = Intent(this@LoginActivity, VerificacaoActivity::class.java)
+                        val intent = Intent(this@LoginActivity, VerificacaoEsqueceuSenhaActivity::class.java)
                         startActivity(intent)
                     } else {
                         Toast.makeText(this@LoginActivity, "Tente novamente mais tarde.", Toast.LENGTH_SHORT).show()

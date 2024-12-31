@@ -1,4 +1,3 @@
-import uuid
 from flask import Flask, request, jsonify
 from flask_mysqldb import MySQL
 from flask_cors import CORS
@@ -282,7 +281,6 @@ def validar_codigo():
         conn = mysql.connection
         cursor = conn.cursor()
 
-        # Verificar o código e a validade
         cursor.execute("""
             SELECT reset_token, reset_token_expires
             FROM ad_users
@@ -311,6 +309,31 @@ def validar_codigo():
         print(f"Erro: {str(e)}")
         return jsonify({"success": False, "message": "Erro ao validar código"}), 500
 
+@app.route('/redefinir_senha', methods=['POST'])
+def redefinir_senha():
+    try:
+        data = request.get_json()
+        email = data.get('email')
+        nova_senha = data.get('novaSenha')
+        
+        if not email or not nova_senha:
+            return jsonify({"success": False, "message": "E-mail e nova senha são obrigatórios"}), 400
+
+        conn = mysql.connection
+        cursor = conn.cursor()
+
+        cursor.execute("""
+            UPDATE ad_users
+            SET password = %s
+            WHERE email = %s
+        """, (nova_senha, email))
+        conn.commit()
+
+        return jsonify({"success": True, "message": "Senha atualizada com sucesso!"}), 200
+
+    except Exception as e:
+        print(f"Erro: {str(e)}")
+        return jsonify({"success": False, "message": "Erro ao validar código"}), 500
 
 
 if __name__ == '__main__':
