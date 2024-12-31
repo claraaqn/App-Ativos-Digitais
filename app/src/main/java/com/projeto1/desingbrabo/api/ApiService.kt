@@ -45,6 +45,6 @@ interface ApiService {
     @POST("validar_codigo")
     fun validar_codigo(@Body validarCodigo: ValidarCodigoRequest): Call<GenericResponse>
 
-    @POST("/redefinir_senha")
+    @POST("redefinir_senha")
     fun redefinir_senha(@Body resetPasswordRequest: ResetPasswordRequest): Call<GenericResponse>
 }

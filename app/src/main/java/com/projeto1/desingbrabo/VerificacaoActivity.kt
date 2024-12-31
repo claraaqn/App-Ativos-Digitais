@@ -2,10 +2,7 @@ package com.projeto1.desingbrabo
 
 import android.content.Intent
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
-import android.view.KeyEvent
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -30,7 +27,7 @@ class VerificacaoActivity : AppCompatActivity() {
 
         if (email == null) {
             Toast.makeText(this, "E-mail não encontrado. Tente novamente.", Toast.LENGTH_SHORT).show()
-            finish() // Finaliza a Activity caso o e-mail não seja encontrado
+            finish()
             return
         }
 
