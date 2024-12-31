@@ -3,19 +3,46 @@ from flask import Flask, request, jsonify
 from flask_mysqldb import MySQL
 from flask_cors import CORS
 import bcrypt
-import dotenv
+from dotenv import load_dotenv
+import os
+from datetime import datetime, timedelta, timezone
+import secrets
+from flask_mail import Message, Mail
+import boto3
+import random
 
+load_dotenv()
 app = Flask(__name__)
 CORS(app)
 
-# criar em arquivo .env para puxar as informações de configurações
-# criar .gitignore do .env
-app.config['MYSQL_HOST'] = '26.246.225.30' 
-app.config['MYSQL_USER'] = 'dev_user'      
-app.config['MYSQL_PASSWORD'] = '5QKGMhFnnEikbv4'       
-app.config['MYSQL_DB'] = 'ativos-digitais'  
+# cinfigurações
+app.config['MYSQL_HOST'] = os.getenv('MYSQL_HOST')
+app.config['MYSQL_USER'] = os.getenv('MYSQL_USER')     
+app.config['MYSQL_PASSWORD'] = os.getenv('MYSQL_PASSWORD')
+app.config['MYSQL_DB'] = os.getenv('MYSQL_DB')
+
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USE_SSL'] = False
+app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
+app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
+app.config['MAIL_DEFAULT_SENDER'] = os.getenv('MAIL_DEFAULT_SENDER')
+
+WASABI_ACCESS_KEY = os.getenv('WASABI_ACCESS_KEY')
+WASABI_SECRET_KEY = os.getenv('WASABI_SECRET_KEY')
+WASABI_ENDPOINT = os.getenv('WASABI_ENDPOINT')
+WASABI_BUCKET_NAME = os.getenv('WASABI_BUCKET_NAME')
+
+s3_client = boto3.client(
+    's3',
+    aws_access_key_id=WASABI_ACCESS_KEY,
+    aws_secret_access_key=WASABI_SECRET_KEY,
+    endpoint_url=WASABI_ENDPOINT
+)
 
 mysql = MySQL(app)
+mail = Mail(app)
 
 @app.route('/register', methods=['POST'])
 def cadastrar_usuario():
@@ -32,7 +59,7 @@ def cadastrar_usuario():
         telefone = data.get('userPhone')
         date = data.get('userDate')
         stripe_customer_id = data.get('stripe_customer_id', None)
-        reset_token = data.get('reset_token ', None)
+        reset_token = data.get('reset_token', None)
         reset_token_expires = data.get('reset_token_expires', None)
         provider = data.get('provider', None)
         created_at = data.get('created_at', None)
@@ -184,87 +211,108 @@ def change_password():
         print(f"Erro: {str(e)}")
         return jsonify({"success": False, "message": "Erro interno no servidor"}), 500
 
-#ESQUECI SENHA
-
-def enviar_email(to, subject, body):
-    from flask_mail import Message, Mail
-
-    msg = Message(subject, recipients=[to], body=body)
-    Mail.send(msg)
-
-
-@app.route('/api/enviar_email_redefinicao', methods=['POST'])
+@app.route('/enviar_email_redefinicao', methods=['POST'])
 def enviar_email_redefinicao():
     try:
         data = request.get_json()
         email = data.get('email')
 
-        # Verifica se o e-mail existe no banco de dados
-        cursor = mysql.connection.cursor()
+        if not email:
+            return jsonify({"success": False, "message": "E-mail é obrigatório"}), 400
+
+        conn = mysql.connection
+        cursor = conn.cursor()
+        
+        code = random.randint(100000, 999999)
+
         cursor.execute("SELECT id FROM ad_users WHERE email = %s", (email,))
         user = cursor.fetchone()
 
         if not user:
-            return jsonify({"success": False, "message": "E-mail não encontrado"}), 404
+            return jsonify({"success": False, "message": "Usuário não encontrado"}), 404
 
-        user_id = user[0]
-        # Gera um token único para redefinição de senha
-        token = str(uuid.uuid4())
+        expiration_time = datetime.now(timezone.utc) + timedelta(minutes=2)
 
-        # Salva o token no banco com validade de 1 hora
-        cursor.execute(
-            "INSERT INTO password_reset_tokens (user_id, token, expires_at) VALUES (%s, %s, NOW() + INTERVAL 1 HOUR)",
-            (user_id, token),
-        )
-        mysql.connection.commit()
-
-        # Envia o e-mail (simulação)
-        reset_link = f"https://seu-app.com/redefinir_senha?token={token}"
-        enviar_email(
-            destinatario=email,
-            assunto="Redefinição de Senha",
-            corpo=f"Para redefinir sua senha, clique no link: {reset_link}",
-        )
-
-        return jsonify({"success": True, "message": "E-mail enviado com sucesso"}), 200
+        cursor.execute("""
+            UPDATE ad_users
+            SET reset_token = %s, reset_token_expires = %s
+            WHERE email = %s
+        """, (code, expiration_time, email))
+        conn.commit()
+        
+        subject = "Redefinição de Senha"
+        
+        body = f"""
+        <html>
+            <body>
+                <p>Use o seguinte código para redefinir sua senha:</p>
+                <h2>{code}</h2>
+                <p>Este código é válido por 2 minutos.</p>
+            </body>
+        </html>
+        """
+        
+        msg = Message(subject, recipients=[email])
+        msg.html = body
+        
+        try:
+            mail.send(msg)
+            print("E-mail enviado com sucesso!")
+            print(f"Código para {email}: {code}")
+            return jsonify({"success": True, "message": "E-mail enviado com sucesso"}), 200
+        except Exception as e:
+            print(f"Erro ao enviar e-mail: {e}")
+            return jsonify({"success": False, "message": "Erro ao enviar o e-mail"}), 500
+            
 
     except Exception as e:
-        print(f"Erro: {e}")
-        return jsonify({"success": False, "message": "Erro interno no servidor"}), 500
+        print(f"Erro: {str(e)}")
+        return jsonify({"success": False, "message": "Erro ao enviar e-mail"}), 500
 
-@app.route('/api/redefinir_senha', methods=['POST'])
-def redefinir_senha():
+@app.route('/validar_codigo', methods=['POST'])
+def validar_codigo():
     try:
         data = request.get_json()
-        token = data.get('token')
-        nova_senha = data.get('novaSenha')
+        email = data.get('email')
+        code = data.get('token')
+        
+        if not email or not code:
+            return jsonify({"success": False, "message": "E-mail e código são obrigatórios"}), 400
 
-        # Verifica se o token é válido e não expirou
-        cursor = mysql.connection.cursor()
-        cursor.execute(
-            "SELECT user_id FROM password_reset_tokens WHERE token = %s AND expires_at > NOW()", (token,)
-        )
-        result = cursor.fetchone()
+        conn = mysql.connection
+        cursor = conn.cursor()
 
-        if not result:
-            return jsonify({"success": False, "message": "Token inválido ou expirado"}), 400
+        # Verificar o código e a validade
+        cursor.execute("""
+            SELECT reset_token, reset_token_expires
+            FROM ad_users
+            WHERE email = %s
+        """, (email,))
+        user = cursor.fetchone()
 
-        user_id = result[0]
+        if not user:
+            return jsonify({"success": False, "message": "Usuário não encontrado"}), 404
 
-        # Atualiza a senha do usuário
-        hashed_senha = bcrypt.hashpw(nova_senha.encode('utf-8'), bcrypt.gensalt())
-        cursor.execute("UPDATE ad_users SET password = %s WHERE id = %s", (hashed_senha, user_id))
+        reset_code, reset_code_expires = user
+        print(f'O reset_code é {reset_code}')
 
-        # Remove o token usado
-        cursor.execute("DELETE FROM password_reset_tokens WHERE token = %s", (token,))
-        mysql.connection.commit()
+        if reset_code != code:
+            return jsonify({"success": False, "message": "Código inválido"}), 400
 
-        return jsonify({"success": True, "message": "Senha redefinida com sucesso"}), 200
+        if reset_code_expires.tzinfo is None:
+            reset_code_expires = reset_code_expires.replace(tzinfo=timezone.utc)
+
+        if datetime.now(timezone.utc) > reset_code_expires:
+            return jsonify({"success": False, "message": "Código expirado"}), 400
+
+        return jsonify({"success": True, "message": "Código validado com sucesso"}), 200
 
     except Exception as e:
-        print(f"Erro: {e}")
-        return jsonify({"success": False, "message": "Erro interno no servidor"}), 500
+        print(f"Erro: {str(e)}")
+        return jsonify({"success": False, "message": "Erro ao validar código"}), 500
+
 
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
+    
