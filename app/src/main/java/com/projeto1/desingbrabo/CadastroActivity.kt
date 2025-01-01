@@ -12,7 +12,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.projeto1.desingbrabo.model.Cadastro
 import com.projeto1.desingbrabo.api.RetrofitInstance
-import com.projeto1.desingbrabo.model.ForgotPasswordRequest
+import com.projeto1.desingbrabo.model.ValidacaoEmailRequest
 import com.projeto1.desingbrabo.model.GenericResponse
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -130,9 +130,9 @@ class CadastroActivity : AppCompatActivity() {
 
     private fun enviarCodigoVerificacao(email: String) {
         val apiService = RetrofitInstance.api
-        val forgotPasswordRequest = ForgotPasswordRequest(email)
+        val validarEmail = ValidacaoEmailRequest(email)
 
-        apiService.enviar_email_redefinicao(forgotPasswordRequest).enqueue(object : Callback<GenericResponse> {
+        apiService.validar_email(validarEmail).enqueue(object : Callback<GenericResponse> {
             override fun onResponse(call: Call<GenericResponse>, response: Response<GenericResponse>) {
                 if (response.isSuccessful) {
                     Toast.makeText(this@CadastroActivity, "Código de verificação enviado!", Toast.LENGTH_LONG).show()

@@ -9,9 +9,9 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.projeto1.desingbrabo.api.RetrofitInstance
-import com.projeto1.desingbrabo.model.ForgotPasswordRequest
+import com.projeto1.desingbrabo.model.ValidacaoEmailRequest
 import com.projeto1.desingbrabo.model.GenericResponse
-import com.projeto1.desingbrabo.model.ValidarCodigoRequest
+import com.projeto1.desingbrabo.model.ValidarCodigoEmailRequest
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -72,7 +72,7 @@ class VerificacaoEmailActivity : AppCompatActivity() {
             val lastRequest = sharedPreferences.getLong(LAST_REQUEST_TIME, 0)
             val currentTime = Date().time
             if (currentTime - lastRequest >= twoMinutes) { // 2 minutos em milissegundos
-                sendResendRequest(email)
+                enviarEmailValidacao(email)
                 sharedPreferences.edit().putLong(LAST_REQUEST_TIME, currentTime).apply()
                 iniciarContador(reenviar, textContagem, sharedPreferences)
             } else {
@@ -100,8 +100,7 @@ class VerificacaoEmailActivity : AppCompatActivity() {
 
     private fun validarCodigo(email: String, code: String) {
         val apiService = RetrofitInstance.api
-
-        val validarCodigoRequest = ValidarCodigoRequest(email, code)
+        val validarCodigoRequest = ValidarCodigoEmailRequest(email, code)
         val call = apiService.validar_codigo(validarCodigoRequest)
 
         call.enqueue(object : Callback<GenericResponse> {
@@ -113,7 +112,6 @@ class VerificacaoEmailActivity : AppCompatActivity() {
                             val intent = Intent(this@VerificacaoEmailActivity, LoginActivity::class.java)
                             intent.putExtra("email", email)
                             startActivity(intent)
-                            finish()
                         } else {
                             Toast.makeText(this@VerificacaoEmailActivity, it.message, Toast.LENGTH_SHORT).show()
                         }
@@ -123,7 +121,6 @@ class VerificacaoEmailActivity : AppCompatActivity() {
                     Toast.makeText(this@VerificacaoEmailActivity, "Erro ao validar código.", Toast.LENGTH_SHORT).show()
                 }
             }
-
             override fun onFailure(call: Call<GenericResponse>, t: Throwable) {
                 Log.e("ValidarCodigo", "Falha: ${t.message}")
                 Toast.makeText(this@VerificacaoEmailActivity, "Erro de conexão.", Toast.LENGTH_SHORT).show()
@@ -131,15 +128,11 @@ class VerificacaoEmailActivity : AppCompatActivity() {
         })
     }
 
-    private fun sendResendRequest(email: String) {
-        enviarEmailRedefinicaoSenha(email)
-    }
-
-    private fun enviarEmailRedefinicaoSenha(email: String) {
+    private fun enviarEmailValidacao(email: String) {
         val apiService = RetrofitInstance.api
-        val forgotPasswordRequest = ForgotPasswordRequest(email)
+        val enviarEmail = ValidacaoEmailRequest(email)
 
-        apiService.enviar_email_redefinicao(forgotPasswordRequest).enqueue(object : Callback<GenericResponse> {
+        apiService.validar_email(enviarEmail).enqueue(object : Callback<GenericResponse> {
             override fun onResponse(call: Call<GenericResponse>, response: Response<GenericResponse>) {
                 if (response.isSuccessful && response.body()?.success == true) {
                     Toast.makeText(this@VerificacaoEmailActivity, "Email reenviado", Toast.LENGTH_SHORT).show()
@@ -147,7 +140,6 @@ class VerificacaoEmailActivity : AppCompatActivity() {
                     Toast.makeText(this@VerificacaoEmailActivity, "Tente novamente mais tarde.", Toast.LENGTH_SHORT).show()
                 }
             }
-
             override fun onFailure(call: Call<GenericResponse>, t: Throwable) {
                 Toast.makeText(this@VerificacaoEmailActivity, "Erro ao enviar e-mail: ${t.message}", Toast.LENGTH_SHORT).show()
             }
