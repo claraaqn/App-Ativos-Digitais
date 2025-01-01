@@ -9,6 +9,8 @@ import com.projeto1.desingbrabo.model.GenericResponse
 import com.projeto1.desingbrabo.model.PasswordChangeRequest
 import com.projeto1.desingbrabo.model.ResetPasswordRequest
 import com.projeto1.desingbrabo.model.UserProfileResponse
+import com.projeto1.desingbrabo.model.ValidacaoEmailRequest
+import com.projeto1.desingbrabo.model.ValidarCodigoEmailRequest
 import com.projeto1.desingbrabo.model.ValidarCodigoRequest
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -42,9 +44,15 @@ interface ApiService {
     @POST("enviar_email_redefinicao")
     fun enviar_email_redefinicao(@Body forgotPasswordRequest: ForgotPasswordRequest): Call<GenericResponse>
 
-    @POST("validar_codigo")
+    @POST("validar_codigo_redefinir_senha")
     fun validar_codigo(@Body validarCodigo: ValidarCodigoRequest): Call<GenericResponse>
 
     @POST("redefinir_senha")
     fun redefinir_senha(@Body resetPasswordRequest: ResetPasswordRequest): Call<GenericResponse>
+
+    @POST("enviar_email_validação")
+    fun validar_email(@Body validarEmailRequest: ValidacaoEmailRequest): Call<GenericResponse>
+
+    @POST("validar_codigo_validacao_email")
+    fun validar_codigo(@Body validarCodigoEmailRequest: ValidarCodigoEmailRequest): Call<GenericResponse>
 }

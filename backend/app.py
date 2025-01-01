@@ -263,12 +263,11 @@ def enviar_email_redefinicao():
             print(f"Erro ao enviar e-mail: {e}")
             return jsonify({"success": False, "message": "Erro ao enviar o e-mail"}), 500
             
-
     except Exception as e:
         print(f"Erro: {str(e)}")
         return jsonify({"success": False, "message": "Erro ao enviar e-mail"}), 500
 
-@app.route('/validar_codigo', methods=['POST'])
+@app.route('/validar_codigo_redefinir_senha', methods=['POST'])
 def validar_codigo():
     try:
         data = request.get_json()
@@ -335,6 +334,110 @@ def redefinir_senha():
         print(f"Erro: {str(e)}")
         return jsonify({"success": False, "message": "Erro ao validar código"}), 500
 
+@app.route('/enviar_email_validação', methods=['POST'])
+def enviar_email_validacao():
+    try:
+        data = request.get_json()
+        email = data.get('email')
+
+        if not email:
+            return jsonify({"success": False, "message": "E-mail é obrigatório"}), 400
+
+        conn = mysql.connection
+        cursor = conn.cursor()
+        
+        code = random.randint(100000, 999999)
+
+        cursor.execute("SELECT id FROM ad_users WHERE email = %s", (email,))
+        user = cursor.fetchone()
+
+        if not user:
+            return jsonify({"success": False, "message": "Usuário não encontrado"}), 404
+
+        expiration_time = datetime.now(timezone.utc) + timedelta(minutes=2)
+
+        cursor.execute("""
+            UPDATE ad_users
+            SET verificationToken = %s, reset_token_expires = %s
+            WHERE email = %s
+        """, (code, expiration_time, email))
+        conn.commit()
+        
+        subject = "Código de validação de conta"
+        
+        body = f"""
+        <html>
+            <body>
+                <p>Use o seguinte código para validar sua conta:</p>
+                <h2>{code}</h2>
+                <p>Este código é válido por 2 minutos.</p>
+            </body>
+        </html>
+        """
+        
+        msg = Message(subject, recipients=[email])
+        msg.html = body
+        
+        try:
+            mail.send(msg)
+            print("E-mail enviado com sucesso!")
+            print(f"Código para {email}: {code}")
+            return jsonify({"success": True, "message": "E-mail enviado com sucesso"}), 200
+        except Exception as e:
+            print(f"Erro ao enviar e-mail: {e}")
+            return jsonify({"success": False, "message": "Erro ao enviar o e-mail"}), 500
+            
+    except Exception as e:
+        print(f"Erro: {str(e)}")
+        return jsonify({"success": False, "message": "Erro ao enviar e-mail"}), 500
+
+@app.route('/validar_codigo_validacao_email', methods=['POST'])
+def validar_codigo_email():
+    try:
+        data = request.get_json()
+        email = data.get('email')
+        code = data.get('token')
+        
+        if not email or not code:
+            return jsonify({"success": False, "message": "E-mail e código são obrigatórios"}), 400
+
+        conn = mysql.connection
+        cursor = conn.cursor()
+
+        cursor.execute("""
+            SELECT verificationToken, reset_token_expires
+            FROM ad_users
+            WHERE email = %s
+        """, (email,))
+        user = cursor.fetchone()
+
+        if not user:
+            return jsonify({"success": False, "message": "Usuário não encontrado"}), 404
+
+        verification_code, reset_code_expires = user
+        print(f'O verification_code é {verification_code}')
+
+        if verification_code != code:
+            return jsonify({"success": False, "message": "Código inválido"}), 400
+
+        if reset_code_expires.tzinfo is None:
+            reset_code_expires = reset_code_expires.replace(tzinfo=timezone.utc)
+
+        if datetime.now(timezone.utc) > reset_code_expires:
+            return jsonify({"success": False, "message": "Código expirado"}), 400
+        
+        cursor.execute("""
+            UPDATE ad_users
+            SET isVerify = 1
+            WHERE email = %s
+        """, (email,))
+        conn.commit()
+        
+        return jsonify({"success": True, "message": "Código validado com sucesso"}), 200
+
+    except Exception as e:
+        print(f"Erro: {str(e)}")
+        return jsonify({"success": False, "message": "Erro ao validar código"}), 500
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
