@@ -208,7 +208,7 @@
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:layout_marginBottom="16dp"
-        android:background="@drawable/icon_updowload"
+        android:background="@drawable/icon_download"
         android:contentDescription="@string/bot_o_updownload"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/button_colecao"
@@ -221,7 +221,7 @@
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:layout_marginBottom="16dp"
-        android:background="@drawable/icon_minha_colecao"
+        android:background="@drawable/icon_minhacolecao"
         android:contentDescription='@string/bot_o_minha_cole_o'
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
