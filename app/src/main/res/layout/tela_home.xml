@@ -8,7 +8,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#FFFFFF">
+        android:background="#F2F2F2">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -107,12 +107,12 @@
                         android:orientation="vertical"
                         android:padding="8dp">
 
-                        <ImageView
+                        <Button
                             android:id="@+id/category_icon"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:contentDescription="Categoria"
-                            android:src="@drawable/button_comida" />
+                            android:background="@drawable/button_comida" />
 
                         <TextView
                             android:id="@+id/category_name"
@@ -132,12 +132,12 @@
                         android:orientation="vertical"
                         android:padding="8dp">
 
-                        <ImageView
+                        <Button
                             android:id="@+id/presentes"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:contentDescription="Categoria"
-                            android:src="@drawable/button_arte" />
+                            android:background="@drawable/button_arte" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -156,12 +156,12 @@
                         android:orientation="vertical"
                         android:padding="8dp">
 
-                        <ImageView
+                        <Button
                             android:id="@+id/moda"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:contentDescription="Categoria"
-                            android:src="@drawable/button_moda" />
+                            android:background="@drawable/button_moda" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -180,12 +180,12 @@
                         android:orientation="vertical"
                         android:padding="8dp">
 
-                        <ImageView
+                        <Button
                             android:id="@+id/tecnologia"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:contentDescription="Categoria"
-                            android:src="@drawable/button_tecnologia" />
+                            android:background="@drawable/button_tecnologia" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -204,12 +204,12 @@
                         android:orientation="vertical"
                         android:padding="8dp">
 
-                        <ImageView
+                        <Button
                             android:id="@+id/computacao"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:contentDescription="Categoria"
-                            android:src="@drawable/button_computacao" />
+                            android:background="@drawable/button_computacao" />
 
                         <TextView
                             android:layout_width="wrap_content"
