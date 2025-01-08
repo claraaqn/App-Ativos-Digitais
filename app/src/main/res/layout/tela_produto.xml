@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#F2F2F2">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button
+                android:id="@+id/button_voltar"
+                android:layout_width="25dp"
+                android:layout_height="18dp"
+                android:layout_marginStart="28dp"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/voltar_escuro"
+                android:contentDescription="@string/bot_o_voltar"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="TouchTargetSizeCheck" />
+
+            <TextView
+                android:id="@+id/nome_produto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/poppins_semi_bold"
+                android:gravity="center"
+                android:text="@string/nome_do_produto"
+                android:textColor="#010715"
+                android:textSize="20sp"
+                app:layout_constraintStart_toEndOf="@+id/button_voltar"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/button_denuciar"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/icon_denucia"
+                android:contentDescription="@string/bot_o_voltar"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="TouchTargetSizeCheck" />
+
+
+            <ScrollView
+                android:id="@+id/rolar_imagem"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_marginTop="12dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/nome_produto"
+                tools:ignore="SpeakableTextPresentCheck">
+
+                <ImageView
+                    android:id="@+id/produto1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scaleType="centerCrop"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/produto1" />
+            </ScrollView>
+
+            <Button
+                android:id="@+id/button_curtida"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/icon_curtir_vazio"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rolar_imagem"
+                tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/n_curtidas"
+                android:fontFamily="@font/archivo_bold"
+                android:textSize="20sp"
+                android:textColor="#010715"
+                app:layout_constraintStart_toEndOf="@id/button_curtida"
+                android:layout_marginStart="16dp"
+                app:layout_constraintTop_toBottomOf="@+id/rolar_imagem"
+                android:layout_marginTop="12dp"/>
+
+            <Button
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/compartilhar"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rolar_imagem"
+                tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+
+            <ImageView
+                android:id="@+id/foto_perfil"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:src="@drawable/foto_perfil_teste"
+                app:layout_constraintTop_toBottomOf="@id/button_curtida"
+                android:layout_marginTop="10dp"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="18dp"/>
+
+            <TextView
+                android:id="@+id/nome_proprietario_imagem"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="@string/dono_imagem"
+                android:fontFamily="@font/archivo_bold"
+                android:textColor="#010715"
+                android:textSize="18sp"
+                android:textAlignment="textStart"
+                app:layout_constraintTop_toBottomOf="@id/button_curtida"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toEndOf="@id/foto_perfil"
+                android:layout_marginStart="10dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="N Arquivos"
+                android:fontFamily="@font/archivo_regular"
+                android:textColor="#010715"
+                android:textSize="14sp"
+                app:layout_constraintTop_toBottomOf="@+id/nome_proprietario_imagem"
+                android:layout_marginTop="-10dp"
+                app:layout_constraintStart_toEndOf="@id/foto_perfil"
+                android:layout_marginStart="10dp"/>
+
+            <Button
+                android:id="@+id/button_seguir"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/bg_button_seguir"
+                android:drawableEnd="@drawable/ic_plus"
+                android:drawablePadding="8dp"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="Seguir"
+                android:textColor="#010715"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.107"
+                app:layout_constraintStart_toEndOf="@id/nome_proprietario_imagem"
+                app:layout_constraintTop_toBottomOf="@id/button_curtida"
+                tools:ignore="TouchTargetSizeCheck" />
+
+            <TextView
+                android:id="@+id/preco"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Preço:"
+                android:fontFamily="@font/archivo_bold"
+                android:textColor="#010715"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="18dp"
+                app:layout_constraintTop_toBottomOf="@+id/foto_perfil"
+                android:layout_marginTop="14dp"/>
+
+
+
+            <TextView
+                android:id="@+id/formato"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Formatos:"
+                android:fontFamily="@font/archivo_bold"
+                android:textColor="#010715"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="18dp"
+                app:layout_constraintTop_toBottomOf="@+id/preco"
+                android:layout_marginTop="2dp"/>
+
+            <TextView
+                android:id="@+id/cores"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cores:"
+                android:fontFamily="@font/archivo_bold"
+                android:textColor="#010715"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="18dp"
+                app:layout_constraintTop_toBottomOf="@+id/formato"
+                android:layout_marginTop="2dp"/>
+
+            <TextView
+                android:id="@+id/tamanho"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tamanho:"
+                android:fontFamily="@font/archivo_bold"
+                android:textColor="#010715"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="18dp"
+                app:layout_constraintTop_toBottomOf="@+id/cores"
+                android:layout_marginTop="2dp"/>
+
+            <TextView
+                android:id="@+id/data"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Data de Publicação:"
+                android:fontFamily="@font/archivo_bold"
+                android:textColor="#010715"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="18dp"
+                app:layout_constraintTop_toBottomOf="@+id/tamanho"
+                android:layout_marginTop="2dp"/>
+
+            <Button
+                android:id="@+id/button_adicionar_carrinho"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:background="@drawable/bg_button_adicionar_carrinho"
+                android:fontFamily="@font/archivo_bold"
+                android:gravity="bottom"
+                android:padding="12dp"
+                android:text="Adicionar ao Carrinho"
+                android:textColor="#F2F2F2"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.497"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/data"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <ImageView
+                android:id="@+id/fundo_branco"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:src="@drawable/bg"
+                app:layout_constraintTop_toBottomOf="@+id/button_adicionar_carrinho"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:ignore="ContentDescription" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+    <ImageView
+        android:id="@+id/fundo_barra_baixo"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:src="@drawable/bara_baixo"
+        android:layout_gravity="bottom"
+        tools:ignore="ContentDescription" />
+
+    <include
+        android:id="@+id/bottom_navigation"
+        layout="@layout/barra_navegacao"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="10dp"/>
+
+</FrameLayout>
