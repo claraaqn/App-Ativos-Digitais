@@ -127,4 +127,12 @@ CPF: 321.272.078-66
     <string name="nome_do_produto">Nome do produto</string>
     <string name="n_curtidas">N curtidas</string>
     <string name="dono_imagem">Prop.da imagem</string>
+
+    <string-array name="formatos">
+        <item>SELECIONAR FORMATO</item>
+        <item>PNG</item>
+        <item>Opção 2</item>
+        <item>Opção 3</item>
+    </string-array>
+
 </resources>

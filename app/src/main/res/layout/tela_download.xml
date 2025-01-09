@@ -1,0 +1,519 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#F2F2F2">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/button_voltar"
+                android:layout_width="25dp"
+                android:layout_height="18dp"
+                android:layout_marginStart="28dp"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/voltar_escuro"
+                android:contentDescription="@string/bot_o_voltar"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="TouchTargetSizeCheck" />
+
+            <TextView
+                android:id="@+id/nome_produto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/poppins_semi_bold"
+                android:gravity="center"
+                android:text="Meus Produtos"
+                android:textColor="#010715"
+                android:textSize="20sp"
+                app:layout_constraintStart_toEndOf="@+id/button_voltar"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <RelativeLayout
+                android:id="@+id/caixa_produto_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="12dp"
+                android:background="@drawable/bg_produto"
+                android:clipToPadding="false"
+                android:elevation="4dp"
+                android:padding="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.333"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/nome_produto">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/imagem"
+                    android:layout_width="120dp"
+                    android:layout_height="160dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="8dp">
+
+                    <ImageView
+                        android:id="@+id/miniatura_produto"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="fitCenter"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/produto3"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintDimensionRatio="3:4"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <Button
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="-12dp"
+                    android:layout_marginEnd="-8dp"
+                    android:background="@drawable/ic_info"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+
+                <TextView
+                    android:id="@+id/data_aquisicao"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/imagem"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="14dp"
+                    android:layout_toEndOf="@+id/imagem"
+                    android:fontFamily="@font/archivo_regular"
+                    android:text="Adquirido em: 08/01/2025"
+                    android:textColor="#010715"
+                    android:textSize="14sp"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Spinner
+                    android:id="@+id/spinner_formato"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tamanho"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_toEndOf="@+id/imagem"
+                    android:background="@drawable/bg_caixa_selecao"
+                    android:entries="@array/formatos"
+                    android:spinnerMode="dropdown"
+                    android:padding="2dp"
+                    android:textAlignment="viewStart"
+                    tools:ignore="TouchTargetSizeCheck" />
+
+                <TextView
+                    android:id="@+id/tamanho"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/data_aquisicao"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_toEndOf="@+id/imagem"
+                    android:fontFamily="@font/archivo_regular"
+                    android:text="Tamanho:"
+                    android:textColor="#010715"
+                    android:textSize="14sp" />
+
+                <Button
+                    android:id="@+id/botao_download"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/spinner_formato"
+                    android:layout_alignBottom="@+id/imagem"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="4dp"
+                    android:layout_toEndOf="@+id/imagem"
+                    android:background="@drawable/bg_button_preto"
+                    android:fontFamily="@font/archivo_bold"
+                    android:text="FAZER DOWNLOAD"
+                    android:textColor="#FFFFFF"
+                    android:textSize="10sp"
+                    android:padding="0dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    tools:ignore="TouchTargetSizeCheck" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/caixa_produto_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="12dp"
+                android:background="@drawable/bg_produto"
+                android:clipToPadding="false"
+                android:elevation="4dp"
+                android:padding="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.333"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/caixa_produto_1">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/imagem_2"
+                    android:layout_width="120dp"
+                    android:layout_height="160dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="8dp">
+
+                    <ImageView
+                        android:id="@+id/miniatura_produto_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="fitCenter"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/produto1"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintDimensionRatio="3:4"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <Button
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="-12dp"
+                    android:layout_marginEnd="-8dp"
+                    android:background="@drawable/ic_info"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+
+                <TextView
+                    android:id="@+id/data_aquisicao_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/imagem_2"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="14dp"
+                    android:layout_toEndOf="@+id/imagem_2"
+                    android:fontFamily="@font/archivo_regular"
+                    android:text="Adquirido em: 08/01/2025"
+                    android:textColor="#010715"
+                    android:textSize="14sp"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Spinner
+                    android:id="@+id/spinner_formato_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tamanho_2"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_toEndOf="@+id/imagem_2"
+                    android:background="@drawable/bg_caixa_selecao"
+                    android:entries="@array/formatos"
+                    android:spinnerMode="dropdown"
+                    android:padding="2dp"
+                    android:textAlignment="viewStart"
+                    tools:ignore="TouchTargetSizeCheck" />
+
+                <TextView
+                    android:id="@+id/tamanho_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/data_aquisicao_2"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_toEndOf="@+id/imagem_2"
+                    android:fontFamily="@font/archivo_regular"
+                    android:text="Tamanho:"
+                    android:textColor="#010715"
+                    android:textSize="14sp" />
+
+                <Button
+                    android:id="@+id/botao_download_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/spinner_formato_2"
+                    android:layout_alignBottom="@+id/imagem_2"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="4dp"
+                    android:layout_toEndOf="@+id/imagem_2"
+                    android:background="@drawable/bg_button_preto"
+                    android:fontFamily="@font/archivo_bold"
+                    android:text="FAZER DOWNLOAD"
+                    android:textColor="#FFFFFF"
+                    android:textSize="10sp"
+                    android:padding="0dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    tools:ignore="TouchTargetSizeCheck" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/caixa_produto_3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="12dp"
+                android:background="@drawable/bg_produto"
+                android:clipToPadding="false"
+                android:elevation="4dp"
+                android:padding="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.333"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/caixa_produto_2">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/imagem_3"
+                    android:layout_width="120dp"
+                    android:layout_height="160dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="8dp">
+
+                    <ImageView
+                        android:id="@+id/miniatura_produto_3"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="fitCenter"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/produto4"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintDimensionRatio="3:4"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <Button
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="-12dp"
+                    android:layout_marginEnd="-8dp"
+                    android:background="@drawable/ic_info"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+
+                <TextView
+                    android:id="@+id/data_aquisicao_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/imagem_3"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="14dp"
+                    android:layout_toEndOf="@+id/imagem_3"
+                    android:fontFamily="@font/archivo_regular"
+                    android:text="Adquirido em: 08/01/2025"
+                    android:textColor="#010715"
+                    android:textSize="14sp"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Spinner
+                    android:id="@+id/spinner_formato_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tamanho_3"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_toEndOf="@+id/imagem_3"
+                    android:background="@drawable/bg_caixa_selecao"
+                    android:entries="@array/formatos"
+                    android:spinnerMode="dropdown"
+                    android:padding="2dp"
+                    android:textAlignment="viewStart"
+                    tools:ignore="TouchTargetSizeCheck" />
+
+                <TextView
+                    android:id="@+id/tamanho_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/data_aquisicao_3"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_toEndOf="@+id/imagem_3"
+                    android:fontFamily="@font/archivo_regular"
+                    android:text="Tamanho:"
+                    android:textColor="#010715"
+                    android:textSize="14sp" />
+
+                <Button
+                    android:id="@+id/botao_download_3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/spinner_formato_3"
+                    android:layout_alignBottom="@+id/imagem_3"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="4dp"
+                    android:layout_toEndOf="@+id/imagem_3"
+                    android:background="@drawable/bg_button_preto"
+                    android:fontFamily="@font/archivo_bold"
+                    android:text="FAZER DOWNLOAD"
+                    android:textColor="#FFFFFF"
+                    android:textSize="10sp"
+                    android:padding="0dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    tools:ignore="TouchTargetSizeCheck" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/caixa_produto_4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="12dp"
+                android:background="@drawable/bg_produto"
+                android:clipToPadding="false"
+                android:elevation="4dp"
+                android:padding="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.333"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/caixa_produto_3">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/imagem_4"
+                    android:layout_width="120dp"
+                    android:layout_height="160dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="8dp">
+
+                    <ImageView
+                        android:id="@+id/miniatura_produto_4"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="fitCenter"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/produto2"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintDimensionRatio="3:4"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <Button
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="-12dp"
+                    android:layout_marginEnd="-8dp"
+                    android:background="@drawable/ic_info"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+
+                <TextView
+                    android:id="@+id/data_aquisicao_4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/imagem_4"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="14dp"
+                    android:layout_toEndOf="@+id/imagem_4"
+                    android:fontFamily="@font/archivo_regular"
+                    android:text="Adquirido em: 08/01/2025"
+                    android:textColor="#010715"
+                    android:textSize="14sp"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Spinner
+                    android:id="@+id/spinner_formato_4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tamanho_4"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_toEndOf="@+id/imagem_4"
+                    android:background="@drawable/bg_caixa_selecao"
+                    android:entries="@array/formatos"
+                    android:spinnerMode="dropdown"
+                    android:padding="2dp"
+                    android:textAlignment="viewStart"
+                    tools:ignore="TouchTargetSizeCheck" />
+
+                <TextView
+                    android:id="@+id/tamanho_4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/data_aquisicao_4"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_toEndOf="@+id/imagem_4"
+                    android:fontFamily="@font/archivo_regular"
+                    android:text="Tamanho:"
+                    android:textColor="#010715"
+                    android:textSize="14sp" />
+
+                <Button
+                    android:id="@+id/botao_download_4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/spinner_formato_4"
+                    android:layout_alignBottom="@+id/imagem_4"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="4dp"
+                    android:layout_toEndOf="@+id/imagem_4"
+                    android:background="@drawable/bg_button_preto"
+                    android:fontFamily="@font/archivo_bold"
+                    android:text="FAZER DOWNLOAD"
+                    android:textColor="#FFFFFF"
+                    android:textSize="10sp"
+                    android:padding="0dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    tools:ignore="TouchTargetSizeCheck" />
+            </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/fundo_branco"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:src="@drawable/bara_baixo"
+                app:layout_constraintTop_toBottomOf="@+id/caixa_produto_4"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:ignore="ContentDescription" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+    <ImageView
+        android:id="@+id/fundo_barra_baixo"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:src="@drawable/bara_baixo"
+        android:layout_gravity="bottom"
+        tools:ignore="ContentDescription" />
+
+    <include
+        android:id="@+id/bottom_navigation"
+        layout="@layout/barra_navegacao"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="10dp"/>
+
+</FrameLayout>
