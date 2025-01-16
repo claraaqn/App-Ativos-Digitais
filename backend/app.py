@@ -439,6 +439,33 @@ def validar_codigo_email():
         print(f"Erro: {str(e)}")
         return jsonify({"success": False, "message": "Erro ao validar código"}), 500
 
+@app.route('/images', methods=['GET'])
+def get_images():
+    try:
+        conn = mysql.connection
+        cursor = conn.cursor()
+        
+        query = "SELECT id, url, alt_text FROM images WHERE status = 'active' LIMIT 7"
+        
+        cursor.execute(query)
+        images = cursor.fetchall()
+        
+        results = []
+        for row in images:
+            result = {
+                'id': row[0],
+                'url': row[1],
+                'alt_text': row[2]
+            }
+            results.append(result)
+        
+        return jsonify(results), 200
+    except Exception as e:
+        print(f"Erro ao buscar imagens: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+    finally:
+        cursor.close()
+            
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
     

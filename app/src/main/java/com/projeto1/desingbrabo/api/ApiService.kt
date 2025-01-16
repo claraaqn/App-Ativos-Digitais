@@ -12,6 +12,7 @@ import com.projeto1.desingbrabo.model.UserProfileResponse
 import com.projeto1.desingbrabo.model.ValidacaoEmailRequest
 import com.projeto1.desingbrabo.model.ValidarCodigoEmailRequest
 import com.projeto1.desingbrabo.model.ValidarCodigoRequest
+import com.projeto1.desingbrabo.model.Image
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.Body
@@ -55,4 +56,7 @@ interface ApiService {
 
     @POST("validar_codigo_validacao_email")
     fun validar_codigo(@Body validarCodigoEmailRequest: ValidarCodigoEmailRequest): Call<GenericResponse>
+
+    @GET("images")
+    fun getImages(): Call<List<Image>>
 }
