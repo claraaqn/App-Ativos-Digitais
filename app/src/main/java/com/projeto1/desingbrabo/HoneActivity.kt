@@ -33,7 +33,6 @@ class HomeActivity: AppCompatActivity() {
                     recyclerView.adapter = ImageAdapter(images, this@HomeActivity)
                 }
             }
-
             override fun onFailure(call: Call<List<Image>>, t: Throwable) {
                 Toast.makeText(this@HomeActivity, "${t.message}", Toast.LENGTH_LONG).show()
             }

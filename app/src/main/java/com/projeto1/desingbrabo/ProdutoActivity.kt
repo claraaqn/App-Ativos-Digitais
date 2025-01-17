@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -34,8 +35,10 @@ class ProdutoActivity : AppCompatActivity() {
         val buttonMeusProdutos: Button = findViewById(R.id.button_meus_produtos)
         val buttonPerfil: Button = findViewById(R.id.button_perfil)
 
+        val buttonCurtir: ImageButton = findViewById(R.id.button_curtida)
+        val buttonSeguir: Button = findViewById(R.id.button_seguir)
 
-        val imagem: ImageView = findViewById(R.id.produto)
+        val imagem: ImageView = findViewById(R.id.produto1)
         val donoImagem: TextView = findViewById(R.id.nome_proprietario_imagem)
         val nomeProduto: TextView = findViewById(R.id.nome_produto)
         val preco: TextView = findViewById(R.id.valor_preco)
@@ -73,6 +76,31 @@ class ProdutoActivity : AppCompatActivity() {
         buttonVoltar.setOnClickListener{
             finish()
         }
+        var isLiked = false
+
+        buttonCurtir.setOnClickListener {
+            if (isLiked) {
+                buttonCurtir.setImageResource(R.drawable.nolike_icon)
+            } else {
+                buttonCurtir.setImageResource(R.drawable.like_icon)
+            }
+            isLiked = !isLiked
+        }
+
+        var isSeguindo = false
+        buttonSeguir.setOnClickListener {
+            if (isSeguindo) {
+                buttonSeguir.setText("Seguir")
+                buttonSeguir.setBackgroundResource(R.drawable.bg_button_seguir)
+                buttonSeguir.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_plus, 0)
+            } else {
+                buttonSeguir.setText("Seguindo")
+                buttonSeguir.setBackgroundResource(R.drawable.bg_button_seguindo)
+                buttonSeguir.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_check, 0)
+            }
+            isSeguindo = !isSeguindo
+        }
+
         buttonHome.setOnClickListener{
             val intent = Intent(this, HomeActivity::class.java)
             startActivity(intent)
