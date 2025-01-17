@@ -13,6 +13,7 @@ import com.projeto1.desingbrabo.model.ValidacaoEmailRequest
 import com.projeto1.desingbrabo.model.ValidarCodigoEmailRequest
 import com.projeto1.desingbrabo.model.ValidarCodigoRequest
 import com.projeto1.desingbrabo.model.Image
+import com.projeto1.desingbrabo.model.Produto
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.Body
@@ -59,4 +60,7 @@ interface ApiService {
 
     @GET("images")
     fun getImages(): Call<List<Image>>
+
+    @GET("produto/{id}")
+    fun getProduto(@Path("id") id: Int): Call<Produto>
 }

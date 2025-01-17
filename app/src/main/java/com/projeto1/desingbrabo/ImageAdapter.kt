@@ -26,18 +26,14 @@ class ImageAdapter(private val images: List<Image>, private val context: Context
     override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
         val image = images[position]
 
-        // Carregar imagem com Glide
         Glide.with(context)
             .load(image.url)
             .placeholder(R.drawable.placeholder_image)
             .into(holder.imageButton)
 
-        // Configurar clique
         holder.imageButton.setOnClickListener {
             val intent = Intent(context, ProdutoActivity::class.java)
             intent.putExtra("image_id", image.id)
-            intent.putExtra("image_url", image.url)
-            intent.putExtra("image_alt", image.alt_text)
             context.startActivity(intent)
         }
     }

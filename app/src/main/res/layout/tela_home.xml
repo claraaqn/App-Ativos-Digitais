@@ -230,7 +230,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="0dp"
                 android:fontFamily="@font/archivo_bold"
-                android:text="Tendencias"
+                android:text="Tendências"
                 android:textAlignment="center"
                 android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="parent"
