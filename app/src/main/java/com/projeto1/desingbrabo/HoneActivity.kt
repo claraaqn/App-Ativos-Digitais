@@ -20,6 +20,7 @@ class HomeActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.tela_home)
 
+        val buttonMeusProdutos: Button = findViewById(R.id.button_meus_produtos)
         val buttonPerfil: Button = findViewById(R.id.button_perfil)
         val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
 
@@ -40,6 +41,11 @@ class HomeActivity: AppCompatActivity() {
 
         buttonPerfil.setOnClickListener{
             val intent = Intent(this, PerfilActivity::class.java)
+            startActivity(intent)
+        }
+
+        buttonMeusProdutos.setOnClickListener{
+            val intent = Intent(this, DownloadActivity::class.java)
             startActivity(intent)
         }
     }

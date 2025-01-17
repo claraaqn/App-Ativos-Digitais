@@ -42,7 +42,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
-                android:background="@drawable/fundo_buscar"
+                android:background="@drawable/bg_buscar"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:padding="4dp"
@@ -112,7 +112,7 @@
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:contentDescription="Categoria"
-                            android:background="@drawable/button_comida" />
+                            android:background="@drawable/comida_icon" />
 
                         <TextView
                             android:id="@+id/category_name"
@@ -137,7 +137,7 @@
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:contentDescription="Categoria"
-                            android:background="@drawable/button_arte" />
+                            android:background="@drawable/presente_icon" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -161,7 +161,7 @@
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:contentDescription="Categoria"
-                            android:background="@drawable/button_moda" />
+                            android:background="@drawable/moda_icon" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -185,7 +185,7 @@
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:contentDescription="Categoria"
-                            android:background="@drawable/button_tecnologia" />
+                            android:background="@drawable/tecnologia_icon" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -205,18 +205,18 @@
                         android:padding="8dp">
 
                         <Button
-                            android:id="@+id/computacao"
+                            android:id="@+id/mais"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:contentDescription="Categoria"
-                            android:background="@drawable/button_computacao" />
+                            android:background="@drawable/mais_icon" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
                             android:gravity="center"
-                            android:text="Computação"
+                            android:text="Mais"
                             android:textSize="14sp" />
                     </LinearLayout>
 
@@ -240,13 +240,13 @@
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="0dp"
                 android:padding="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/nome_tendencia"
-                tools:listitem="@layout/item_imagem" />
-
+                tools:listitem="@layout/item_imagem"
+                android:layout_marginBottom="30dp"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
@@ -264,6 +264,7 @@
         layout="@layout/barra_navegacao"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom" />
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="10dp"/>
 
 </FrameLayout>

@@ -183,79 +183,20 @@
         android:id="@+id/fundo_barra_baixo"
         android:layout_width="match_parent"
         android:layout_height="64dp"
+        android:layout_gravity="bottom"
         android:src="@drawable/bara_baixo"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        />
-
-    <Button
-        android:id="@+id/button_home"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/icon_home"
-        android:contentDescription="@string/bot_o_home"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.094"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/fundo_barra_baixo"
-        tools:ignore="TouchTargetSizeCheck"/>
-
-    <Button
-        android:id="@+id/button_upload"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/icon_download"
-        android:contentDescription="@string/bot_o_updownload"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button_colecao"
-        app:layout_constraintStart_toEndOf="@+id/button_home"
-        app:layout_constraintTop_toTopOf="@+id/fundo_barra_baixo"
-        tools:ignore="TouchTargetSizeCheck"/>
-
-    <Button
-        android:id="@+id/button_colecao"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/icon_minhacolecao"
-        android:contentDescription='@string/bot_o_minha_cole_o'
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/fundo_barra_baixo"
-        app:layout_constraintVertical_bias="0.5"
-        tools:ignore="TouchTargetSizeCheck" />
+        tools:ignore="ContentDescription" />
 
-    <Button
-        android:id="@+id/button_carrinho"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/icon_carrinho"
-        android:contentDescription="@string/bot_o_meu_carrinho"
+    <include
+        android:id="@+id/bottom_navigation"
+        layout="@layout/barra_navegacao"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button_perfil"
-        app:layout_constraintStart_toEndOf="@+id/button_colecao"
-        app:layout_constraintTop_toTopOf="@+id/fundo_barra_baixo"
-        tools:ignore="TouchTargetSizeCheck"/>
-
-    <Button
-        android:id="@+id/button_perfil"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/icon_perfil"
-        android:contentDescription="@string/bot_o_meu_perfil"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.906"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/fundo_barra_baixo"
-        tools:ignore="TouchTargetSizeCheck"/>
-
+        android:layout_marginBottom="10dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

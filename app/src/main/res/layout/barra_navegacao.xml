@@ -26,7 +26,7 @@
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_marginEnd="16dp"
-                android:background="@drawable/icon_home"
+                android:background="@drawable/home_icon"
                 android:contentDescription="@string/bot_o_home"
                 tools:ignore="TouchTargetSizeCheck" />
         </LinearLayout>
@@ -39,7 +39,7 @@
             android:padding="8dp">
 
             <Button
-                android:id="@+id/button_upload"
+                android:id="@+id/button_meus_produtos"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_marginEnd="16dp"
@@ -56,11 +56,11 @@
             android:padding="8dp">
 
             <Button
-                android:id="@+id/button_colecao"
+                android:id="@+id/button_explorar"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_marginEnd="16dp"
-                android:background="@drawable/icon_minhacolecao"
+                android:background="@drawable/explorar_icon"
                 android:contentDescription="@string/bot_o_minha_cole_o"
                 tools:ignore="TouchTargetSizeCheck" />
         </LinearLayout>
@@ -77,7 +77,7 @@
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_marginEnd="16dp"
-                    android:background="@drawable/icon_carrinho"
+                    android:background="@drawable/carrinho_icon"
                     android:contentDescription="@string/bot_o_meu_carrinho"
                     tools:ignore="TouchTargetSizeCheck" />
         </LinearLayout>
@@ -94,7 +94,7 @@
                 android:id="@+id/button_perfil"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:background="@drawable/icon_perfil"
+                android:background="@drawable/perfil_icon"
                 android:contentDescription="@string/bot_o_meu_perfil"
                 tools:ignore="TouchTargetSizeCheck" />
         </LinearLayout>
