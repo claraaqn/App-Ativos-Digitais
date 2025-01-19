@@ -1,5 +1,5 @@
 from decimal import Decimal
-from MySQLdb import MySQLError
+from MySQLdb import Error, MySQLError
 from flask import Flask, request, jsonify
 from flask_mysqldb import MySQL
 from flask_cors import CORS
@@ -504,7 +504,77 @@ def get_produto(produto_id):
     except Exception as e:
         print(f"Erro geral: {str(e)}")
         return jsonify({"success": False, "message": "Erro interno no servidor"}), 500
+
+@app.route('/search/images', methods=['GET'])
+def search_images():
+    # Pega os parâmetros da query
+    tag = request.args.get('tag', '')
+    isPremium = request.args.get('isPremium', 'false').lower() == 'true'
+    isGratis = request.args.get('isGratis', 'false').lower() == 'true'
+
+    # Inicia a conexão com o banco de dados
+    conn = mysql.connection
+    cursor = conn.cursor()
+
+    # Cria a query SQL
+    query = "SELECT id, url, alt_text FROM images WHERE (caption LIKE %s OR texture LIKE %s OR alt_text LIKE %s OR format LIKE %s)"
+    
+    # Adiciona as condições de premium e grátis à query, se necessário
+    if isPremium and not isGratis:
+        query += " AND license = 'premium'"
+    elif isGratis and not isPremium:
+        query += " AND license = 'free'"
+    
+    # Executa a query no banco
+    cursor.execute(query, ('%' + tag + '%', '%' + tag + '%', '%' + tag + '%', '%' + tag + '%'))
+    
+    # Recupera os resultados
+    results = cursor.fetchall()
+
+    # Cria uma lista para armazenar as imagens encontradas
+    images = []
+    for row in results:
+        images.append({
+            'id': row[0],
+            'url': row[1],
+            'alt_text': row[2]
+        })
+
+    # Fecha a conexão
+    cursor.close()
+
+    # Retorna a resposta como JSON
+    return jsonify(images)
+
+@app.route('/get-images', methods=['GET'])
+def get_todas_images():
+    try: 
+        conn = mysql.connection
+        cursor = conn.cursor()
+        
+        query = "SELECT id, url, alt_text FROM images"
+        
+        cursor.execute(query)
+        images = cursor.fetchall()
+
+        results = []
+        for row in images:
+            result = {
+                'id': row[0],
+                'url': row[1],
+                'alt_text': row[2]
+            }
+            results.append(result)
             
+        return jsonify(results), 200
+    
+    except Exception as e:
+        print(f"Erro ao buscar imagens: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+    finally:
+        cursor.close()
+        
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
     

@@ -14,6 +14,7 @@ import com.projeto1.desingbrabo.model.ValidarCodigoEmailRequest
 import com.projeto1.desingbrabo.model.ValidarCodigoRequest
 import com.projeto1.desingbrabo.model.Image
 import com.projeto1.desingbrabo.model.Produto
+import com.projeto1.desingbrabo.model.SearchResponse
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.Body
@@ -63,4 +64,12 @@ interface ApiService {
 
     @GET("produto/{id}")
     fun getProduto(@Path("id") id: Int): Call<Produto>
+
+    @GET("search/images")
+    fun searchImages(
+        @Query("tag") tag: String?,
+        @Query("isPremium") isPremium: Boolean,
+        @Query("isGratis") isGratis: Boolean
+    ): Call<List<Image>>
+
 }
