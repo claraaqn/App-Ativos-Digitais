@@ -69,7 +69,8 @@ interface ApiService {
     fun searchImages(
         @Query("tag") tag: String?,
         @Query("isPremium") isPremium: Boolean,
-        @Query("isGratis") isGratis: Boolean
+        @Query("isGratis") isGratis: Boolean,
+        @Query("formats") formats: List<String>,
     ): Call<List<Image>>
 
 }

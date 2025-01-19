@@ -3,11 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#F2F2F2">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="#F2F2F2">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -158,7 +159,7 @@
                 android:layout_marginStart="28dp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/bg_filtros"
-                android:drawablePadding="8dp"
+                android:padding="8dp"
                 android:fontFamily="@font/archivo_bold"
                 android:gravity="center"
                 android:text="Vetores"
@@ -175,7 +176,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/bg_filtros"
-                android:drawablePadding="8dp"
+                android:padding="8dp"
                 android:fontFamily="@font/archivo_bold"
                 android:gravity="center"
                 android:text="Fotos"
@@ -192,7 +193,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/bg_filtros"
-                android:drawablePadding="8dp"
+                android:padding="8dp"
                 android:fontFamily="@font/archivo_bold"
                 android:gravity="center"
                 android:text="AI"
@@ -209,7 +210,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/bg_filtros"
-                android:drawablePadding="8dp"
+                android:padding="8dp"
                 android:fontFamily="@font/archivo_bold"
                 android:gravity="center"
                 android:text="3D"
@@ -226,7 +227,7 @@
                 android:layout_marginStart="28dp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/bg_filtros"
-                android:drawablePadding="8dp"
+                android:padding="8dp"
                 android:fontFamily="@font/archivo_bold"
                 android:gravity="center"
                 android:text="Ícones"
@@ -243,7 +244,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/bg_filtros"
-                android:drawablePadding="8dp"
+                android:padding="8dp"
                 android:fontFamily="@font/archivo_bold"
                 android:gravity="center"
                 android:text="Motions"
@@ -260,7 +261,7 @@
                 android:layout_marginStart="28dp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/bg_filtros"
-                android:drawablePadding="8dp"
+                android:padding="8dp"
                 android:fontFamily="@font/archivo_bold"
                 android:gravity="center"
                 android:text="Mockups"
@@ -277,7 +278,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/bg_filtros"
-                android:drawablePadding="8dp"
+                android:padding="8dp"
                 android:fontFamily="@font/archivo_bold"
                 android:gravity="center"
                 android:text="Textura"
@@ -310,7 +311,7 @@
                 android:layout_marginStart="28dp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/bg_filtros"
-                android:drawablePadding="8dp"
+                android:padding="8dp"
                 android:fontFamily="@font/archivo_bold"
                 android:gravity="center"
                 android:text="PSD"
@@ -327,7 +328,7 @@
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/bg_filtros"
-                android:drawablePadding="8dp"
+                android:padding="8dp"
                 android:fontFamily="@font/archivo_bold"
                 android:gravity="center"
                 android:text="PNG"
@@ -344,7 +345,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/bg_filtros"
-                android:drawablePadding="8dp"
+                android:padding="8dp"
                 android:fontFamily="@font/archivo_bold"
                 android:gravity="center"
                 android:text="PDF"
@@ -361,7 +362,7 @@
                 android:layout_marginStart="28dp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/bg_filtros"
-                android:drawablePadding="8dp"
+                android:padding="8dp"
                 android:fontFamily="@font/archivo_bold"
                 android:gravity="center"
                 android:text="SVG"
@@ -378,7 +379,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/bg_filtros"
-                android:drawablePadding="8dp"
+                android:padding="8dp"
                 android:fontFamily="@font/archivo_bold"
                 android:gravity="center"
                 android:text="JPG"
@@ -405,7 +406,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/button_svg" />
 
-            <Button
+            <ImageButton
                 android:id="@+id/button_vermelho"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
@@ -414,11 +415,12 @@
                 android:background="@drawable/btn_vermelho"
                 android:contentDescription="vermelho"
                 android:textColor="#010715"
+                android:gravity="center"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cores"
                 tools:ignore="TouchTargetSizeCheck" />
 
-            <Button
+            <ImageButton
                 android:id="@+id/button_azul"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
@@ -427,11 +429,12 @@
                 android:background="@drawable/btn_azul"
                 android:contentDescription="azul"
                 android:textColor="#010715"
+                android:gravity="center"
                 app:layout_constraintStart_toEndOf="@+id/button_vermelho"
                 app:layout_constraintTop_toBottomOf="@+id/cores"
                 tools:ignore="TouchTargetSizeCheck" />
 
-            <Button
+            <ImageButton
                 android:id="@+id/button_verde"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
@@ -440,11 +443,12 @@
                 android:background="@drawable/btn_verde"
                 android:contentDescription="verde"
                 android:textColor="#010715"
+                android:gravity="center"
                 app:layout_constraintStart_toEndOf="@+id/button_azul"
                 app:layout_constraintTop_toBottomOf="@+id/cores"
                 tools:ignore="TouchTargetSizeCheck" />
 
-            <Button
+            <ImageButton
                 android:id="@+id/button_amarelo"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
@@ -453,11 +457,12 @@
                 android:background="@drawable/btn_amarelo"
                 android:contentDescription="amarelo"
                 android:textColor="#010715"
+                android:gravity="center"
                 app:layout_constraintStart_toEndOf="@+id/button_verde"
                 app:layout_constraintTop_toBottomOf="@+id/cores"
                 tools:ignore="TouchTargetSizeCheck" />
 
-            <Button
+            <ImageButton
                 android:id="@+id/button_roxo"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
@@ -466,11 +471,12 @@
                 android:background="@drawable/btn_roxo"
                 android:contentDescription="roxo"
                 android:textColor="#010715"
+                android:gravity="center"
                 app:layout_constraintStart_toEndOf="@+id/button_amarelo"
                 app:layout_constraintTop_toBottomOf="@+id/cores"
                 tools:ignore="TouchTargetSizeCheck" />
 
-            <Button
+            <ImageButton
                 android:id="@+id/button_rosa"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
@@ -479,11 +485,12 @@
                 android:background="@drawable/btn_rosa"
                 android:contentDescription="rosa"
                 android:textColor="#010715"
+                android:gravity="center"
                 app:layout_constraintStart_toEndOf="@+id/button_roxo"
                 app:layout_constraintTop_toBottomOf="@+id/cores"
                 tools:ignore="TouchTargetSizeCheck" />
 
-            <Button
+            <ImageButton
                 android:id="@+id/button_laranja"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
@@ -492,11 +499,12 @@
                 android:background="@drawable/btn_laranja"
                 android:contentDescription="laranja"
                 android:textColor="#010715"
+                android:gravity="center"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/button_vermelho"
                 tools:ignore="TouchTargetSizeCheck" />
 
-            <Button
+            <ImageButton
                 android:id="@+id/button_marrom"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
@@ -505,11 +513,12 @@
                 android:background="@drawable/btn_marrom"
                 android:contentDescription="marrom"
                 android:textColor="#010715"
+                android:gravity="center"
                 app:layout_constraintStart_toEndOf="@+id/button_laranja"
                 app:layout_constraintTop_toBottomOf="@+id/button_vermelho"
                 tools:ignore="TouchTargetSizeCheck" />
 
-            <Button
+            <ImageButton
                 android:id="@+id/button_cinza"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
@@ -518,11 +527,12 @@
                 android:background="@drawable/btn_cinza"
                 android:contentDescription="cinza"
                 android:textColor="#010715"
+                android:gravity="center"
                 app:layout_constraintStart_toEndOf="@+id/button_marrom"
                 app:layout_constraintTop_toBottomOf="@+id/button_vermelho"
                 tools:ignore="TouchTargetSizeCheck" />
 
-            <Button
+            <ImageButton
                 android:id="@+id/button_branco"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
@@ -531,11 +541,12 @@
                 android:background="@drawable/btn_branco"
                 android:contentDescription="branco"
                 android:textColor="#010715"
+                android:gravity="center"
                 app:layout_constraintStart_toEndOf="@+id/button_cinza"
                 app:layout_constraintTop_toBottomOf="@+id/button_vermelho"
                 tools:ignore="TouchTargetSizeCheck" />
 
-            <Button
+            <ImageButton
                 android:id="@+id/button_preto"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
@@ -544,6 +555,7 @@
                 android:background="@drawable/btn_preto"
                 android:contentDescription="preto"
                 android:textColor="#010715"
+                android:gravity="center"
                 app:layout_constraintStart_toEndOf="@+id/button_branco"
                 app:layout_constraintTop_toBottomOf="@+id/button_vermelho"
                 tools:ignore="TouchTargetSizeCheck" />
@@ -569,13 +581,23 @@
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="20dp"
                 android:padding="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/button_laranja"
                 tools:listitem="@layout/item_imagem" />
+
+            <ImageView
+                android:id="@+id/fundo_branco"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:src="@drawable/bg"
+                app:layout_constraintTop_toBottomOf="@+id/recyclerView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:ignore="ContentDescription" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
