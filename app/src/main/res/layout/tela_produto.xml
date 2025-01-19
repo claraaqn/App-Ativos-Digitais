@@ -52,33 +52,38 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="TouchTargetSizeCheck" />
 
-
-            <ScrollView
+            <androidx.cardview.widget.CardView
                 android:id="@+id/rolar_imagem"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/nome_produto"
-                tools:ignore="SpeakableTextPresentCheck">
+                app:cardCornerRadius="25dp"
+                app:cardBackgroundColor="#00000000"
+                android:outlineSpotShadowColor="#00000000"
+                android:outlineAmbientShadowColor="#00000000"
+                android:layout_margin="6dp">
 
                 <ImageView
                     android:id="@+id/produto1"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:scaleType="centerCrop"
+                    android:layout_height="match_parent"
                     android:adjustViewBounds="true"
-                    android:src="@drawable/produto1" />
-            </ScrollView>
+                    android:layout_margin="4dp"
+                    android:background="#00000000"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/produto4"/>
+            </androidx.cardview.widget.CardView>
 
-            <Button
+            <ImageButton
                 android:id="@+id/button_curtida"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/icon_curtir_vazio"
+                android:layout_marginStart="28dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/nolike_icon"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/rolar_imagem"
                 tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
@@ -86,14 +91,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/n_curtidas"
+                android:layout_marginStart="8dp"
                 android:fontFamily="@font/archivo_bold"
-                android:textSize="20sp"
+                android:text="@string/n_curtidas"
                 android:textColor="#010715"
+                android:textSize="20sp"
                 app:layout_constraintStart_toEndOf="@id/button_curtida"
-                android:layout_marginStart="16dp"
-                app:layout_constraintTop_toBottomOf="@+id/rolar_imagem"
-                android:layout_marginTop="12dp"/>
+                app:layout_constraintTop_toBottomOf="@+id/rolar_imagem" />
 
             <Button
                 android:layout_width="25dp"
@@ -130,22 +134,23 @@
                 android:layout_marginStart="10dp"/>
 
             <TextView
+                android:id="@+id/textView8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="N Arquivos"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="-10dp"
                 android:fontFamily="@font/archivo_regular"
+                android:text="N Arquivos"
                 android:textColor="#010715"
                 android:textSize="14sp"
-                app:layout_constraintTop_toBottomOf="@+id/nome_proprietario_imagem"
-                android:layout_marginTop="-10dp"
                 app:layout_constraintStart_toEndOf="@id/foto_perfil"
-                android:layout_marginStart="10dp"/>
+                app:layout_constraintTop_toBottomOf="@+id/nome_proprietario_imagem" />
 
             <Button
                 android:id="@+id/button_seguir"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="24dp"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/bg_button_seguir"
                 android:drawableEnd="@drawable/ic_plus"
@@ -156,8 +161,6 @@
                 android:textColor="#010715"
                 android:textSize="12sp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.107"
                 app:layout_constraintStart_toEndOf="@id/nome_proprietario_imagem"
                 app:layout_constraintTop_toBottomOf="@id/button_curtida"
                 tools:ignore="TouchTargetSizeCheck" />
@@ -175,7 +178,18 @@
                 app:layout_constraintTop_toBottomOf="@+id/foto_perfil"
                 android:layout_marginTop="14dp"/>
 
-
+            <TextView
+                android:id="@+id/valor_preco"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/archivo_regular"
+                android:text="R$31,65"
+                android:textColor="#010715"
+                android:textSize="18sp"
+                android:layout_marginStart="5dp"
+                app:layout_constraintBottom_toBottomOf="@+id/preco"
+                app:layout_constraintStart_toEndOf="@+id/preco"
+                app:layout_constraintTop_toTopOf="@+id/preco" />
 
             <TextView
                 android:id="@+id/formato"
@@ -189,6 +203,21 @@
                 android:layout_marginStart="18dp"
                 app:layout_constraintTop_toBottomOf="@+id/preco"
                 android:layout_marginTop="2dp"/>
+
+            <TextView
+                android:id="@+id/valor_formato"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:fontFamily="@font/archivo_regular"
+                android:text="PNG, PDF"
+                android:textColor="#010715"
+                android:textSize="18sp"
+                android:layout_marginStart="5dp"
+                app:layout_constraintBottom_toBottomOf="@+id/formato"
+                app:layout_constraintStart_toEndOf="@+id/formato"
+                app:layout_constraintTop_toTopOf="@+id/formato"
+                app:layout_constraintVertical_bias="0.25" />
 
             <TextView
                 android:id="@+id/cores"
@@ -217,6 +246,19 @@
                 android:layout_marginTop="2dp"/>
 
             <TextView
+                android:id="@+id/valor_tamanho"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/archivo_regular"
+                android:text="00MB"
+                android:layout_marginStart="5dp"
+                android:textColor="#010715"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tamanho"
+                app:layout_constraintStart_toEndOf="@+id/tamanho"
+                app:layout_constraintTop_toTopOf="@+id/tamanho" />
+
+            <TextView
                 android:id="@+id/data"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -228,6 +270,21 @@
                 android:layout_marginStart="18dp"
                 app:layout_constraintTop_toBottomOf="@+id/tamanho"
                 android:layout_marginTop="2dp"/>
+
+            <TextView
+                android:id="@+id/valor_data"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/archivo_regular"
+                android:text="00/00/0000"
+                android:textColor="#010715"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@+id/data"
+                app:layout_constraintStart_toEndOf="@+id/data"
+                app:layout_constraintTop_toTopOf="@+id/data"
+                app:layout_constraintVertical_bias="1.0" />
 
             <Button
                 android:id="@+id/button_adicionar_carrinho"

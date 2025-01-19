@@ -1,3 +1,5 @@
+from decimal import Decimal
+from MySQLdb import Error, MySQLError
 from flask import Flask, request, jsonify
 from flask_mysqldb import MySQL
 from flask_cors import CORS
@@ -438,6 +440,125 @@ def validar_codigo_email():
     except Exception as e:
         print(f"Erro: {str(e)}")
         return jsonify({"success": False, "message": "Erro ao validar código"}), 500
+
+@app.route('/images', methods=['GET'])
+def get_images():
+    try:
+        conn = mysql.connection
+        cursor = conn.cursor()
+        
+        query = "SELECT id, url, alt_text FROM images WHERE status = 'active' LIMIT 7"
+        
+        cursor.execute(query)
+        images = cursor.fetchall()
+        
+        results = []
+        for row in images:
+            result = {
+                'id': row[0],
+                'url': row[1],
+                'alt_text': row[2]
+            }
+            results.append(result)
+        
+        return jsonify(results), 200
+    except Exception as e:
+        print(f"Erro ao buscar imagens: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+    finally:
+        cursor.close()
+        
+@app.route("/produto/<int:produto_id>")
+def get_produto(produto_id):
+    try:
+        conn = mysql.connection
+        cursor = conn.cursor()
+
+        query = """
+        SELECT caption, price, format, upload_date, url, uploaded_by, size 
+        FROM images WHERE id = %s
+        """
+        cursor.execute(query, (produto_id,))
+        produto = cursor.fetchone()
+        
+        dados_produto = {
+            'id': produto_id,
+                'nome': produto[0],
+                'preco': str(Decimal(produto[1])),
+                'formatos': produto[2],
+                'dataPublicacao': produto[3].strftime("%d-%m-%Y") if produto[3] else None,
+                'url': produto[4],
+                'dono': produto[5],
+                'tamanho': str(produto[6])
+        }
+        
+        print(dados_produto)
+        if produto:
+            return jsonify(dados_produto), 200
+        else:
+            return jsonify({'message': 'Produto não encontrado'}), 404
+
+    except MySQLError as e:
+        print(f"Erro de MySQL: {str(e)}")
+        return jsonify({"success": False, "message": "Erro no banco de dados"}), 500
+    except Exception as e:
+        print(f"Erro geral: {str(e)}")
+        return jsonify({"success": False, "message": "Erro interno no servidor"}), 500
+
+@app.route('/search/images', methods=['GET'])
+def search_images():
+    # Pega os parâmetros da query
+    tag = request.args.get('tag', '')
+    isPremium = request.args.get('isPremium', 'false').lower() == 'true'
+    isGratis = request.args.get('isGratis', 'false').lower() == 'true'
+    formats = request.args.getlist('formats')  
+
+    # Inicia a conexão com o banco de dados
+    conn = mysql.connection
+    cursor = conn.cursor()
+
+    # Cria a base da query SQL
+    query = """
+        SELECT id, url, alt_text 
+        FROM images 
+        WHERE (caption LIKE %s OR texture LIKE %s OR alt_text LIKE %s)
+    """
+    params = ['%' + tag + '%'] * 3
+
+    # Adiciona condições de premium e grátis à query, se necessário
+    if isPremium and not isGratis:
+        query += " AND license = 'premium'"
+    elif isGratis and not isPremium:
+        query += " AND license = 'free'"
+
+    # Adiciona a condição de formatos à query, se necessário
+    if formats:
+        placeholders_formats = ', '.join(['%s'] * len(formats))
+        query += f" AND (format IN ({placeholders_formats}) OR type IN ({placeholders_formats}))"
+        params.extend(formats)
+        params.extend(formats)
+
+    # Executa a query no banco
+    cursor.execute(query, params)
+
+    # Recupera os resultados
+    results = cursor.fetchall()
+
+    # Cria uma lista para armazenar as imagens encontradas
+    images = []
+    for row in results:
+        images.append({
+            'id': row[0],
+            'url': row[1],
+            'alt_text': row[2]
+        })
+
+    # Fecha a conexão
+    cursor.close()
+
+    # Retorna a resposta como JSON
+    return jsonify(images)
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)

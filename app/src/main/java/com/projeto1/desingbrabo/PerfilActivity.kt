@@ -23,8 +23,8 @@ class PerfilActivity : AppCompatActivity() {
     private lateinit var sairButton: Button
 
     private lateinit var buttonHome: Button
-    private lateinit var buttonUpload: Button
-    private lateinit var buttonColecao: Button
+    private lateinit var buttonMeusProdutos: Button
+    private lateinit var buttonExplorar: Button
     private lateinit var buttonCarrinho: Button
     private lateinit var buttonPerfil: Button
 
@@ -47,8 +47,8 @@ class PerfilActivity : AppCompatActivity() {
         sairButton = findViewById(R.id.button_sair)
 
         buttonHome = findViewById(R.id.button_home)
-        buttonUpload = findViewById(R.id.button_upload)
-        buttonColecao = findViewById(R.id.button_colecao)
+        buttonMeusProdutos = findViewById(R.id.button_meus_produtos)
+        buttonExplorar = findViewById(R.id.button_explorar)
         buttonCarrinho = findViewById(R.id.button_carrinho)
         buttonPerfil = findViewById(R.id.button_perfil)
 
@@ -78,9 +78,19 @@ class PerfilActivity : AppCompatActivity() {
             val intent = Intent(this, ConfiguracoesActivity::class.java)
             startActivity(intent)
         }
+
+        // barra de navegaçãp
+        buttonHome.setOnClickListener{
+            val intent = Intent(this, HomeActivity::class.java)
+            startActivity(intent)
+        }
+
+        buttonMeusProdutos.setOnClickListener{
+            val intent = Intent(this, DownloadActivity::class.java)
+            startActivity(intent)
+        }
     }
 
-    // Carrega os dados do perfil a partir de SharedPreferences
     private fun carregarDadosPerfil(sharedPreferences: SharedPreferences) {
         val nomeUsuario = sharedPreferences.getString("user_name", "Nome não encontrado")
         val emailUsuario = sharedPreferences.getString("user_email", "Email não encontrado")
@@ -89,12 +99,11 @@ class PerfilActivity : AppCompatActivity() {
         emailUsuarioTextView.text = emailUsuario
     }
 
-    // Sobrescreve o método onActivityResult para recarregar os dados após edição
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 1 && resultCode == RESULT_OK) {
             val sharedPreferences = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
-            carregarDadosPerfil(sharedPreferences)  // Recarrega os dados após edição
+            carregarDadosPerfil(sharedPreferences)
         }
     }
 }

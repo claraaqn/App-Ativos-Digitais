@@ -1,0 +1,621 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F2F2F2">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#F2F2F2">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/nome_produto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/poppins_semi_bold"
+                android:gravity="center"
+                android:text="Explorar"
+                android:textColor="#010715"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:background="@drawable/bg_buscar"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="4dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/nome_produto">
+
+                <EditText
+                    android:id="@+id/search_input"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:hint="Procure designs..."
+                    android:inputType="text"
+                    android:padding="8dp"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+
+                <Button
+                    android:id="@+id/search_button"
+                    android:layout_width="60dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="8dp"
+                    android:background="@drawable/botao_buscar"
+                    android:contentDescription="Buscar"
+                    tools:ignore="TouchTargetSizeCheck" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/button_filtros"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:background="@android:color/transparent"
+                android:drawableStart="@drawable/seta_baixo_icon"
+                android:drawablePadding="6dp"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="Filtros"
+                android:textColor="#010715"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+                tools:ignore="TouchTargetSizeCheck" />
+
+            <TextView
+                android:id="@+id/licenca"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="28dp"
+                android:layout_marginTop="4dp"
+                android:background="@android:color/transparent"
+                android:drawablePadding="8dp"
+                android:fontFamily="@font/archivo_bold"
+                android:gravity="center"
+                android:text="Licença"
+                android:textColor="#010715"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/button_filtros" />
+
+            <Button
+                android:id="@+id/button_premium"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_marginStart="28dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_filtros"
+                android:padding="8dp"
+                android:fontFamily="@font/archivo_bold"
+                android:gravity="center"
+                android:text="Premium"
+                android:textColor="#010715"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/licenca"
+                tools:ignore="TouchTargetSizeCheck" />
+
+
+            <Button
+                android:id="@+id/button_gratis"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_filtros"
+                android:fontFamily="@font/archivo_bold"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="Grátis"
+                android:textColor="#010715"
+                android:textSize="12sp"
+                app:layout_constraintStart_toEndOf="@+id/button_premium"
+                app:layout_constraintTop_toBottomOf="@+id/licenca"
+                tools:ignore="TouchTargetSizeCheck" />
+
+            <TextView
+                android:id="@+id/Tipos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="28dp"
+                android:layout_marginTop="8dp"
+                android:background="@android:color/transparent"
+                android:drawablePadding="8dp"
+                android:fontFamily="@font/archivo_bold"
+                android:gravity="center"
+                android:text="Tipos"
+                android:textColor="#010715"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/button_premium" />
+
+            <Button
+                android:id="@+id/button_vetores"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_marginStart="28dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_filtros"
+                android:padding="8dp"
+                android:fontFamily="@font/archivo_bold"
+                android:gravity="center"
+                android:text="Vetores"
+                android:textColor="#010715"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/Tipos"
+                tools:ignore="TouchTargetSizeCheck" />
+
+            <Button
+                android:id="@+id/button_fotos"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_filtros"
+                android:padding="8dp"
+                android:fontFamily="@font/archivo_bold"
+                android:gravity="center"
+                android:text="Fotos"
+                android:textColor="#010715"
+                android:textSize="12sp"
+                app:layout_constraintStart_toEndOf="@+id/button_vetores"
+                app:layout_constraintTop_toBottomOf="@+id/Tipos"
+                tools:ignore="TouchTargetSizeCheck" />
+
+            <Button
+                android:id="@+id/button_ai"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_filtros"
+                android:padding="8dp"
+                android:fontFamily="@font/archivo_bold"
+                android:gravity="center"
+                android:text="AI"
+                android:textColor="#010715"
+                android:textSize="12sp"
+                app:layout_constraintStart_toEndOf="@+id/button_fotos"
+                app:layout_constraintTop_toBottomOf="@+id/Tipos"
+                tools:ignore="TouchTargetSizeCheck" />
+
+            <Button
+                android:id="@+id/button_3d"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_filtros"
+                android:padding="8dp"
+                android:fontFamily="@font/archivo_bold"
+                android:gravity="center"
+                android:text="3D"
+                android:textColor="#010715"
+                android:textSize="12sp"
+                app:layout_constraintStart_toEndOf="@+id/button_icones"
+                app:layout_constraintTop_toBottomOf="@+id/button_vetores"
+                tools:ignore="TouchTargetSizeCheck" />
+
+            <Button
+                android:id="@+id/button_icones"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_marginStart="28dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_filtros"
+                android:padding="8dp"
+                android:fontFamily="@font/archivo_bold"
+                android:gravity="center"
+                android:text="Ícones"
+                android:textColor="#010715"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/button_vetores"
+                tools:ignore="TouchTargetSizeCheck" />
+
+            <Button
+                android:id="@+id/button_motions"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_filtros"
+                android:padding="8dp"
+                android:fontFamily="@font/archivo_bold"
+                android:gravity="center"
+                android:text="Motions"
+                android:textColor="#010715"
+                android:textSize="12sp"
+                app:layout_constraintStart_toEndOf="@+id/button_3d"
+                app:layout_constraintTop_toBottomOf="@+id/button_vetores"
+                tools:ignore="TouchTargetSizeCheck" />
+
+            <Button
+                android:id="@+id/button_mockups"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_marginStart="28dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_filtros"
+                android:padding="8dp"
+                android:fontFamily="@font/archivo_bold"
+                android:gravity="center"
+                android:text="Mockups"
+                android:textColor="#010715"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/button_icones"
+                tools:ignore="TouchTargetSizeCheck" />
+
+            <Button
+                android:id="@+id/button_textura"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_filtros"
+                android:padding="8dp"
+                android:fontFamily="@font/archivo_bold"
+                android:gravity="center"
+                android:text="Textura"
+                android:textColor="#010715"
+                android:textSize="12sp"
+                app:layout_constraintStart_toEndOf="@+id/button_mockups"
+                app:layout_constraintTop_toBottomOf="@+id/button_icones"
+                tools:ignore="TouchTargetSizeCheck" />
+
+            <TextView
+                android:id="@+id/formatos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="28dp"
+                android:layout_marginTop="8dp"
+                android:background="@android:color/transparent"
+                android:drawablePadding="8dp"
+                android:fontFamily="@font/archivo_bold"
+                android:gravity="center"
+                android:text="Formatos"
+                android:textColor="#010715"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/button_mockups" />
+
+            <Button
+                android:id="@+id/button_psd"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_marginStart="28dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_filtros"
+                android:padding="8dp"
+                android:fontFamily="@font/archivo_bold"
+                android:gravity="center"
+                android:text="PSD"
+                android:textColor="#010715"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/formatos"
+                tools:ignore="TouchTargetSizeCheck" />
+
+            <Button
+                android:id="@+id/button_png"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_filtros"
+                android:padding="8dp"
+                android:fontFamily="@font/archivo_bold"
+                android:gravity="center"
+                android:text="PNG"
+                android:textColor="#010715"
+                android:textSize="12sp"
+                app:layout_constraintStart_toEndOf="@+id/button_pdf"
+                app:layout_constraintTop_toBottomOf="@+id/formatos"
+                tools:ignore="TouchTargetSizeCheck" />
+
+            <Button
+                android:id="@+id/button_pdf"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_filtros"
+                android:padding="8dp"
+                android:fontFamily="@font/archivo_bold"
+                android:gravity="center"
+                android:text="PDF"
+                android:textColor="#010715"
+                android:textSize="12sp"
+                app:layout_constraintStart_toEndOf="@+id/button_psd"
+                app:layout_constraintTop_toBottomOf="@+id/formatos"
+                tools:ignore="TouchTargetSizeCheck" />
+
+            <Button
+                android:id="@+id/button_svg"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_marginStart="28dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_filtros"
+                android:padding="8dp"
+                android:fontFamily="@font/archivo_bold"
+                android:gravity="center"
+                android:text="SVG"
+                android:textColor="#010715"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/button_psd"
+                tools:ignore="TouchTargetSizeCheck" />
+
+            <Button
+                android:id="@+id/button_jpg"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_filtros"
+                android:padding="8dp"
+                android:fontFamily="@font/archivo_bold"
+                android:gravity="center"
+                android:text="JPG"
+                android:textColor="#010715"
+                android:textSize="12sp"
+                app:layout_constraintStart_toEndOf="@+id/button_svg"
+                app:layout_constraintTop_toBottomOf="@+id/button_psd"
+                tools:ignore="TouchTargetSizeCheck" />
+
+
+            <TextView
+                android:id="@+id/cores"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="28dp"
+                android:layout_marginTop="8dp"
+                android:background="@android:color/transparent"
+                android:drawablePadding="8dp"
+                android:fontFamily="@font/archivo_bold"
+                android:gravity="center"
+                android:text="Cores"
+                android:textColor="#010715"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/button_svg" />
+
+            <ImageButton
+                android:id="@+id/button_vermelho"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginStart="28dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/btn_vermelho"
+                android:contentDescription="vermelho"
+                android:textColor="#010715"
+                android:gravity="center"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cores"
+                tools:ignore="TouchTargetSizeCheck" />
+
+            <ImageButton
+                android:id="@+id/button_azul"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/btn_azul"
+                android:contentDescription="azul"
+                android:textColor="#010715"
+                android:gravity="center"
+                app:layout_constraintStart_toEndOf="@+id/button_vermelho"
+                app:layout_constraintTop_toBottomOf="@+id/cores"
+                tools:ignore="TouchTargetSizeCheck" />
+
+            <ImageButton
+                android:id="@+id/button_verde"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/btn_verde"
+                android:contentDescription="verde"
+                android:textColor="#010715"
+                android:gravity="center"
+                app:layout_constraintStart_toEndOf="@+id/button_azul"
+                app:layout_constraintTop_toBottomOf="@+id/cores"
+                tools:ignore="TouchTargetSizeCheck" />
+
+            <ImageButton
+                android:id="@+id/button_amarelo"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/btn_amarelo"
+                android:contentDescription="amarelo"
+                android:textColor="#010715"
+                android:gravity="center"
+                app:layout_constraintStart_toEndOf="@+id/button_verde"
+                app:layout_constraintTop_toBottomOf="@+id/cores"
+                tools:ignore="TouchTargetSizeCheck" />
+
+            <ImageButton
+                android:id="@+id/button_roxo"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/btn_roxo"
+                android:contentDescription="roxo"
+                android:textColor="#010715"
+                android:gravity="center"
+                app:layout_constraintStart_toEndOf="@+id/button_amarelo"
+                app:layout_constraintTop_toBottomOf="@+id/cores"
+                tools:ignore="TouchTargetSizeCheck" />
+
+            <ImageButton
+                android:id="@+id/button_rosa"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/btn_rosa"
+                android:contentDescription="rosa"
+                android:textColor="#010715"
+                android:gravity="center"
+                app:layout_constraintStart_toEndOf="@+id/button_roxo"
+                app:layout_constraintTop_toBottomOf="@+id/cores"
+                tools:ignore="TouchTargetSizeCheck" />
+
+            <ImageButton
+                android:id="@+id/button_laranja"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginStart="28dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/btn_laranja"
+                android:contentDescription="laranja"
+                android:textColor="#010715"
+                android:gravity="center"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/button_vermelho"
+                tools:ignore="TouchTargetSizeCheck" />
+
+            <ImageButton
+                android:id="@+id/button_marrom"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/btn_marrom"
+                android:contentDescription="marrom"
+                android:textColor="#010715"
+                android:gravity="center"
+                app:layout_constraintStart_toEndOf="@+id/button_laranja"
+                app:layout_constraintTop_toBottomOf="@+id/button_vermelho"
+                tools:ignore="TouchTargetSizeCheck" />
+
+            <ImageButton
+                android:id="@+id/button_cinza"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/btn_cinza"
+                android:contentDescription="cinza"
+                android:textColor="#010715"
+                android:gravity="center"
+                app:layout_constraintStart_toEndOf="@+id/button_marrom"
+                app:layout_constraintTop_toBottomOf="@+id/button_vermelho"
+                tools:ignore="TouchTargetSizeCheck" />
+
+            <ImageButton
+                android:id="@+id/button_branco"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/btn_branco"
+                android:contentDescription="branco"
+                android:textColor="#010715"
+                android:gravity="center"
+                app:layout_constraintStart_toEndOf="@+id/button_cinza"
+                app:layout_constraintTop_toBottomOf="@+id/button_vermelho"
+                tools:ignore="TouchTargetSizeCheck" />
+
+            <ImageButton
+                android:id="@+id/button_preto"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/btn_preto"
+                android:contentDescription="preto"
+                android:textColor="#010715"
+                android:gravity="center"
+                app:layout_constraintStart_toEndOf="@+id/button_branco"
+                app:layout_constraintTop_toBottomOf="@+id/button_vermelho"
+                tools:ignore="TouchTargetSizeCheck" />
+
+            <TextView
+                android:id="@+id/aviso"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@android:color/transparent"
+                android:drawablePadding="8dp"
+                android:fontFamily="@font/archivo_bold"
+                android:gravity="center"
+                android:text="Procure por uma imagem"
+                android:textColor="#010715"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.497"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/button_laranja" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="20dp"
+                android:padding="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/button_laranja"
+                tools:listitem="@layout/item_imagem" />
+
+            <ImageView
+                android:id="@+id/fundo_branco"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:src="@drawable/bg"
+                app:layout_constraintTop_toBottomOf="@+id/recyclerView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:ignore="ContentDescription" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+    <ImageView
+        android:id="@+id/fundo_barra_baixo"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:src="@drawable/bara_baixo"
+        android:layout_gravity="bottom"
+        tools:ignore="ContentDescription" />
+
+    <include
+        android:id="@+id/bottom_navigation"
+        layout="@layout/barra_navegacao"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="10dp"/>
+
+</FrameLayout>

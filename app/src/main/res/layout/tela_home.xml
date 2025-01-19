@@ -42,7 +42,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
-                android:background="@drawable/fundo_buscar"
+                android:background="@drawable/bg_buscar"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:padding="4dp"
@@ -112,7 +112,7 @@
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:contentDescription="Categoria"
-                            android:background="@drawable/button_comida" />
+                            android:background="@drawable/comida_icon" />
 
                         <TextView
                             android:id="@+id/category_name"
@@ -137,7 +137,7 @@
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:contentDescription="Categoria"
-                            android:background="@drawable/button_arte" />
+                            android:background="@drawable/presente_icon" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -161,7 +161,7 @@
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:contentDescription="Categoria"
-                            android:background="@drawable/button_moda" />
+                            android:background="@drawable/moda_icon" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -185,7 +185,7 @@
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:contentDescription="Categoria"
-                            android:background="@drawable/button_tecnologia" />
+                            android:background="@drawable/tecnologia_icon" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -205,18 +205,18 @@
                         android:padding="8dp">
 
                         <Button
-                            android:id="@+id/computacao"
+                            android:id="@+id/mais"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:contentDescription="Categoria"
-                            android:background="@drawable/button_computacao" />
+                            android:background="@drawable/mais_icon" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
                             android:gravity="center"
-                            android:text="Computação"
+                            android:text="Mais"
                             android:textSize="14sp" />
                     </LinearLayout>
 
@@ -230,55 +230,22 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="0dp"
                 android:fontFamily="@font/archivo_bold"
-                android:text="Tendencia"
+                android:text="Tendências"
                 android:textAlignment="center"
                 android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/rolar_categorias" />
 
-            <ImageView
-                android:id="@+id/produto1"
-                android:layout_width="238dp"
-                android:layout_height="383dp"
-                android:layout_marginTop="20dp"
-                android:src="@drawable/produto1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/nome_tendencia" />
-
-            <ImageView
-                android:id="@+id/produto2"
-                android:layout_width="238dp"
-                android:layout_height="383dp"
-                android:src="@drawable/produto2"
-                android:layout_marginTop="20dp"
-                app:layout_constraintTop_toBottomOf="@+id/produto1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"/>
-
-            <ImageView
-                android:id="@+id/produto3"
-                android:layout_width="238dp"
-                android:layout_height="410dp"
-                android:src="@drawable/produto3"
-                android:layout_marginTop="20dp"
-                app:layout_constraintTop_toBottomOf="@+id/produto2"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"/>
-
-            <ImageView
-                android:id="@+id/fundo_branco"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="10dp"
-                android:src="@drawable/bara_baixo"
-                app:layout_constraintTop_toBottomOf="@+id/produto3"
+                android:layout_height="match_parent"
+                android:layout_marginTop="0dp"
+                android:padding="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                tools:ignore="ContentDescription" />
-
+                app:layout_constraintTop_toBottomOf="@+id/nome_tendencia"
+                tools:listitem="@layout/item_imagem"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
@@ -295,6 +262,7 @@
         layout="@layout/barra_navegacao"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom" />
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="10dp"/>
 
 </FrameLayout>
