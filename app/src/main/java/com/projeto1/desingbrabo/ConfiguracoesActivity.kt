@@ -74,26 +74,26 @@ class ConfiguracoesActivity : AppCompatActivity() {
 
         switchTemaEscuro.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
-                switchTemaEscuro.thumbDrawable = getDrawable(R.drawable.track)
-                switchTemaEscuro.trackDrawable = getDrawable(R.drawable.fundo_switch_ativado)
+                switchTemaEscuro.thumbDrawable = getDrawable(R.drawable.icon_track)
+                switchTemaEscuro.trackDrawable = getDrawable(R.drawable.bg_switch_ativado)
             } else {
-                switchTemaEscuro.thumbDrawable = getDrawable(R.drawable.track)
-                switchTemaEscuro.trackDrawable = getDrawable(R.drawable.fundo_switch_desativadp)
+                switchTemaEscuro.thumbDrawable = getDrawable(R.drawable.icon_track)
+                switchTemaEscuro.trackDrawable = getDrawable(R.drawable.bg_switch_desativado)
             }
         }
 
         switchAcessoCamera.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
-                switchAcessoCamera.thumbDrawable = getDrawable(R.drawable.track)
-                switchAcessoCamera.trackDrawable = getDrawable(R.drawable.fundo_switch_ativado)
+                switchAcessoCamera.thumbDrawable = getDrawable(R.drawable.icon_track)
+                switchAcessoCamera.trackDrawable = getDrawable(R.drawable.bg_switch_ativado)
                 if (ContextCompat.checkSelfPermission(this,Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), REQUEST_CODE_CAMERA)
                 } else {
                     Toast.makeText(this, "Acesso à câmera já está habilitado", Toast.LENGTH_SHORT).show()
                 }
             } else {
-                switchAcessoCamera.thumbDrawable = getDrawable(R.drawable.track)
-                switchAcessoCamera.trackDrawable = getDrawable(R.drawable.fundo_switch_desativadp)
+                switchAcessoCamera.thumbDrawable = getDrawable(R.drawable.icon_track)
+                switchAcessoCamera.trackDrawable = getDrawable(R.drawable.bg_switch_desativado)
                 Toast.makeText(this, "Acesso à câmera desativado", Toast.LENGTH_SHORT).show()
 
             }
@@ -101,8 +101,8 @@ class ConfiguracoesActivity : AppCompatActivity() {
 
         switchAcessoArmazenamento.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
-                switchAcessoArmazenamento.thumbDrawable = getDrawable(R.drawable.track)
-                switchAcessoArmazenamento.trackDrawable = getDrawable(R.drawable.fundo_switch_ativado)
+                switchAcessoArmazenamento.thumbDrawable = getDrawable(R.drawable.icon_track)
+                switchAcessoArmazenamento.trackDrawable = getDrawable(R.drawable.bg_switch_ativado)
                 if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_IMAGES)
                     != PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_MEDIA_IMAGES), REQUEST_CODE_CAMERA)
@@ -111,16 +111,16 @@ class ConfiguracoesActivity : AppCompatActivity() {
                 }
             } else {
                 Toast.makeText(this, "Acesso ao armazenamento desativado", Toast.LENGTH_SHORT).show()
-                switchAcessoArmazenamento.thumbDrawable = getDrawable(R.drawable.track)
-                switchAcessoArmazenamento.trackDrawable = getDrawable(R.drawable.fundo_switch_desativadp)
+                switchAcessoArmazenamento.thumbDrawable = getDrawable(R.drawable.icon_track)
+                switchAcessoArmazenamento.trackDrawable = getDrawable(R.drawable.bg_switch_desativado)
             }
         }
 
         switchPermitirNotificacoes.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {
-                    switchPermitirNotificacoes.thumbDrawable = getDrawable(R.drawable.track)
+                    switchPermitirNotificacoes.thumbDrawable = getDrawable(R.drawable.icon_track)
                     switchPermitirNotificacoes.trackDrawable =
-                        getDrawable(R.drawable.fundo_switch_ativado)
+                        getDrawable(R.drawable.bg_switch_ativado)
                     if (ContextCompat.checkSelfPermission(
                             this,
                             Manifest.permission.POST_NOTIFICATIONS
@@ -140,9 +140,9 @@ class ConfiguracoesActivity : AppCompatActivity() {
                     }
                 } else {
                     Toast.makeText(this, "Notificações desativadas", Toast.LENGTH_SHORT).show()
-                    switchPermitirNotificacoes.thumbDrawable = getDrawable(R.drawable.track)
+                    switchPermitirNotificacoes.thumbDrawable = getDrawable(R.drawable.icon_track)
                     switchPermitirNotificacoes.trackDrawable =
-                        getDrawable(R.drawable.fundo_switch_desativadp)
+                        getDrawable(R.drawable.bg_switch_desativado)
                 }
             }
 
@@ -167,6 +167,7 @@ class ConfiguracoesActivity : AppCompatActivity() {
                 .show()
         }
     }
+
     private fun excluirConta(userId: Int) {
         val apiService = RetrofitInstance.api
         val call = apiService.delete_user(userId)

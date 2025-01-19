@@ -13,7 +13,6 @@ import com.projeto1.desingbrabo.model.Perfil
 
 class PerfilActivity : AppCompatActivity() {
 
-    private lateinit var voltarButton: Button
     private lateinit var nomeUsuarioTextView: TextView
     private lateinit var emailUsuarioTextView: TextView
     private lateinit var fotoPerfilImageView: ImageView
@@ -36,9 +35,8 @@ class PerfilActivity : AppCompatActivity() {
 
         val sharedPreferences = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
 
-        voltarButton = findViewById(R.id.button_voltar)
         nomeUsuarioTextView = findViewById(R.id.nome_usuario)
-        emailUsuarioTextView = findViewById(R.id.email_cliente)
+        emailUsuarioTextView = findViewById(R.id.email_perfil)
         fotoPerfilImageView = findViewById(R.id.foto_perfil)
 
         minhaAssinaturaButton = findViewById(R.id.button_minha_assinatura)
@@ -67,10 +65,6 @@ class PerfilActivity : AppCompatActivity() {
             val intent = Intent(this, LoginActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
-            finish()
-        }
-
-        voltarButton.setOnClickListener {
             finish()
         }
 

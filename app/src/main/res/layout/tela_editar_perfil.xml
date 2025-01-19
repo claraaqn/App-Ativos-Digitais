@@ -9,32 +9,57 @@
     tools:layout_editor_absoluteY="0dp"
     >
 
-    <include
-        layout="@layout/toolbar"
-        android:id="@+id/toolbar" />
 
     <TextView
         android:id="@+id/perfil"
-        android:layout_width="158dp"
-        android:layout_height="27dp"
-        android:layout_marginTop="24dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:fontFamily="@font/poppins_semi_bold"
         android:gravity="center"
         android:text="@string/editar_perfil"
-        android:textColor="#FFFFFF"
+        android:textColor="#010715"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <androidx.cardview.widget.CardView
+        android:id="@+id/capa_perdil"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="0dp"
+        android:layout_marginTop="8dp"
+        android:outlineAmbientShadowColor="#00000000"
+        android:outlineSpotShadowColor="#00000000"
+        app:cardBackgroundColor="#00000000"
+        app:cardCornerRadius="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/perfil">
+
+        <ImageView
+            android:id="@+id/produto1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="0dp"
+            android:layout_marginTop="8dp"
+            android:adjustViewBounds="true"
+            android:background="#00000000"
+            android:scaleType="fitCenter"
+            android:src="@drawable/produto4" />
+
+    </androidx.cardview.widget.CardView>
+
+
     <Button
         android:id="@+id/button_voltar"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="33dp"
+        android:layout_height="33dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="28dp"
-        android:background="@drawable/icon_voltar"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/icon_seta_volar_preta"
         android:contentDescription="@string/bot_o_voltar"
         android:fontFamily="@font/archivo_bold"
         android:textColor="@android:color/white"
@@ -42,49 +67,51 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="TouchTargetSizeCheck" />
 
-
-    <ImageView
-        android:id="@+id/foto_perfil"
-        android:layout_width="178dp"
-        android:layout_height="178dp"
-        android:layout_marginTop="112dp"
-        android:src="@drawable/foto_perfil_teste"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <Button
-        android:id="@+id/fundo_botao_editar_foto"
+        android:id="@+id/ediatr_foto"
         android:layout_width="138dp"
         android:layout_height="30dp"
-        android:layout_marginTop="24dp"
-        android:background="@drawable/fundo_premium"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/bg_button_preto"
         android:fontFamily="@font/poppins_bold"
         android:text="@string/editar_foto"
         android:textColor="#FFFFFF"
         android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/foto_perfil"
+        tools:ignore="TouchTargetSizeCheck" />
+
+    <Button
+        android:id="@+id/editar_capa"
+        android:layout_width="138dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/bg_button_preto"
+        android:fontFamily="@font/poppins_bold"
+        android:text="Editar capa"
+        android:textColor="#FFFFFF"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/capa_perdil"
         tools:ignore="TouchTargetSizeCheck" />
 
     <EditText
         android:id="@+id/edit_nome"
         android:layout_width="300dp"
         android:layout_height="48dp"
-        android:layout_marginTop="388dp"
-        android:background="@drawable/contorno_edit_text"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/bg_edittext"
         android:fontFamily="@font/poppins_semi_bold"
         android:hint="@string/nome_teste"
         android:inputType="text"
         android:paddingStart="16dp"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ediatr_foto"
         tools:ignore="RtlSymmetry" />
 
     <EditText
@@ -92,7 +119,7 @@
         android:layout_width="300dp"
         android:layout_height="48dp"
         android:layout_marginTop="16dp"
-        android:background="@drawable/contorno_edit_text"
+        android:background="@drawable/bg_edittext"
         android:fontFamily="@font/poppins_semi_bold"
         android:hint="@string/telefone_text"
         android:inputType="phone"
@@ -105,11 +132,28 @@
         tools:ignore="RtlSymmetry" />
 
     <EditText
+        android:id="@+id/edit_text_descricao"
+        android:layout_width="300dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/bg_edittext"
+        android:fontFamily="@font/poppins_semi_bold"
+        android:hint="Sua Descrição"
+        android:inputType="text"
+        android:paddingStart="16dp"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.50"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_text_telefone"
+        tools:ignore="RtlSymmetry" />
+
+    <EditText
         android:id="@+id/edit_text_email"
         android:layout_width="300dp"
         android:layout_height="48dp"
         android:layout_marginTop="16dp"
-        android:background="@drawable/contorno_edit_text"
+        android:background="@drawable/bg_edittext"
         android:fontFamily="@font/poppins_semi_bold"
         android:hint="@string/email_teste"
         android:inputType="textEmailAddress"
@@ -125,14 +169,25 @@
         android:id="@+id/salvar_button"
         android:layout_width="130dp"
         android:layout_height="48dp"
-        android:layout_marginTop="80dp"
-        android:background="@drawable/fundo_botao_ver"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/bg_button_verde"
         android:fontFamily="@font/poppins_extra_bold"
         android:text="@string/salvar"
         android:textColor="#010715"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_text_telefone" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_text_descricao" />
+
+    <ImageView
+        android:id="@+id/foto_perfil"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:elevation="8dp"
+        android:src="@drawable/foto_perfil_teste"
+        android:layout_marginTop="40dp"
+        android:layout_marginStart="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/perfil" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

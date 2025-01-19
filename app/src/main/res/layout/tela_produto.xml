@@ -16,11 +16,11 @@
 
             <Button
                 android:id="@+id/button_voltar"
-                android:layout_width="25dp"
-                android:layout_height="18dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:layout_marginStart="28dp"
-                android:layout_marginTop="24dp"
-                android:background="@drawable/voltar_escuro"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/icon_seta_volar_preta"
                 android:contentDescription="@string/bot_o_voltar"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

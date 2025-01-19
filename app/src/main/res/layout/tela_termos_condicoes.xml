@@ -6,19 +6,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#F2F2F2">
 
-    <include
-        layout="@layout/toolbar"
-        android:id="@+id/toolbar" />
 
     <TextView
         android:id="@+id/termos_condicoes"
         android:layout_width="wrap_content"
-        android:layout_height="27dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:fontFamily="@font/poppins_semi_bold"
         android:gravity="center"
         android:text="@string/termos_e_condicoes"
-        android:textColor="#FFFFFF"
+        android:textColor="#010715"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
@@ -27,11 +24,11 @@
 
     <Button
         android:id="@+id/button_voltar"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="33dp"
+        android:layout_height="33dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="28dp"
-        android:background="@drawable/icon_voltar"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/icon_seta_volar_preta"
         android:contentDescription="@string/bot_o_voltar"
         android:fontFamily="@font/archivo_bold"
         android:textColor="@android:color/white"
@@ -78,8 +75,8 @@
         android:layout_marginStart="16dp"
         android:checked="true"
         android:minHeight="48dp"
-        android:thumb="@drawable/track"
-        android:track="@drawable/fundo_switch_ativado"
+        android:thumb="@drawable/icon_track"
+        android:track="@drawable/bg_switch_ativado"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/fundo_barra_baixo"

@@ -18,7 +18,7 @@
                 android:id="@+id/logo"
                 android:layout_width="193dp"
                 android:layout_height="45dp"
-                android:layout_marginTop="36dp"
+                android:layout_marginTop="24dp"
                 android:src="@drawable/logo"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -33,63 +33,30 @@
                 android:text="Turbine seus projetos de design"
                 android:textAlignment="center"
                 android:textSize="20sp"
+                android:textColor="#010715"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/logo" />
 
-            <LinearLayout
-                android:id="@+id/linearLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="20dp"
-                android:background="@drawable/bg_buscar"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:padding="4dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView5">
-
-                <EditText
-                    android:id="@+id/search_input"
-                    android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:layout_weight="1"
-                    android:background="@null"
-                    android:hint="Procure designs..."
-                    android:inputType="text"
-                    android:padding="8dp"
-                    android:textColor="@color/black"
-                    android:textSize="14sp" />
-
-                <Button
-                    android:id="@+id/search_button"
-                    android:layout_width="60dp"
-                    android:layout_height="40dp"
-                    android:layout_marginStart="8dp"
-                    android:background="@drawable/botao_buscar"
-                    android:contentDescription="Buscar"
-                    tools:ignore="TouchTargetSizeCheck" />
-            </LinearLayout>
 
             <TextView
                 android:id="@+id/nome_categoria"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="12dp"
                 android:fontFamily="@font/archivo_bold"
                 android:text="Categorias"
                 android:textAlignment="center"
                 android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+                app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
             <HorizontalScrollView
                 android:id="@+id/rolar_categorias"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
+                android:layout_marginTop="0dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/nome_categoria"
                 android:scrollbars="none">
@@ -246,6 +213,16 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/nome_tendencia"
                 tools:listitem="@layout/item_imagem"/>
+
+            <ImageView
+                android:id="@+id/fundo_branco"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:src="@drawable/bg"
+                app:layout_constraintTop_toBottomOf="@+id/recyclerView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:ignore="ContentDescription" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 

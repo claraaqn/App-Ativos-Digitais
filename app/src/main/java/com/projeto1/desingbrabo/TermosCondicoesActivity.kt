@@ -30,8 +30,8 @@ class TermosCondicoesActivity : AppCompatActivity() {
                 // O usuário aceitou os termos, então podemos habilitar a confirmação
             } else {
                 // discutir o que acontece se desmarcar os termos e condições
-                termosSwitch.thumbDrawable = getDrawable(R.drawable.track)
-                termosSwitch.trackDrawable = getDrawable(R.drawable.fundo_switch_desativadp)
+                termosSwitch.thumbDrawable = getDrawable(R.drawable.icon_track_verde)
+                termosSwitch.trackDrawable = getDrawable(R.drawable.bg_switch_desativado)
             }
         }
     }
