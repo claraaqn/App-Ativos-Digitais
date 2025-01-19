@@ -10,16 +10,13 @@
     tools:layout_editor_absoluteY="0dp"
     >
 
-    <include
-        layout="@layout/toolbar"
-        android:id="@+id/toolbar" />
 
     <Button
         android:id="@+id/button_sair"
         android:layout_width="195dp"
         android:layout_height="48dp"
         android:layout_marginTop="24dp"
-        android:background="@drawable/fundo_botao_vermelho"
+        android:background="@drawable/bg_button_vermelho"
         android:fontFamily="@font/poppins_extra_bold"
         android:text="@string/sair"
         android:textColor="@android:color/white"
@@ -28,125 +25,122 @@
         app:layout_constraintTop_toBottomOf="@+id/button_configuracoes"
         tools:ignore="MissingConstraints" />
 
-    <Button
-        android:id="@+id/button_voltar"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="28dp"
-        android:background="@drawable/icon_voltar"
-        android:contentDescription="@string/bot_o_voltar"
-        android:fontFamily="@font/archivo_bold"
-        android:textColor="@android:color/white"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="TouchTargetSizeCheck" />
 
-    <TextView
-        android:id="@+id/perfil"
-        android:layout_width="158dp"
-        android:layout_height="27dp"
-        android:layout_marginTop="24dp"
-        android:fontFamily="@font/poppins_semi_bold"
-        android:gravity="center"
-        android:text="@string/perfil"
-        android:textColor="#FFFFFF"
-        android:textSize="20sp"
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/capa_perdil"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="0dp"
+        android:outlineAmbientShadowColor="#00000000"
+        android:outlineSpotShadowColor="#00000000"
+        app:cardBackgroundColor="#00000000"
+        app:cardCornerRadius="0dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/produto1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="0dp"
+            android:adjustViewBounds="true"
+            android:background="#00000000"
+            android:scaleType="fitCenter"
+            android:src="@drawable/produto4" />
+    </androidx.cardview.widget.CardView>
 
     <ImageView
         android:id="@+id/foto_perfil"
-        android:layout_width="178dp"
-        android:layout_height="178dp"
-        android:layout_marginTop="48dp"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginStart="10dp"
         android:src="@drawable/foto_perfil_teste"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        android:elevation="8dp"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/perfil" />
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/fundo_plano"
-        android:layout_width="138dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="20dp"
-        android:src="@drawable/fundo_premium"
+    <Button
+        android:layout_width="123dp"
+        android:layout_height="31dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/bg_button_preto"
+        android:drawableStart="@drawable/icon_track_verde"
+        android:fontFamily="@font/archivo_bold"
+        android:textAlignment="textStart"
+        android:drawablePadding="10dp"
+        android:padding="4dp"
+        android:text="@string/premium"
+        android:textColor="#48DBBB"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/foto_perfil" />
-
-    <ImageView
-        android:id="@+id/simbolo_premimu"
-        android:layout_width="20dp"
-        android:layout_height="19dp"
-        android:src="@drawable/botao_premium"
-        app:layout_constraintBottom_toBottomOf="@+id/fundo_plano"
-        app:layout_constraintEnd_toStartOf="@+id/nome_plano"
-        app:layout_constraintHorizontal_bias="0.533"
-        app:layout_constraintStart_toStartOf="@+id/fundo_plano"
-        app:layout_constraintTop_toTopOf="@+id/fundo_plano"
-        app:layout_constraintVertical_bias="0.636" />
+        app:layout_constraintTop_toBottomOf="@+id/capa_perdil" />
 
     <TextView
         android:id="@+id/nome_usuario"
         android:layout_width="wrap_content"
         android:layout_height="27dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:fontFamily="@font/poppins_bold"
         android:gravity="center"
         android:text="@string/ademir_brabo"
         android:textColor="#344859"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.059"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fundo_plano" />
+        app:layout_constraintTop_toBottomOf="@+id/foto_perfil" />
 
     <TextView
-        android:id="@+id/nome_plano"
+        android:id="@+id/email_perfil"
         android:layout_width="wrap_content"
-        android:layout_height="19dp"
-        android:fontFamily="@font/poppins_extra_bold"
-        android:text="@string/premium"
-        android:textColor="#48DBBB"
-        app:layout_constraintBottom_toBottomOf="@+id/fundo_plano"
-        app:layout_constraintEnd_toEndOf="@+id/fundo_plano"
-        app:layout_constraintHorizontal_bias="0.8"
-        app:layout_constraintStart_toStartOf="@+id/fundo_plano"
-        app:layout_constraintTop_toTopOf="@+id/fundo_plano" />
-
-    <TextView
-        android:id="@+id/email_cliente"
-        android:layout_width="280dp"
-        android:layout_height="27dp"
-        android:layout_marginTop="8dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
         android:fontFamily="@font/poppins_medium"
         android:gravity="center"
         android:text="@string/ademiroemo_gmail_com"
         android:textColor="#344859"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintHorizontal_bias="0.07"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nome_usuario"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/descricao_perfil"
+        android:layout_width="387dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="17dp"
+        android:layout_marginEnd="17dp"
+        android:fontFamily="@font/poppins_regular"
+        android:text="@string/descricao"
+        android:textAlignment="viewStart"
+        android:textColor="#344859"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.07"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/email_perfil"
         tools:ignore="MissingConstraints" />
 
     <Button
         android:id="@+id/button_minha_assinatura"
         android:layout_width="320dp"
         android:layout_height="48dp"
-        android:layout_marginTop="456dp"
-        android:background="@drawable/fundo_botao"
+        android:layout_marginTop="48dp"
+        android:background="@drawable/bg_button_preto"
         android:fontFamily="@font/archivo_bold"
         android:text="@string/minha_assinatura"
         android:textColor="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/descricao_perfil"
         tools:ignore="MissingConstraints" />
 
     <Button
@@ -154,7 +148,7 @@
         android:layout_width="320dp"
         android:layout_height="48dp"
         android:layout_marginTop="24dp"
-        android:background="@drawable/fundo_botao"
+        android:background="@drawable/bg_button_preto"
         android:fontFamily="@font/archivo_bold"
         android:text="@string/editar_perfil"
         android:textColor="@android:color/white"
@@ -169,7 +163,7 @@
         android:layout_width="320dp"
         android:layout_height="48dp"
         android:layout_marginTop="24dp"
-        android:background="@drawable/fundo_botao"
+        android:background="@drawable/bg_button_preto"
         android:fontFamily="@font/archivo_bold"
         android:text="@string/configura_es"
         android:textColor="@android:color/white"

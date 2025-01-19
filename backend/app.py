@@ -7,7 +7,6 @@ import bcrypt
 from dotenv import load_dotenv
 import os
 from datetime import datetime, timedelta, timezone
-import secrets
 from flask_mail import Message, Mail
 import boto3
 import random
@@ -96,11 +95,19 @@ def login_usuario():
         conn = mysql.connection
         cursor = conn.cursor()
 
-        cursor.execute("SELECT id, userName, password, userPhone FROM ad_users WHERE email = %s", (email,))
+        cursor.execute("""
+            SELECT id, userName, password, userPhone, isVerified 
+            FROM ad_users 
+            WHERE email = %s
+        """, (email,))
         result = cursor.fetchone()
 
         if result:
-            user_id, userName, hashed_password, telefone = result
+            user_id, userName, hashed_password, telefone, isVerified = result
+            
+            if not isVerified:
+                return jsonify({"success": False, "message": "Usuário não verificado"}), 403
+
             if bcrypt.checkpw(senha.encode('utf-8'), hashed_password.encode('utf-8')):
                 return jsonify({
                     "success": True,
@@ -109,10 +116,11 @@ def login_usuario():
                     "nome": userName,
                     "email": email,
                     "phone": telefone
-                }), 200 
-            return jsonify({"success": True, "message": "Login realizado com sucesso"}), 200
-        else:
+                }), 200
+
             return jsonify({"success": False, "message": "E-mail ou senha inválidos"}), 401
+
+        return jsonify({"success": False, "message": "E-mail ou senha inválidos"}), 401
 
     except Exception as e:
         print(f"Erro: {str(e)}")
@@ -304,7 +312,14 @@ def validar_codigo():
         if datetime.now(timezone.utc) > reset_code_expires:
             return jsonify({"success": False, "message": "Código expirado"}), 400
 
-        return jsonify({"success": True, "message": "Código validado com sucesso"}), 200
+        cursor.execute("""
+            UPDATE ad_users
+            SET isVerified = 1
+            WHERE email = %s
+        """, (email,))
+        conn.commit()
+
+        return jsonify({"success": True, "message": "Código validado com sucesso e usuário verificado"}), 200
 
     except Exception as e:
         print(f"Erro: {str(e)}")
@@ -319,6 +334,8 @@ def redefinir_senha():
         
         if not email or not nova_senha:
             return jsonify({"success": False, "message": "E-mail e nova senha são obrigatórios"}), 400
+        
+        hashed_password = bcrypt.hashpw(nova_senha.encode('utf-8'), bcrypt.gensalt())
 
         conn = mysql.connection
         cursor = conn.cursor()
@@ -327,7 +344,7 @@ def redefinir_senha():
             UPDATE ad_users
             SET password = %s
             WHERE email = %s
-        """, (nova_senha, email))
+        """, (hashed_password, email))
         conn.commit()
 
         return jsonify({"success": True, "message": "Senha atualizada com sucesso!"}), 200

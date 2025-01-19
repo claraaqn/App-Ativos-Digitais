@@ -14,30 +14,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <Button
-                android:id="@+id/button_voltar"
-                android:layout_width="25dp"
-                android:layout_height="18dp"
-                android:layout_marginStart="28dp"
-                android:layout_marginTop="24dp"
-                android:background="@drawable/voltar_escuro"
-                android:contentDescription="@string/bot_o_voltar"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="TouchTargetSizeCheck" />
 
             <TextView
                 android:id="@+id/nome_produto"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="16dp"
                 android:fontFamily="@font/poppins_semi_bold"
                 android:gravity="center"
                 android:text="Meus Produtos"
                 android:textColor="#010715"
                 android:textSize="20sp"
-                app:layout_constraintStart_toEndOf="@+id/button_voltar"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.395"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <RelativeLayout
