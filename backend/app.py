@@ -492,21 +492,35 @@ def get_produto(produto_id):
         cursor = conn.cursor()
 
         query = """
-        SELECT caption, price, format, upload_date, url, uploaded_by, size 
-        FROM images WHERE id = %s
-        """
+                SELECT 
+                    i.caption, 
+                    i.price, 
+                    i.format, 
+                    i.upload_date, 
+                    i.url, 
+                    i.uploaded_by, 
+                    i.size, 
+                    GROUP_CONCAT(ic.name) AS colors
+                FROM images i
+                LEFT JOIN image_colors ic ON i.id = ic.image_id
+                WHERE i.id = %s
+                GROUP BY i.id
+            """
+
         cursor.execute(query, (produto_id,))
         produto = cursor.fetchone()
         
+        
         dados_produto = {
             'id': produto_id,
-                'nome': produto[0],
-                'preco': str(Decimal(produto[1])),
-                'formatos': produto[2],
-                'dataPublicacao': produto[3].strftime("%d-%m-%Y") if produto[3] else None,
-                'url': produto[4],
-                'dono': produto[5],
-                'tamanho': str(produto[6])
+            'nome': produto[0],
+            'preco': str(Decimal(produto[1])),
+            'formatos': produto[2],
+            'dataPublicacao': produto[3].strftime("%d-%m-%Y") if produto[3] else None,                
+            'url': produto[4],
+            'dono': produto[5],
+            'tamanho': str(produto[6]),
+            'cores': produto[7].split(",") if produto[7] else []
         }
         
         print(dados_produto)
@@ -579,4 +593,3 @@ def search_images():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
-    

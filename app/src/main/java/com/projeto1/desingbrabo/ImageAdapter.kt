@@ -40,15 +40,13 @@ class ImageAdapter(private var images: List<Image>, private val context: Context
 
     override fun getItemCount(): Int = images.size
 
-    // Método para atualizar a lista de imagens
     fun updateImages(newImages: List<Image>) {
         images = newImages
-        notifyDataSetChanged()  // Atualiza a lista no RecyclerView
+        notifyDataSetChanged()
     }
 
-    // Método para limpar a lista
     fun clearImages() {
-        images = emptyList()  // Limpa a lista
-        notifyDataSetChanged()  // Atualiza o RecyclerView
+        images = emptyList()
+        notifyDataSetChanged()
     }
 }
