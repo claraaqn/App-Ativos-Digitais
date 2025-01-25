@@ -62,26 +62,27 @@ class ExplorarActivity : AppCompatActivity() {
     private var isPreto = false
     private var isBranco = false
 
-    private val tiposSelecionados = mutableListOf<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.tela_explorar)
+
+        val categoriaSelecionada = intent.getStringExtra("categoria")
+        if (categoriaSelecionada != null) {
+            carregarImagensPorCategoria(categoriaSelecionada)
+        }
 
         searchInput = findViewById(R.id.search_input)
         recyclerView = findViewById(R.id.recyclerView)
         val searchButton = findViewById<Button>(R.id.search_button)
         aviso = findViewById(R.id.aviso)
 
-        // Botão para expandir/retrair filtros
         val buttonFiltros = findViewById<Button>(R.id.button_filtros)
 
-        // Elementos de Licença
         val licenca = findViewById<TextView>(R.id.licenca)
         val buttonPremium = findViewById<Button>(R.id.button_premium)
         val buttonGratis = findViewById<Button>(R.id.button_gratis)
 
-        // Elementos de Tipos
         val tipos = findViewById<TextView>(R.id.Tipos)
         val buttonVetores = findViewById<Button>(R.id.button_vetores)
         val buttonFotos = findViewById<Button>(R.id.button_fotos)
@@ -92,7 +93,6 @@ class ExplorarActivity : AppCompatActivity() {
         val buttonMockups = findViewById<Button>(R.id.button_mockups)
         val buttonTextura = findViewById<Button>(R.id.button_textura)
 
-        // Elementos de Formatos
         val formatos = findViewById<TextView>(R.id.formatos)
         val buttonJPG = findViewById<Button>(R.id.button_jpg)
         val buttonPNG = findViewById<Button>(R.id.button_png)
@@ -100,7 +100,6 @@ class ExplorarActivity : AppCompatActivity() {
         val buttonPSD = findViewById<Button>(R.id.button_psd)
         val buttonPDF = findViewById<Button>(R.id.button_pdf)
 
-        // Elementos de Cores
         val cores = findViewById<TextView>(R.id.cores)
         val buttonVermelho = findViewById<ImageButton>(R.id.button_vermelho)
         val buttonAzul = findViewById<ImageButton>(R.id.button_azul)
@@ -310,7 +309,6 @@ class ExplorarActivity : AppCompatActivity() {
         }
     }
 
-    // Função para atualizar o estado visual dos botões
     private fun updateButtonState(button: Button, isSelected: Boolean) {
         if (isSelected) {
             button.setTextColor(Color.parseColor("#FFFFFF"))
@@ -350,7 +348,6 @@ class ExplorarActivity : AppCompatActivity() {
         return formats
     }
 
-    // Função para realizar a busca
     private fun searchImages(tag: String, formats: List<String>) {
         val call = RetrofitInstance.api.searchImages(tag, isPremium, isGratis, formats)
         call.enqueue(object : Callback<List<Image>> {
@@ -375,10 +372,26 @@ class ExplorarActivity : AppCompatActivity() {
         })
     }
 
-    private fun exibirImagens(imagens: List<Image>) {
-        val adapter = ImageAdapter(imagens, this@ExplorarActivity)
-        recyclerView.adapter = adapter
+    private fun carregarImagensPorCategoria(categoria: String) {
+        RetrofitInstance.api.getImagensPorCategoria(categoria).enqueue(object : Callback<List<Image>> {
+            override fun onResponse(call: Call<List<Image>>, response: Response<List<Image>>) {
+                if (response.isSuccessful && response.body() != null) {
+                    val images = response.body()!!
+                    if (images.isEmpty()) {
+                        aviso.text = "Imagem não encontrada"
+                        imageAdapter.clearImages()
+                    } else {
+                        aviso.visibility = View.GONE
+                        imageAdapter.updateImages(images)
+                    }
+                } else {
+                    Toast.makeText(this@ExplorarActivity, "Erro ao buscar imagens", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<List<Image>>, t: Throwable) {
+                Toast.makeText(this@ExplorarActivity, "Erro: ${t.message}", Toast.LENGTH_LONG).show()
+            }
+        })
     }
 }
-
-

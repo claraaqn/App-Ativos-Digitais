@@ -20,10 +20,31 @@ class HomeActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.tela_home)
 
+        val buttonComida: Button = findViewById(R.id.comida)
+        val buttonPresente: Button = findViewById(R.id.presentes)
+        val buttonModa: Button = findViewById(R.id.moda)
+        val buttonTecnologia: Button = findViewById(R.id.tecnologia)
+        val buttonMais: Button = findViewById(R.id.mais)
+
         val buttonMeusExplorar: Button = findViewById(R.id.button_explorar)
         val buttonMeusProdutos: Button = findViewById(R.id.button_meus_produtos)
         val buttonPerfil: Button = findViewById(R.id.button_perfil)
         val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
+
+        val buttonsToCategory = mapOf(
+            buttonComida to "arte",
+            buttonPresente to "Presentes",
+            buttonModa to "Moda",
+            buttonTecnologia to "Tecnologia"
+        )
+
+        buttonsToCategory.forEach { (button, category) ->
+            button.setOnClickListener {
+                val intent = Intent(this, ExplorarActivity::class.java)
+                intent.putExtra("categoria", category)
+                startActivity(intent)
+            }
+        }
 
         recyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
 
@@ -50,6 +71,11 @@ class HomeActivity: AppCompatActivity() {
         }
 
         buttonMeusExplorar.setOnClickListener{
+            val intent = Intent(this, ExplorarActivity::class.java)
+            startActivity(intent)
+        }
+
+        buttonMais.setOnClickListener{
             val intent = Intent(this, ExplorarActivity::class.java)
             startActivity(intent)
         }

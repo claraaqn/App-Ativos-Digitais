@@ -73,4 +73,7 @@ interface ApiService {
         @Query("formats") formats: List<String>,
     ): Call<List<Image>>
 
+    @GET("imagens/categoria/{categoria}")
+    fun getImagensPorCategoria(@Path("categoria") categoria: String): Call<List<Image>>
+
 }

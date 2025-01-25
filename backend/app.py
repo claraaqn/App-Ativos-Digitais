@@ -538,17 +538,14 @@ def get_produto(produto_id):
 
 @app.route('/search/images', methods=['GET'])
 def search_images():
-    # Pega os parâmetros da query
     tag = request.args.get('tag', '')
     isPremium = request.args.get('isPremium', 'false').lower() == 'true'
     isGratis = request.args.get('isGratis', 'false').lower() == 'true'
     formats = request.args.getlist('formats')  
 
-    # Inicia a conexão com o banco de dados
     conn = mysql.connection
     cursor = conn.cursor()
 
-    # Cria a base da query SQL
     query = """
         SELECT id, url, alt_text 
         FROM images 
@@ -556,26 +553,21 @@ def search_images():
     """
     params = ['%' + tag + '%'] * 3
 
-    # Adiciona condições de premium e grátis à query, se necessário
     if isPremium and not isGratis:
         query += " AND license = 'premium'"
     elif isGratis and not isPremium:
         query += " AND license = 'free'"
 
-    # Adiciona a condição de formatos à query, se necessário
     if formats:
         placeholders_formats = ', '.join(['%s'] * len(formats))
         query += f" AND (format IN ({placeholders_formats}) OR type IN ({placeholders_formats}))"
         params.extend(formats)
         params.extend(formats)
 
-    # Executa a query no banco
     cursor.execute(query, params)
 
-    # Recupera os resultados
     results = cursor.fetchall()
 
-    # Cria uma lista para armazenar as imagens encontradas
     images = []
     for row in results:
         images.append({
@@ -584,12 +576,43 @@ def search_images():
             'alt_text': row[2]
         })
 
-    # Fecha a conexão
     cursor.close()
 
-    # Retorna a resposta como JSON
     return jsonify(images)
-
+        
+@app.route("/imagens/categoria/<categoria>", methods=["GET"])
+def listar_imagens_por_categoria(categoria):
+    try:
+        conn = mysql.connection
+        cursor = conn.cursor()
+        
+        query = """
+            SELECT i.id, i.url, i.alt_text
+            FROM images i
+            JOIN image_tags it ON i.id = it.image_id
+            WHERE it.name = %s
+        """
+        
+        cursor.execute(query, (categoria,))
+        imagens = cursor.fetchall()
+        
+        
+        images_formatadas = []
+        for row in imagens:
+            images_formatadas.append({
+                'id': row[0],
+                'url': row[1],
+                'alt_text': row[2]
+            })
+                
+        return jsonify(images_formatadas), 200
+    except Exception as e:
+        print(e)
+        return jsonify({"erro": str(e)}), 500
+    finally:
+        cursor.close()
+    
+                
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)

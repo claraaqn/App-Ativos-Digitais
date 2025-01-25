@@ -75,11 +75,11 @@
                         android:padding="8dp">
 
                         <Button
-                            android:id="@+id/category_icon"
+                            android:id="@+id/comida"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
-                            android:contentDescription="Categoria"
-                            android:background="@drawable/comida_icon" />
+                            android:background="@drawable/comida_icon"
+                            android:contentDescription="Categoria" />
 
                         <TextView
                             android:id="@+id/category_name"
