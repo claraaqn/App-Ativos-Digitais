@@ -3,11 +3,12 @@ package com.projeto1.desingbrabo
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.view.Gravity
 import android.view.View
+import android.widget.AdapterView
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -16,8 +17,6 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.projeto1.desingbrabo.api.RetrofitInstance
 import com.projeto1.desingbrabo.model.Image
-import com.projeto1.desingbrabo.model.SearchResponse
-import okhttp3.internal.format
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -62,6 +61,8 @@ class ExplorarActivity : AppCompatActivity() {
     private var isPreto = false
     private var isBranco = false
 
+    private lateinit var spinnerTags: Spinner
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,9 +74,13 @@ class ExplorarActivity : AppCompatActivity() {
         }
 
         searchInput = findViewById(R.id.search_input)
+
         recyclerView = findViewById(R.id.recyclerView)
         val searchButton = findViewById<Button>(R.id.search_button)
+
         aviso = findViewById(R.id.aviso)
+
+        spinnerTags = findViewById(R.id.spinner_tags)
 
         val buttonFiltros = findViewById<Button>(R.id.button_filtros)
 
@@ -152,6 +157,21 @@ class ExplorarActivity : AppCompatActivity() {
         recyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         imageAdapter = ImageAdapter(emptyList(), this@ExplorarActivity)
         recyclerView.adapter = imageAdapter
+
+        spinnerTags.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                val selectedTag = parent?.getItemAtPosition(position).toString()
+
+                if (selectedTag.equals("categorias", ignoreCase = true)) return
+
+                val query = searchInput.text.toString().trim()
+                searchImages(query.lowercase(), getSelectedFormats(), selectedTag.lowercase())
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                // Nenhuma ação necessária se nada for selecionado
+            }
+        }
 
         buttonPremium.setOnClickListener {
             isPremium = !isPremium
@@ -284,8 +304,14 @@ class ExplorarActivity : AppCompatActivity() {
         }
 
         searchButton.setOnClickListener {
-            val query = searchInput.text.toString().trim()
-            searchImages(query, getSelectedFormats())
+            val query = searchInput.text.toString().trim() // Obtém o texto da barra de busca
+            val selectedTag = spinnerTags.selectedItem?.toString()?.trim() ?: ""
+
+            if (selectedTag.equals("categorias", ignoreCase = true)) {
+                searchImages(query, getSelectedFormats(), "")
+            } else {
+                searchImages(query.lowercase(), getSelectedFormats(), selectedTag.lowercase())
+            }
         }
 
         buttonHome.setOnClickListener{
@@ -348,8 +374,8 @@ class ExplorarActivity : AppCompatActivity() {
         return formats
     }
 
-    private fun searchImages(tag: String, formats: List<String>) {
-        val call = RetrofitInstance.api.searchImages(tag, isPremium, isGratis, formats)
+    private fun searchImages(tag: String, formats: List<String>, categoria: String) {
+        val call = RetrofitInstance.api.searchImages(tag, isPremium, isGratis, formats, categoria)
         call.enqueue(object : Callback<List<Image>> {
             override fun onResponse(call: Call<List<Image>>, response: Response<List<Image>>) {
                 if (response.isSuccessful && response.body() != null) {
@@ -359,7 +385,7 @@ class ExplorarActivity : AppCompatActivity() {
                         imageAdapter.clearImages()
                     } else {
                         aviso.visibility = View.GONE
-                        imageAdapter.updateImages(images)  // Atualiza as imagens
+                        imageAdapter.updateImages(images)
                     }
                 } else {
                     Toast.makeText(this@ExplorarActivity, "Erro ao buscar imagens", Toast.LENGTH_SHORT).show()

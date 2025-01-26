@@ -14,7 +14,6 @@ import com.projeto1.desingbrabo.model.ValidarCodigoEmailRequest
 import com.projeto1.desingbrabo.model.ValidarCodigoRequest
 import com.projeto1.desingbrabo.model.Image
 import com.projeto1.desingbrabo.model.Produto
-import com.projeto1.desingbrabo.model.SearchResponse
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.Body
@@ -71,6 +70,7 @@ interface ApiService {
         @Query("isPremium") isPremium: Boolean,
         @Query("isGratis") isGratis: Boolean,
         @Query("formats") formats: List<String>,
+        @Query("categoria") categoria: String,
     ): Call<List<Image>>
 
     @GET("imagens/categoria/{categoria}")

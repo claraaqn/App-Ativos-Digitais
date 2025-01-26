@@ -538,36 +538,50 @@ def get_produto(produto_id):
 
 @app.route('/search/images', methods=['GET'])
 def search_images():
-    tag = request.args.get('tag', '')
+    tag = request.args.get('tag', '')  # Texto de busca
+    categoria = request.args.get('categoria', '').lower() # Categoria do Spinner
     isPremium = request.args.get('isPremium', 'false').lower() == 'true'
     isGratis = request.args.get('isGratis', 'false').lower() == 'true'
-    formats = request.args.getlist('formats')  
+    formats = request.args.getlist('formats')  # Lista de formatos selecionados
 
     conn = mysql.connection
     cursor = conn.cursor()
 
+    # Base da query com JOIN na tabela de tags
     query = """
-        SELECT id, url, alt_text 
-        FROM images 
-        WHERE (caption LIKE %s OR texture LIKE %s OR alt_text LIKE %s)
+        SELECT DISTINCT images.id, images.url, images.alt_text 
+        FROM images
+        LEFT JOIN image_tags ON images.id = image_tags.image_id
+        WHERE (
+            images.caption LIKE %s OR images.texture LIKE %s OR images.alt_text LIKE %s
+            OR image_tags.name LIKE %s
+        )
     """
-    params = ['%' + tag + '%'] * 3
+    params = ['%' + tag + '%'] * 4
 
+    # Filtrar por categoria, se fornecida
+    if categoria and categoria != "categorias":
+        query += " AND LOWER(image_tags.name) = %s"
+        params.append(categoria)
+
+    # Filtrar por tipo de licença
     if isPremium and not isGratis:
-        query += " AND license = 'premium'"
+        query += " AND images.license = 'premium'"
     elif isGratis and not isPremium:
-        query += " AND license = 'free'"
+        query += " AND images.license = 'free'"
 
+    # Filtrar por formatos, se fornecidos
     if formats:
         placeholders_formats = ', '.join(['%s'] * len(formats))
-        query += f" AND (format IN ({placeholders_formats}) OR type IN ({placeholders_formats}))"
+        query += f" AND (images.format IN ({placeholders_formats}) OR images.type IN ({placeholders_formats}))"
         params.extend(formats)
         params.extend(formats)
 
+    # Executar a query
     cursor.execute(query, params)
-
     results = cursor.fetchall()
 
+    # Construir a resposta
     images = []
     for row in results:
         images.append({
@@ -579,6 +593,7 @@ def search_images():
     cursor.close()
 
     return jsonify(images)
+
         
 @app.route("/imagens/categoria/<categoria>", methods=["GET"])
 def listar_imagens_por_categoria(categoria):
@@ -612,7 +627,6 @@ def listar_imagens_por_categoria(categoria):
     finally:
         cursor.close()
     
-                
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
