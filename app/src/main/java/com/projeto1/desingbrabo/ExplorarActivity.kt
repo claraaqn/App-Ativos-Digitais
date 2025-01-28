@@ -158,14 +158,40 @@ class ExplorarActivity : AppCompatActivity() {
         imageAdapter = ImageAdapter(emptyList(), this@ExplorarActivity)
         recyclerView.adapter = imageAdapter
 
+        val colorButtons = mapOf(
+            buttonVermelho to "vermelho",
+            buttonAzul to "azul",
+            buttonVerde to "verde",
+            buttonAmarelo to "amarelo",
+            buttonRoxoo to "roxo",
+            buttonRosa to "rosa",
+            buttonLaranja to "laranja",
+            buttonMarrom to "marrom",
+            buttonCinza to "cinza",
+            buttonBranco to "branco",
+            buttonPreto to "preto"
+        )
+
+        var selectedColor: String? = null
+
+        for ((button, color) in colorButtons) {
+            button.setOnClickListener {
+                selectedColor = color
+                val color = selectedColor ?: ""
+                searchImages(searchInput.text.toString(), getSelectedFormats(), spinnerTags.selectedItem.toString(), color)
+            }
+        }
+
+
         spinnerTags.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 val selectedTag = parent?.getItemAtPosition(position).toString()
+                val selectedColor = selectedColor ?: ""
 
                 if (selectedTag.equals("categorias", ignoreCase = true)) return
 
                 val query = searchInput.text.toString().trim()
-                searchImages(query.lowercase(), getSelectedFormats(), selectedTag.lowercase())
+                searchImages(query.lowercase(), getSelectedFormats(), selectedTag.lowercase(), selectedColor)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -306,11 +332,12 @@ class ExplorarActivity : AppCompatActivity() {
         searchButton.setOnClickListener {
             val query = searchInput.text.toString().trim() // Obtém o texto da barra de busca
             val selectedTag = spinnerTags.selectedItem?.toString()?.trim() ?: ""
+            val selectedColor = selectedColor ?: ""
 
             if (selectedTag.equals("categorias", ignoreCase = true)) {
-                searchImages(query, getSelectedFormats(), "")
+                searchImages(query, getSelectedFormats(), "", selectedColor)
             } else {
-                searchImages(query.lowercase(), getSelectedFormats(), selectedTag.lowercase())
+                searchImages(query.lowercase(), getSelectedFormats(), selectedTag.lowercase(), selectedColor)
             }
         }
 
@@ -374,8 +401,8 @@ class ExplorarActivity : AppCompatActivity() {
         return formats
     }
 
-    private fun searchImages(tag: String, formats: List<String>, categoria: String) {
-        val call = RetrofitInstance.api.searchImages(tag, isPremium, isGratis, formats, categoria)
+    private fun searchImages(tag: String, formats: List<String>, categoria: String, color: String) {
+        val call = RetrofitInstance.api.searchImages(tag, isPremium, isGratis, formats, categoria, color)
         call.enqueue(object : Callback<List<Image>> {
             override fun onResponse(call: Call<List<Image>>, response: Response<List<Image>>) {
                 if (response.isSuccessful && response.body() != null) {

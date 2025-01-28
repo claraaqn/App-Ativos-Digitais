@@ -28,6 +28,7 @@ class HomeActivity: AppCompatActivity() {
 
         val buttonMeusExplorar: Button = findViewById(R.id.button_explorar)
         val buttonMeusProdutos: Button = findViewById(R.id.button_meus_produtos)
+        val buttonCarrinho: Button = findViewById(R.id.button_carrinho)
         val buttonPerfil: Button = findViewById(R.id.button_perfil)
         val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
 
@@ -67,6 +68,11 @@ class HomeActivity: AppCompatActivity() {
 
         buttonMeusProdutos.setOnClickListener{
             val intent = Intent(this, DownloadActivity::class.java)
+            startActivity(intent)
+        }
+
+        buttonCarrinho.setOnClickListener{
+            val intent = Intent(this, CarrinhoActivity::class.java)
             startActivity(intent)
         }
 
