@@ -3,11 +3,12 @@ package com.projeto1.desingbrabo
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.view.Gravity
 import android.view.View
+import android.widget.AdapterView
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -16,8 +17,6 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.projeto1.desingbrabo.api.RetrofitInstance
 import com.projeto1.desingbrabo.model.Image
-import com.projeto1.desingbrabo.model.SearchResponse
-import okhttp3.internal.format
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -62,26 +61,33 @@ class ExplorarActivity : AppCompatActivity() {
     private var isPreto = false
     private var isBranco = false
 
-    private val tiposSelecionados = mutableListOf<String>()
+    private lateinit var spinnerTags: Spinner
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.tela_explorar)
 
+        val categoriaSelecionada = intent.getStringExtra("categoria")
+        if (categoriaSelecionada != null) {
+            carregarImagensPorCategoria(categoriaSelecionada)
+        }
+
         searchInput = findViewById(R.id.search_input)
+
         recyclerView = findViewById(R.id.recyclerView)
         val searchButton = findViewById<Button>(R.id.search_button)
+
         aviso = findViewById(R.id.aviso)
 
-        // Botão para expandir/retrair filtros
+        spinnerTags = findViewById(R.id.spinner_tags)
+
         val buttonFiltros = findViewById<Button>(R.id.button_filtros)
 
-        // Elementos de Licença
         val licenca = findViewById<TextView>(R.id.licenca)
         val buttonPremium = findViewById<Button>(R.id.button_premium)
         val buttonGratis = findViewById<Button>(R.id.button_gratis)
 
-        // Elementos de Tipos
         val tipos = findViewById<TextView>(R.id.Tipos)
         val buttonVetores = findViewById<Button>(R.id.button_vetores)
         val buttonFotos = findViewById<Button>(R.id.button_fotos)
@@ -92,7 +98,6 @@ class ExplorarActivity : AppCompatActivity() {
         val buttonMockups = findViewById<Button>(R.id.button_mockups)
         val buttonTextura = findViewById<Button>(R.id.button_textura)
 
-        // Elementos de Formatos
         val formatos = findViewById<TextView>(R.id.formatos)
         val buttonJPG = findViewById<Button>(R.id.button_jpg)
         val buttonPNG = findViewById<Button>(R.id.button_png)
@@ -100,7 +105,6 @@ class ExplorarActivity : AppCompatActivity() {
         val buttonPSD = findViewById<Button>(R.id.button_psd)
         val buttonPDF = findViewById<Button>(R.id.button_pdf)
 
-        // Elementos de Cores
         val cores = findViewById<TextView>(R.id.cores)
         val buttonVermelho = findViewById<ImageButton>(R.id.button_vermelho)
         val buttonAzul = findViewById<ImageButton>(R.id.button_azul)
@@ -153,6 +157,47 @@ class ExplorarActivity : AppCompatActivity() {
         recyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         imageAdapter = ImageAdapter(emptyList(), this@ExplorarActivity)
         recyclerView.adapter = imageAdapter
+
+        val colorButtons = mapOf(
+            buttonVermelho to "vermelho",
+            buttonAzul to "azul",
+            buttonVerde to "verde",
+            buttonAmarelo to "amarelo",
+            buttonRoxoo to "roxo",
+            buttonRosa to "rosa",
+            buttonLaranja to "laranja",
+            buttonMarrom to "marrom",
+            buttonCinza to "cinza",
+            buttonBranco to "branco",
+            buttonPreto to "preto"
+        )
+
+        var selectedColor: String? = null
+
+        for ((button, color) in colorButtons) {
+            button.setOnClickListener {
+                selectedColor = color
+                val color = selectedColor ?: ""
+                searchImages(searchInput.text.toString(), getSelectedFormats(), spinnerTags.selectedItem.toString(), color)
+            }
+        }
+
+
+        spinnerTags.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                val selectedTag = parent?.getItemAtPosition(position).toString()
+                val selectedColor = selectedColor ?: ""
+
+                if (selectedTag.equals("categorias", ignoreCase = true)) return
+
+                val query = searchInput.text.toString().trim()
+                searchImages(query.lowercase(), getSelectedFormats(), selectedTag.lowercase(), selectedColor)
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                // Nenhuma ação necessária se nada for selecionado
+            }
+        }
 
         buttonPremium.setOnClickListener {
             isPremium = !isPremium
@@ -285,8 +330,15 @@ class ExplorarActivity : AppCompatActivity() {
         }
 
         searchButton.setOnClickListener {
-            val query = searchInput.text.toString().trim()
-            searchImages(query, getSelectedFormats())
+            val query = searchInput.text.toString().trim() // Obtém o texto da barra de busca
+            val selectedTag = spinnerTags.selectedItem?.toString()?.trim() ?: ""
+            val selectedColor = selectedColor ?: ""
+
+            if (selectedTag.equals("categorias", ignoreCase = true)) {
+                searchImages(query, getSelectedFormats(), "", selectedColor)
+            } else {
+                searchImages(query.lowercase(), getSelectedFormats(), selectedTag.lowercase(), selectedColor)
+            }
         }
 
         buttonHome.setOnClickListener{
@@ -310,7 +362,6 @@ class ExplorarActivity : AppCompatActivity() {
         }
     }
 
-    // Função para atualizar o estado visual dos botões
     private fun updateButtonState(button: Button, isSelected: Boolean) {
         if (isSelected) {
             button.setTextColor(Color.parseColor("#FFFFFF"))
@@ -350,9 +401,8 @@ class ExplorarActivity : AppCompatActivity() {
         return formats
     }
 
-    // Função para realizar a busca
-    private fun searchImages(tag: String, formats: List<String>) {
-        val call = RetrofitInstance.api.searchImages(tag, isPremium, isGratis, formats)
+    private fun searchImages(tag: String, formats: List<String>, categoria: String, color: String) {
+        val call = RetrofitInstance.api.searchImages(tag, isPremium, isGratis, formats, categoria, color)
         call.enqueue(object : Callback<List<Image>> {
             override fun onResponse(call: Call<List<Image>>, response: Response<List<Image>>) {
                 if (response.isSuccessful && response.body() != null) {
@@ -362,7 +412,7 @@ class ExplorarActivity : AppCompatActivity() {
                         imageAdapter.clearImages()
                     } else {
                         aviso.visibility = View.GONE
-                        imageAdapter.updateImages(images)  // Atualiza as imagens
+                        imageAdapter.updateImages(images)
                     }
                 } else {
                     Toast.makeText(this@ExplorarActivity, "Erro ao buscar imagens", Toast.LENGTH_SHORT).show()
@@ -375,10 +425,26 @@ class ExplorarActivity : AppCompatActivity() {
         })
     }
 
-    private fun exibirImagens(imagens: List<Image>) {
-        val adapter = ImageAdapter(imagens, this@ExplorarActivity)
-        recyclerView.adapter = adapter
+    private fun carregarImagensPorCategoria(categoria: String) {
+        RetrofitInstance.api.getImagensPorCategoria(categoria).enqueue(object : Callback<List<Image>> {
+            override fun onResponse(call: Call<List<Image>>, response: Response<List<Image>>) {
+                if (response.isSuccessful && response.body() != null) {
+                    val images = response.body()!!
+                    if (images.isEmpty()) {
+                        aviso.text = "Imagem não encontrada"
+                        imageAdapter.clearImages()
+                    } else {
+                        aviso.visibility = View.GONE
+                        imageAdapter.updateImages(images)
+                    }
+                } else {
+                    Toast.makeText(this@ExplorarActivity, "Erro ao buscar imagens", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<List<Image>>, t: Throwable) {
+                Toast.makeText(this@ExplorarActivity, "Erro: ${t.message}", Toast.LENGTH_LONG).show()
+            }
+        })
     }
 }
-
-

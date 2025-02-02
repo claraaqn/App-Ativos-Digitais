@@ -136,4 +136,13 @@ CPF: 321.272.078-66
         <item>Opção 3</item>
     </string-array>
 
+    <string-array name="tags">
+        <item>CATEGORIAS</item>
+        <item>Arte</item>
+        <item>Comida</item>
+        <item>Presentes</item>
+        <item>Moda</item>
+        <item>Tecnologia</item>
+    </string-array>
+
 </resources>

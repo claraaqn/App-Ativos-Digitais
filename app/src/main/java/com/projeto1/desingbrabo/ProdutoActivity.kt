@@ -9,6 +9,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.projeto1.desingbrabo.api.ApiService
 import com.projeto1.desingbrabo.api.RetrofitInstance
@@ -29,6 +31,10 @@ class ProdutoActivity : AppCompatActivity() {
             finish()
             return
         }
+
+        val colorsRecyclerView: RecyclerView = findViewById(R.id.colorsRecyclerView)
+        colorsRecyclerView.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
         val buttonVoltar: Button = findViewById(R.id.button_voltar)
         val buttonHome: Button = findViewById(R.id.button_home)
@@ -51,17 +57,23 @@ class ProdutoActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
                     val produto = response.body()
                     if (produto != null) {
-                        nomeProduto.text = produto.nome
-                        donoImagem.text = produto.dono
-                        preco.text = "R$ ${produto.preco}"
-                        formatos.text = produto.formatos
-                        data.text = produto.dataPublicacao
-                        tamanho.text = "${produto.tamanho} MB"
+                        nomeProduto.text = produto.nome ?: "Sem Nome"
+                        donoImagem.text = produto.dono ?: "Desconhecido"
+                        preco.text = "R$ ${produto.preco ?: "0,00"}"
+                        formatos.text = produto.formatos ?: "N/A"
+                        data.text = produto.dataPublicacao ?: "N/A"
+                        tamanho.text = "${produto.tamanho ?: "0"} MB"
+
                         Glide.with(this@ProdutoActivity)
                             .load(produto.url)
                             .placeholder(R.drawable.placeholder_image)
                             .error(R.drawable.produto4)
                             .into(imagem)
+
+                        val cores = produto.cores ?: emptyList()
+                        colorsRecyclerView.adapter = ColorsAdapter(cores, this@ProdutoActivity)
+                    } else {
+                        Toast.makeText(this@ProdutoActivity, "Produto não encontrado", Toast.LENGTH_SHORT).show()
                     }
                 } else {
                     Toast.makeText(this@ProdutoActivity, "Erro ao carregar produto", Toast.LENGTH_SHORT).show()

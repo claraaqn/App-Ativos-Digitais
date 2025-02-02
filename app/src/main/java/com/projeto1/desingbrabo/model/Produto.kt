@@ -8,5 +8,6 @@ data class Produto(
     val dataPublicacao: String,
     val url: String,
     val dono: String,
-    val tamanho: String
+    val tamanho: String,
+    val cores: List<String>
 )

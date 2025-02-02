@@ -60,6 +60,9 @@
         <activity android:name=".ExplorarActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
 
+        <activity android:name=".CarrinhoActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+
     </application>
 
     <uses-permission android:name="android.permission.CAMERA" />

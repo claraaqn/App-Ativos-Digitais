@@ -1,5 +1,5 @@
 from decimal import Decimal
-from MySQLdb import Error, MySQLError
+from MySQLdb import MySQLError
 from flask import Flask, request, jsonify
 from flask_mysqldb import MySQL
 from flask_cors import CORS
@@ -492,21 +492,35 @@ def get_produto(produto_id):
         cursor = conn.cursor()
 
         query = """
-        SELECT caption, price, format, upload_date, url, uploaded_by, size 
-        FROM images WHERE id = %s
-        """
+                SELECT 
+                    i.caption, 
+                    i.price, 
+                    i.format, 
+                    i.upload_date, 
+                    i.url, 
+                    i.uploaded_by, 
+                    i.size, 
+                    GROUP_CONCAT(ic.name) AS colors
+                FROM images i
+                LEFT JOIN image_colors ic ON i.id = ic.image_id
+                WHERE i.id = %s
+                GROUP BY i.id
+            """
+
         cursor.execute(query, (produto_id,))
         produto = cursor.fetchone()
         
+        
         dados_produto = {
             'id': produto_id,
-                'nome': produto[0],
-                'preco': str(Decimal(produto[1])),
-                'formatos': produto[2],
-                'dataPublicacao': produto[3].strftime("%d-%m-%Y") if produto[3] else None,
-                'url': produto[4],
-                'dono': produto[5],
-                'tamanho': str(produto[6])
+            'nome': produto[0],
+            'preco': str(Decimal(produto[1])),
+            'formatos': produto[2],
+            'dataPublicacao': produto[3].strftime("%d-%m-%Y") if produto[3] else None,                
+            'url': produto[4],
+            'dono': produto[5],
+            'tamanho': str(produto[6]),
+            'cores': produto[7].split(",") if produto[7] else []
         }
         
         print(dados_produto)
@@ -524,44 +538,50 @@ def get_produto(produto_id):
 
 @app.route('/search/images', methods=['GET'])
 def search_images():
-    # Pega os parâmetros da query
     tag = request.args.get('tag', '')
+    categoria = request.args.get('categoria', '').lower()
+    color = request.args.get('color', '').lower()
     isPremium = request.args.get('isPremium', 'false').lower() == 'true'
     isGratis = request.args.get('isGratis', 'false').lower() == 'true'
-    formats = request.args.getlist('formats')  
+    formats = request.args.getlist('formats')
 
-    # Inicia a conexão com o banco de dados
     conn = mysql.connection
     cursor = conn.cursor()
 
-    # Cria a base da query SQL
     query = """
-        SELECT id, url, alt_text 
-        FROM images 
-        WHERE (caption LIKE %s OR texture LIKE %s OR alt_text LIKE %s)
+        SELECT DISTINCT images.id, images.url, images.alt_text 
+        FROM images
+        LEFT JOIN image_tags ON images.id = image_tags.image_id
+        LEFT JOIN image_colors ON images.id = image_colors.image_id
+        WHERE (
+            images.caption LIKE %s OR images.texture LIKE %s OR images.alt_text LIKE %s
+            OR image_tags.name LIKE %s
+        )
     """
-    params = ['%' + tag + '%'] * 3
+    params = ['%' + tag + '%'] * 4
 
-    # Adiciona condições de premium e grátis à query, se necessário
+    if categoria and categoria != "categorias":
+        query += " AND LOWER(image_tags.name) = %s"
+        params.append(categoria)
+
+    if color:
+        query += " AND LOWER(image_colors.name) = %s"
+        params.append(color)
+
     if isPremium and not isGratis:
-        query += " AND license = 'premium'"
+        query += " AND images.license = 'premium'"
     elif isGratis and not isPremium:
-        query += " AND license = 'free'"
+        query += " AND images.license = 'free'"
 
-    # Adiciona a condição de formatos à query, se necessário
     if formats:
         placeholders_formats = ', '.join(['%s'] * len(formats))
-        query += f" AND (format IN ({placeholders_formats}) OR type IN ({placeholders_formats}))"
+        query += f" AND (images.format IN ({placeholders_formats}) OR images.type IN ({placeholders_formats}))"
         params.extend(formats)
         params.extend(formats)
 
-    # Executa a query no banco
     cursor.execute(query, params)
-
-    # Recupera os resultados
     results = cursor.fetchall()
 
-    # Cria uma lista para armazenar as imagens encontradas
     images = []
     for row in results:
         images.append({
@@ -570,13 +590,42 @@ def search_images():
             'alt_text': row[2]
         })
 
-    # Fecha a conexão
     cursor.close()
 
-    # Retorna a resposta como JSON
     return jsonify(images)
-
+        
+@app.route("/imagens/categoria/<categoria>", methods=["GET"])
+def listar_imagens_por_categoria(categoria):
+    try:
+        conn = mysql.connection
+        cursor = conn.cursor()
+        
+        query = """
+            SELECT i.id, i.url, i.alt_text
+            FROM images i
+            JOIN image_tags it ON i.id = it.image_id
+            WHERE it.name = %s
+        """
+        
+        cursor.execute(query, (categoria,))
+        imagens = cursor.fetchall()
+        
+        
+        images_formatadas = []
+        for row in imagens:
+            images_formatadas.append({
+                'id': row[0],
+                'url': row[1],
+                'alt_text': row[2]
+            })
+                
+        return jsonify(images_formatadas), 200
+    except Exception as e:
+        print(e)
+        return jsonify({"erro": str(e)}), 500
+    finally:
+        cursor.close()
+    
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
-    
