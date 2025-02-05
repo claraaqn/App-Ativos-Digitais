@@ -1,5 +1,6 @@
 from decimal import Decimal
 from MySQLdb import MySQLError
+import MySQLdb
 from flask import Flask, request, jsonify
 from flask_mysqldb import MySQL
 from flask_cors import CORS
@@ -458,13 +459,13 @@ def validar_codigo_email():
         print(f"Erro: {str(e)}")
         return jsonify({"success": False, "message": "Erro ao validar código"}), 500
 
-@app.route('/images', methods=['GET'])
+@app.route('/images', methods=['GET']) # fazer paginação
 def get_images():
     try:
         conn = mysql.connection
         cursor = conn.cursor()
         
-        query = "SELECT id, url, alt_text FROM images WHERE status = 'active' LIMIT 7"
+        query = "SELECT id, url FROM images WHERE status = 'active'"
         
         cursor.execute(query)
         images = cursor.fetchall()
@@ -473,8 +474,7 @@ def get_images():
         for row in images:
             result = {
                 'id': row[0],
-                'url': row[1],
-                'alt_text': row[2]
+                'url': row[1]
             }
             results.append(result)
         
@@ -494,13 +494,13 @@ def get_produto(produto_id):
         query = """
                 SELECT 
                     i.caption, 
-                    i.price, 
-                    i.format, 
+                    i.price,
                     i.upload_date, 
                     i.url, 
                     i.uploaded_by, 
                     i.size, 
-                    GROUP_CONCAT(ic.name) AS colors
+                    GROUP_CONCAT(ic.name) AS colors,
+                    i.likes
                 FROM images i
                 LEFT JOIN image_colors ic ON i.id = ic.image_id
                 WHERE i.id = %s
@@ -509,18 +509,18 @@ def get_produto(produto_id):
 
         cursor.execute(query, (produto_id,))
         produto = cursor.fetchone()
-        
+    
         
         dados_produto = {
             'id': produto_id,
             'nome': produto[0],
             'preco': str(Decimal(produto[1])),
-            'formatos': produto[2],
-            'dataPublicacao': produto[3].strftime("%d-%m-%Y") if produto[3] else None,                
-            'url': produto[4],
-            'dono': produto[5],
-            'tamanho': str(produto[6]),
-            'cores': produto[7].split(",") if produto[7] else []
+            'dataPublicacao': produto[2].strftime("%d-%m-%Y") if produto[2] else None,                
+            'url': produto[3],
+            'dono': produto[4],
+            'tamanho': str(produto[5]),
+            'cores': produto[6].split(",") if produto[6] else [],
+            'likes': str(produto[7])
         }
         
         print(dados_produto)
@@ -626,6 +626,80 @@ def listar_imagens_por_categoria(categoria):
     finally:
         cursor.close()
     
+@app.route('/add_favorite', methods=['POST'])
+def add_favorite():
+    data = request.get_json()
+    image_id = data.get('image_id')
+    user_id = data.get('user_id')
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+    print(f"Recebido: image_id={image_id}, user_id={user_id}, timestamp={timestamp}")
+
+    try:
+        conn = mysql.connection
+        with conn.cursor() as cursor:
+            cursor.execute(
+                "INSERT INTO favorites (image_id, user_id, created_at) VALUES (%s, %s, %s)",
+                (image_id, user_id, timestamp)
+            )
+        
+        conn.commit()
+        return jsonify({"message": "Like added", "likes": get_like_count(image_id), "isLiked": True})
+    except MySQLError as e:
+        print(f"Erro no banco de dados: {e}")
+        return jsonify({"message": f"Erro no banco de dados: {e}"}), 500
+
+
+@app.route('/remove_favorite', methods=['POST'])
+def remove_favorite():
+    data = request.json
+    image_id = data.get('image_id')
+    user_id = data.get('user_id')
+    
+    try:
+        conn = mysql.connection
+        cursor = conn.cursor()
+        
+        cursor.execute("DELETE FROM favorites WHERE image_id = %s AND user_id = %s", (image_id, user_id))        
+        conn.commit()
+        
+        return jsonify({"message": "Like removed", "likes": get_like_count(image_id), "isLiked": False})
+    except MySQLError as e:
+        print(f"Erro no banco de dados: {e}")
+        return jsonify({"message": f"Erro no banco de dados: {e}"}), 500
+
+@app.route('/get_like_status', methods=['GET'])
+def get_like_count(image_id):
+    conn = mysql.connection
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute("SELECT likes FROM images WHERE id = %s", (image_id,))
+        likes = cursor.fetchone()[0]
+    except MySQLdb.Error as e:
+        print(f"Erro no banco de dados: {e}")
+        likes = 0
+    finally:
+        cursor.close()
+    
+    return likes
+
+@app.route('/check_if_liked', methods=['GET'])
+def check_if_liked():
+    image_id = request.args.get('image_id')
+    user_id = request.args.get('user_id')
+    try:
+        conn = mysql.connection
+        cursor = conn.cursor()
+        cursor.execute("SELECT COUNT(*) FROM favorites WHERE image_id = %s AND user_id = %s", (image_id, user_id))
+        result = cursor.fetchone()[0]
+        cursor.close()
+        is_liked = result > 0
+        return jsonify({"isLiked": is_liked})
+    except MySQLError as e:
+        print(f"Erro no banco de dados: {e}")
+        return jsonify({"message": f"Erro no banco de dados: {e}"}), 500
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)

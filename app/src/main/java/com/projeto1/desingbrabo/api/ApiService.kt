@@ -1,6 +1,7 @@
 package com.projeto1.desingbrabo.api
 
 import com.projeto1.desingbrabo.model.Cadastro
+import com.projeto1.desingbrabo.model.FavoriteRequest
 import com.projeto1.desingbrabo.model.ForgotPasswordRequest
 import com.projeto1.desingbrabo.model.LoginRequest
 import com.projeto1.desingbrabo.model.LoginResponse
@@ -13,6 +14,7 @@ import com.projeto1.desingbrabo.model.ValidacaoEmailRequest
 import com.projeto1.desingbrabo.model.ValidarCodigoEmailRequest
 import com.projeto1.desingbrabo.model.ValidarCodigoRequest
 import com.projeto1.desingbrabo.model.Image
+import com.projeto1.desingbrabo.model.LikeResponse
 import com.projeto1.desingbrabo.model.Produto
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -76,5 +78,20 @@ interface ApiService {
 
     @GET("imagens/categoria/{categoria}")
     fun getImagensPorCategoria(@Path("categoria") categoria: String): Call<List<Image>>
+
+    @POST("/add_favorite")
+    fun addFavorite(@Body request: FavoriteRequest): Call<LikeResponse>
+
+    @POST("/remove_favorite")
+    fun removeFavorite(@Body request: FavoriteRequest): Call<LikeResponse>
+
+    @GET("/get_like_status")
+    fun getLikeStatus(
+        @Query("image_id") imageId: Int,
+        @Query("user_id") userId: Int
+    ): Call<LikeResponse>
+
+    @GET("/check_if_liked")
+    fun checkIfLiked(@Query("image_id") imageId: Int, @Query("user_id") userId: Int): Call<LikeResponse>
 
 }
