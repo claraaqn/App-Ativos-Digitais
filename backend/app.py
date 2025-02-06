@@ -497,7 +497,7 @@ def get_produto(produto_id):
                     i.price,
                     i.upload_date, 
                     i.url, 
-                    i.uploaded_by, 
+                    u.username AS uploaded_by, 
                     i.size, 
                     GROUP_CONCAT(DISTINCT ic.hex) AS colors,
                     i.likes,
@@ -505,8 +505,9 @@ def get_produto(produto_id):
                 FROM images i
                 LEFT JOIN image_colors ic ON i.id = ic.image_id
                 LEFT JOIN image_format ift ON i.id = ift.image_id
+                LEFT JOIN ad_users u ON i.uploaded_by = u.id
                 WHERE i.id = %s
-                GROUP BY i.id
+                GROUP BY i.id, u.username
             """
 
         cursor.execute(query, (produto_id,))

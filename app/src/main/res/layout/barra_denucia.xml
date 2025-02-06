@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="#FFFFFF"
+    android:padding="16dp">
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="80dp"
+        android:layout_height="6dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="0dp"
+        android:src="@drawable/bg_button_seguir" />
+
+    <TextView
+        android:id="@+id/textReportTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageView3"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/poppins_semi_bold"
+        android:text="Denunciar"
+        android:textColor="#010715"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/buttonReportSpam"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textReportTitle"
+        android:background="@android:color/transparent"
+        android:layout_marginTop="14dp"
+        android:fontFamily="@font/poppins_bold"
+        android:textAlignment="textStart"
+        android:text="Denunciar como Spam" />
+
+    <Button
+        android:id="@+id/buttonReportInappropriate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/buttonReportSpam"
+        android:background="@android:color/transparent"
+        android:layout_marginTop="0dp"
+        android:text="Conteúdo Inapropriado"
+        android:fontFamily="@font/poppins_bold"
+        android:textAlignment="textStart" />
+</RelativeLayout>

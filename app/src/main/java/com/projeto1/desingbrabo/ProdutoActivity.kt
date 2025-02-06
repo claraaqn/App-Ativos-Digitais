@@ -54,6 +54,7 @@ class ProdutoActivity : AppCompatActivity() {
         val buttonCurtir: ImageButton = findViewById(R.id.button_curtida)
         val buttonSeguir: Button = findViewById(R.id.button_seguir)
         val buttonAdicionarCarrinho: Button = findViewById(R.id.button_adicionar_carrinho)
+        val buttonDenuncia: Button = findViewById(R.id.button_denuciar)
 
         val imagem: ImageView = findViewById(R.id.produto1)
         val donoImagem: TextView = findViewById(R.id.nome_proprietario_imagem)
@@ -208,6 +209,12 @@ class ProdutoActivity : AppCompatActivity() {
         findViewById<Button>(R.id.button_perfil).setOnClickListener {
             startActivity(Intent(this, PerfilActivity::class.java))
         }
+
+        buttonDenuncia.setOnClickListener {
+            val bottomSheet = DenuciarSheet()
+            bottomSheet.show(supportFragmentManager, bottomSheet.tag)
+        }
+
     }
 
     private suspend fun addToCart(product: Product) {
