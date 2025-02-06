@@ -499,7 +499,7 @@ def get_produto(produto_id):
                     i.url, 
                     i.uploaded_by, 
                     i.size, 
-                    GROUP_CONCAT(DISTINCT ic.name) AS colors,
+                    GROUP_CONCAT(DISTINCT ic.hex) AS colors,
                     i.likes,
                     GROUP_CONCAT(DISTINCT ift.format) AS format
                 FROM images i
@@ -517,7 +517,7 @@ def get_produto(produto_id):
             'id': produto_id,
             'nome': produto[0],
             'preco': str(Decimal(produto[1])),
-            'dataPublicacao': produto[2].strftime("%d-%m-%Y") if produto[2] else None,                
+            'dataPublicacao': produto[2].strftime("%d/%m/%Y") if produto[2] else None,                
             'url': produto[3],
             'dono': produto[4],
             'tamanho': str(produto[5]),
