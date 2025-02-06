@@ -1,6 +1,8 @@
 package com.projeto1.desingbrabo
 
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
@@ -12,20 +14,6 @@ class ColorsAdapter(
     private val context: Context
 ) : RecyclerView.Adapter<ColorsAdapter.ColorViewHolder>() {
 
-    private val colorDrawables = mapOf(
-        "preto" to R.drawable.btn_preto,
-        "cinza" to R.drawable.btn_cinza,
-        "rosa" to R.drawable.btn_rosa,
-        "branco" to R.drawable.btn_branco,
-        "amarelo" to R.drawable.btn_amarelo,
-        "laranja" to R.drawable.btn_laranja,
-        "azul" to R.drawable.btn_azul,
-        "marrom" to R.drawable.btn_marrom,
-        "roxo" to R.drawable.btn_roxo,
-        "verde" to R.drawable.btn_verde,
-        "vermelho" to R.drawable.btn_vermelho
-    )
-
     class ColorViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val colorImageView: ImageView = itemView.findViewById(R.id.cor_produto)
     }
@@ -36,14 +24,18 @@ class ColorsAdapter(
     }
 
     override fun onBindViewHolder(holder: ColorViewHolder, position: Int) {
-        val color = colors[position]
+        val colorHex = colors[position]
 
-        val drawableId = colorDrawables[color]
-        if (drawableId != null) {
-            holder.colorImageView.setImageResource(drawableId)
-        } else {
-            holder.colorImageView.setImageResource(R.drawable.btn_azul)
+        val shape = GradientDrawable()
+        shape.shape = GradientDrawable.OVAL
+        try {
+            shape.setColor(Color.parseColor(colorHex))
+        } catch (e: IllegalArgumentException) {
+            // Caso o valor não seja um hex válido, use uma cor padrão (azul, por exemplo)
+            shape.setColor(Color.parseColor("#0000FF"))
         }
+
+        holder.colorImageView.background = shape
     }
 
     override fun getItemCount(): Int = colors.size

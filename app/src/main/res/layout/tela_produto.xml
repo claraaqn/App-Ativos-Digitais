@@ -101,6 +101,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/rolar_imagem" />
 
             <Button
+                android:id="@+id/button2"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_marginTop="12dp"
@@ -141,7 +142,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="-10dp"
                 android:fontFamily="@font/archivo_regular"
-                android:text="N Arquivos"
+                android:text="Arquivos"
                 android:textColor="#010715"
                 android:textSize="14sp"
                 app:layout_constraintStart_toEndOf="@id/foto_perfil"
@@ -151,7 +152,6 @@
                 android:id="@+id/button_seguir"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
-                android:layout_marginStart="32dp"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/bg_button_seguir"
                 android:drawableEnd="@drawable/ic_plus"
@@ -162,9 +162,7 @@
                 android:textColor="#010715"
                 android:textSize="12sp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@id/nome_proprietario_imagem"
+                app:layout_constraintEnd_toEndOf="@+id/button2"
                 app:layout_constraintTop_toBottomOf="@id/button_curtida"
                 tools:ignore="TouchTargetSizeCheck" />
 
@@ -186,7 +184,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/archivo_regular"
-                android:text="R$31,65"
+                android:text="R$"
                 android:textColor="#010715"
                 android:textSize="18sp"
                 android:layout_marginStart="5dp"
@@ -213,7 +211,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:fontFamily="@font/archivo_regular"
-                android:text="PNG, PDF"
+                android:text=""
                 android:textColor="#010715"
                 android:textSize="18sp"
                 android:layout_marginStart="5dp"
@@ -267,7 +265,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/archivo_regular"
-                android:text="00MB"
+                android:text="MB"
                 android:layout_marginStart="5dp"
                 android:textColor="#010715"
                 android:textSize="18sp"
