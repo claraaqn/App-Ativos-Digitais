@@ -465,7 +465,7 @@ def get_images():
         conn = mysql.connection
         cursor = conn.cursor()
         
-        query = "SELECT id, url FROM images WHERE status = 'active'"
+        query = "SELECT id, url, license FROM images WHERE status = 'active'"
         
         cursor.execute(query)
         images = cursor.fetchall()
@@ -474,7 +474,8 @@ def get_images():
         for row in images:
             result = {
                 'id': row[0],
-                'url': row[1]
+                'url': row[1],
+                'license': row[2]
             }
             results.append(result)
         
@@ -539,8 +540,6 @@ def get_produto(produto_id):
     except Exception as e:
         print(f"Erro geral: {str(e)}")
         return jsonify({"success": False, "message": "Erro interno no servidor"}), 500
-
-
 
 @app.route('/search/images', methods=['GET'])
 def search_images():
