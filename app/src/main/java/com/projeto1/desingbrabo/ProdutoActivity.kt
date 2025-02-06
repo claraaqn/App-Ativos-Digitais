@@ -73,13 +73,13 @@ class ProdutoActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
                     val produto = response.body()
                     if (produto != null) {
-                        nomeProduto.text = produto.nome ?: "Sem Nome"
-                        donoImagem.text = produto.dono ?: "Desconhecido"
-                        preco.text = "R$ ${produto.preco ?: "0,00"}"
-                        formatos.text = "..."  // Adicionar lógica para formatos
-                        data.text = produto.dataPublicacao ?: "N/A"
-                        tamanho.text = "${produto.tamanho ?: "0"} MB"
-                        likes.text = "${produto.likes ?: "0"} curtidas"
+                        nomeProduto.text = produto.nome ?: ""
+                        donoImagem.text = produto.dono ?: ""
+                        preco.text = "R$ ${produto.preco ?: ""}"
+                        formatos.text = produto.formatos?.joinToString(", ") ?: ""
+                        data.text = produto.dataPublicacao ?: ""
+                        tamanho.text = "${produto.tamanho ?: ""} MB"
+                        likes.text = "${produto.likes ?: ""} curtidas"
 
                         Glide.with(this@ProdutoActivity)
                             .load(produto.url)

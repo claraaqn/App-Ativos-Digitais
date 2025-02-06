@@ -499,17 +499,19 @@ def get_produto(produto_id):
                     i.url, 
                     i.uploaded_by, 
                     i.size, 
-                    GROUP_CONCAT(ic.name) AS colors,
-                    i.likes
+                    GROUP_CONCAT(DISTINCT ic.name) AS colors,
+                    i.likes,
+                    GROUP_CONCAT(DISTINCT ift.format) AS format
                 FROM images i
                 LEFT JOIN image_colors ic ON i.id = ic.image_id
+                LEFT JOIN image_format ift ON i.id = ift.image_id
                 WHERE i.id = %s
                 GROUP BY i.id
             """
 
         cursor.execute(query, (produto_id,))
         produto = cursor.fetchone()
-    
+
         
         dados_produto = {
             'id': produto_id,
@@ -520,7 +522,8 @@ def get_produto(produto_id):
             'dono': produto[4],
             'tamanho': str(produto[5]),
             'cores': produto[6].split(",") if produto[6] else [],
-            'likes': str(produto[7])
+            'likes': str(produto[7]),
+            'formatos': produto[8].split(",") if produto[8] else [],
         }
         
         print(dados_produto)
@@ -535,6 +538,8 @@ def get_produto(produto_id):
     except Exception as e:
         print(f"Erro geral: {str(e)}")
         return jsonify({"success": False, "message": "Erro interno no servidor"}), 500
+
+
 
 @app.route('/search/images', methods=['GET'])
 def search_images():
@@ -648,7 +653,6 @@ def add_favorite():
     except MySQLError as e:
         print(f"Erro no banco de dados: {e}")
         return jsonify({"message": f"Erro no banco de dados: {e}"}), 500
-
 
 @app.route('/remove_favorite', methods=['POST'])
 def remove_favorite():
