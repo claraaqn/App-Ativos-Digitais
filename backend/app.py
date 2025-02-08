@@ -11,6 +11,7 @@ from datetime import datetime, timedelta, timezone
 from flask_mail import Message, Mail
 import boto3
 import random
+import unicodedata
 
 load_dotenv()
 app = Flask(__name__)
@@ -543,61 +544,111 @@ def get_produto(produto_id):
 
 @app.route('/search/images', methods=['GET'])
 def search_images():
-    tag = request.args.get('tag', '')
-    categoria = request.args.get('categoria', '').lower()
-    color = request.args.get('color', '').lower()
-    isPremium = request.args.get('isPremium', 'false').lower() == 'true'
-    isGratis = request.args.get('isGratis', 'false').lower() == 'true'
-    formats = request.args.getlist('formats')
+    try:
+        tag = remove_acentos(request.args.get('tag', ''))
+        categoria = request.args.get('categoria')
+        colors= request.args.getlist('color')
+        colors = [colors.lower() for colors in colors]
+        is_premium = request.args.get('isPremium', 'false').lower() == 'true'
+        is_gratis = request.args.get('isGratis', 'false').lower() == 'true'
+        formats = request.args.getlist('formats')
+        formats = [format.lower() for format in formats]
+        
+        normalized_colors = [normalize_color(color) for color in colors]
 
-    conn = mysql.connection
-    cursor = conn.cursor()
+        print(f"Parâmetros recebidos: tag={tag}, categoria={categoria}, color={normalized_colors}, isPremium={is_premium}, isGratis={is_gratis}, formats={formats}")
 
-    query = """
-        SELECT DISTINCT images.id, images.url, images.alt_text 
-        FROM images
-        LEFT JOIN image_tags ON images.id = image_tags.image_id
-        LEFT JOIN image_colors ON images.id = image_colors.image_id
-        WHERE (
-            images.caption LIKE %s OR images.texture LIKE %s OR images.alt_text LIKE %s
-            OR image_tags.name LIKE %s
-        )
-    """
-    params = ['%' + tag + '%'] * 4
+        conn = mysql.connection
+        cursor = conn.cursor()
 
-    if categoria and categoria != "categorias":
-        query += " AND LOWER(image_tags.name) = %s"
-        params.append(categoria)
+        query = """
+            SELECT DISTINCT images.id, images.url, images.license
+            FROM images
+            LEFT JOIN image_tags ON images.id = image_tags.image_id
+            LEFT JOIN image_colors ON images.id = image_colors.image_id
+            LEFT JOIN image_format ON images.id = image_format.image_id
+            WHERE 1=1
+        """
+        params = []
 
-    if color:
-        query += " AND LOWER(image_colors.name) = %s"
-        params.append(color)
+        if tag:
+            query += " AND images.caption LIKE %s"
+            params.append(f'%{tag}%')
 
-    if isPremium and not isGratis:
-        query += " AND images.license = 'premium'"
-    elif isGratis and not isPremium:
-        query += " AND images.license = 'free'"
+        if categoria and categoria != "categorias":
+            query += " AND images.category = %s"
+            params.append(categoria)
 
-    if formats:
-        placeholders_formats = ', '.join(['%s'] * len(formats))
-        query += f" AND (images.format IN ({placeholders_formats}) OR images.type IN ({placeholders_formats}))"
-        params.extend(formats)
-        params.extend(formats)
+        if normalized_colors:
+            placeholders = ', '.join(['%s'] * len(normalized_colors))
+            query += f"""
+                AND LOWER(
+                    CASE
+                        WHEN image_colors.name LIKE '%%claro' THEN LOWER(SUBSTRING_INDEX(image_colors.name, ' ', 1))
+                        WHEN image_colors.name LIKE '%%escuro' THEN LOWER(SUBSTRING_INDEX(image_colors.name, ' ', 1))
+                        ELSE LOWER(image_colors.name)
+                    END
+                ) IN ({placeholders})
+            """
+            params.extend(normalized_colors)
 
-    cursor.execute(query, params)
-    results = cursor.fetchall()
+        if is_premium and not is_gratis:
+            query += " AND images.license = 'premium'"
+        elif is_gratis and not is_premium:
+            query += " AND images.license IS NULL"
 
-    images = []
-    for row in results:
-        images.append({
-            'id': row[0],
-            'url': row[1],
-            'alt_text': row[2]
-        })
+        if formats:
+            placeholders = ', '.join(['%s'] * len(formats))
+            query += f" AND (image_format.format IN ({placeholders}) OR images.type IN ({placeholders}))"
+            params.extend(formats)
+            params.extend(formats)
 
-    cursor.close()
+        print(f"Parâmetros da query: {params}")
 
-    return jsonify(images)
+        cursor.execute(query, params)
+        results = cursor.fetchall()
+
+        images = [{'id': row[0], 'url': row[1], 'license': row[2]} for row in results]
+
+        cursor.close()
+
+        return jsonify(images)
+
+    except MySQLError as e:
+        print(f"Erro de MySQL: {str(e)}")
+        return jsonify({"success": False, "message": "Erro no banco de dados"}), 500
+    except Exception as e:
+        print(f"Erro geral: {str(e)}")
+        return jsonify({"success": False, "message": "Erro interno no servidor"}), 500
+
+def remove_acentos(texto):
+    return ''.join(
+        c for c in unicodedata.normalize('NFD', texto)
+        if unicodedata.category(c) != 'Mn'
+    )
+    
+color_map = {
+    "verde claro": "verde",
+    "verde escuro": "verde",
+    "azul claro": "azul",
+    "azul escuro": "azul",
+    "amarelo claro": "amarelo",
+    "amarelo escuro": "amarelo",
+    "laranja claro": "laranja",
+    "laranja escuro": "laranja",
+    "rosa claro": "rosa",
+    "rosa escuro": "rosa",
+    "roxo claro": "roxo",
+    "roxo escuro": "roxo",
+    "marrom claro": "marrom",
+    "marrom escuro": "marrom",
+    "cinza claro": "cinza",
+    "cinza escuro": "cinza",
+    "bege": "marrom"
+}
+
+def normalize_color(color):
+    return color_map.get(color.lower(), color.lower())
         
 @app.route("/imagens/categoria/<categoria>", methods=["GET"])
 def listar_imagens_por_categoria(categoria):
