@@ -2,6 +2,7 @@ package com.projeto1.desingbrabo
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.widget.*
@@ -60,6 +61,7 @@ class ProdutoActivity : AppCompatActivity() {
         val donoImagem: TextView = findViewById(R.id.nome_proprietario_imagem)
         val nomeProduto: TextView = findViewById(R.id.nome_produto)
         val likes: TextView = findViewById(R.id.curtidas)
+        val licenca: TextView = findViewById(R.id.tipo_licenca)
         val preco: TextView = findViewById(R.id.valor_preco)
         val formatos: TextView = findViewById(R.id.valor_formato)
         val tamanho: TextView = findViewById(R.id.valor_tamanho)
@@ -81,6 +83,19 @@ class ProdutoActivity : AppCompatActivity() {
                         data.text = produto.dataPublicacao ?: ""
                         tamanho.text = "${produto.tamanho ?: ""} MB"
                         likes.text = "${produto.likes ?: ""} curtidas"
+
+                        val licencaText = produto.licenca
+
+                        if (licencaText == "premium") {
+                            licenca.text = "Premium "
+                            licenca.setTextColor(Color.parseColor("#7DF19E"))
+                            licenca.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.selo, 0)
+                        } else {
+                            licenca.text = "Grátis "
+                            licenca.setTextColor(Color.parseColor("#7DF19E"))
+                            licenca.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.free, 0)
+
+                        }
 
                         Glide.with(this@ProdutoActivity)
                             .load(produto.url)

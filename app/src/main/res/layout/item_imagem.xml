@@ -15,7 +15,7 @@
         android:background="@android:color/transparent"
         android:scaleType="fitCenter"
         tools:ignore="SpeakableTextPresentCheck"
-        tools:srcCompat="@drawable/placeholder_image"
+        tools:srcCompat="@drawable/placeholder"
       />
 
     <ImageView

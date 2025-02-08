@@ -503,7 +503,8 @@ def get_produto(produto_id):
                     i.size, 
                     GROUP_CONCAT(DISTINCT ic.hex) AS colors,
                     i.likes,
-                    GROUP_CONCAT(DISTINCT ift.format) AS format
+                    GROUP_CONCAT(DISTINCT ift.format) AS format,
+                    i.license
                 FROM images i
                 LEFT JOIN image_colors ic ON i.id = ic.image_id
                 LEFT JOIN image_format ift ON i.id = ift.image_id
@@ -527,6 +528,7 @@ def get_produto(produto_id):
             'cores': produto[6].split(",") if produto[6] else [],
             'likes': str(produto[7]),
             'formatos': produto[8].split(",") if produto[8] else [],
+            'licenca': produto[9]
         }
         
         print(dados_produto)
