@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.bumptech.glide.Glide
 import com.projeto1.desingbrabo.api.RetrofitInstance
 import com.projeto1.desingbrabo.model.Image
 import retrofit2.Call

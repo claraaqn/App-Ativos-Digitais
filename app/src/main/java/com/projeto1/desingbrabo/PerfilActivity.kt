@@ -74,14 +74,24 @@ class PerfilActivity : AppCompatActivity() {
         }
 
         // barra de navegaçãp
-        buttonHome.setOnClickListener{
-            val intent = Intent(this, HomeActivity::class.java)
-            startActivity(intent)
+        findViewById<Button>(R.id.button_home).setOnClickListener {
+            startActivity(Intent(this@PerfilActivity, HomeActivity::class.java))
         }
 
-        buttonMeusProdutos.setOnClickListener{
-            val intent = Intent(this, DownloadActivity::class.java)
-            startActivity(intent)
+        findViewById<Button>(R.id.button_perfil).setOnClickListener {
+            startActivity(Intent(this@PerfilActivity, PerfilActivity::class.java))
+        }
+
+        findViewById<Button>(R.id.button_meus_produtos).setOnClickListener {
+            startActivity(Intent(this@PerfilActivity, DownloadActivity::class.java))
+        }
+
+        findViewById<Button>(R.id.button_explorar).setOnClickListener {
+            startActivity(Intent(this@PerfilActivity, ExplorarActivity::class.java))
+        }
+
+        findViewById<Button>(R.id.button_carrinho).setOnClickListener {
+            startActivity(Intent(this@PerfilActivity, CarrinhoActivity::class.java))
         }
     }
 

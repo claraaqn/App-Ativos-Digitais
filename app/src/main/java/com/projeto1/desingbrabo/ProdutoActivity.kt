@@ -70,7 +70,6 @@ class ProdutoActivity : AppCompatActivity() {
         val db = AppDatabase.getDatabase(this)
         cartDao = db.cartDao()
 
-        // Carregar produto da API
         RetrofitInstance.api.getProduto(imageId).enqueue(object : Callback<Produto> {
             override fun onResponse(call: Call<Produto>, response: Response<Produto>) {
                 if (response.isSuccessful) {
@@ -226,16 +225,16 @@ class ProdutoActivity : AppCompatActivity() {
         buttonVoltar.setOnClickListener { finish() }
 
         findViewById<Button>(R.id.button_home).setOnClickListener {
-            startActivity(Intent(this, HomeActivity::class.java))
+            startActivity(Intent(this@ProdutoActivity, HomeActivity::class.java))
         }
         findViewById<Button>(R.id.button_meus_produtos).setOnClickListener {
-            startActivity(Intent(this, DownloadActivity::class.java))
+            startActivity(Intent(this@ProdutoActivity, DownloadActivity::class.java))
         }
         findViewById<Button>(R.id.button_carrinho).setOnClickListener {
-            startActivity(Intent(this, CarrinhoActivity::class.java))
+            startActivity(Intent(this@ProdutoActivity, CarrinhoActivity::class.java))
         }
         findViewById<Button>(R.id.button_perfil).setOnClickListener {
-            startActivity(Intent(this, PerfilActivity::class.java))
+            startActivity(Intent(this@ProdutoActivity, PerfilActivity::class.java))
         }
 
         buttonDenuncia.setOnClickListener {

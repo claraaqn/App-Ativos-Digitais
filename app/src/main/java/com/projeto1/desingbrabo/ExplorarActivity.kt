@@ -198,7 +198,6 @@ class ExplorarActivity : AppCompatActivity() {
             }
         }
 
-        // Configura o botão de busca (mantido igual)
         findViewById<Button>(R.id.search_button).setOnClickListener {
             searchImages(
                 searchInput.text.toString().trim(),
@@ -208,7 +207,6 @@ class ExplorarActivity : AppCompatActivity() {
             )
         }
 
-        // Configura os botões de navegação (mantido igual)
         findViewById<Button>(R.id.button_home).setOnClickListener {
             startActivity(Intent(this@ExplorarActivity, HomeActivity::class.java))
         }
@@ -223,6 +221,10 @@ class ExplorarActivity : AppCompatActivity() {
 
         findViewById<Button>(R.id.button_explorar).setOnClickListener {
             startActivity(Intent(this@ExplorarActivity, ExplorarActivity::class.java))
+        }
+
+        findViewById<Button>(R.id.button_carrinho).setOnClickListener {
+            startActivity(Intent(this@ExplorarActivity, CarrinhoActivity::class.java))
         }
     }
 
