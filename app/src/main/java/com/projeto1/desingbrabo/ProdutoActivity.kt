@@ -106,20 +106,24 @@ class ProdutoActivity : AppCompatActivity() {
                         colorsRecyclerView.adapter = ColorsAdapter(produto.cores ?: emptyList(), this@ProdutoActivity)
 
 //                        // O ERRO DA PÁGINA TÁ AQUI
-//                        loadedProduct = Product(
-//                            id = produto.id ?: 0,
-//                            name = produto.nome ?: "Sem nome",
-//                            price = produto.preco ?: "R$ ${produto.preco ?: "0,00"}",
-//                            type = "Tipo padrão" ?: "...",
-//                            owner = produto.dono ?: "Desconhecido",
-//                            imageUrl = produto.url ?: ""
-//                        )
-//
-//                        loadedProduct?.let { product ->
-//                            lifecycleScope.launch(Dispatchers.IO) {
-//                                db.productDao().insertProduct(product)
-//                            }
-//                        } ?: Log.e("ProdutoActivity", "Produto é null, não foi possível salvar.")
+                        loadedProduct = Product(
+                            id = produto.id ?: 0,
+                            name = produto.nome ?: "Sem nome",
+                            price = produto.preco?.let { "R$ $it" } ?: "R$ 0,00",
+                            formatos = produto.formatos,
+                            owner = produto.dono ?: "Desconhecido",
+                            imageUrl = produto.url ?: ""
+                        )
+
+                        loadedProduct?.let { product ->
+                            lifecycleScope.launch(Dispatchers.IO) {
+                                try {
+                                    db.productDao().insertProduct(product)
+                                } catch (e: Exception) {
+                                    Log.e("ProdutoActivity", "Erro ao salvar produto no banco: ${e.message}")
+                                }
+                            }
+                        }
 
                     } else {
                         Toast.makeText(this@ProdutoActivity, "Produto não encontrado", Toast.LENGTH_SHORT).show()
@@ -137,12 +141,21 @@ class ProdutoActivity : AppCompatActivity() {
 
 
         buttonAdicionarCarrinho.setOnClickListener {
-            loadedProduct?.let { product ->
+            if (loadedProduct != null) {
                 lifecycleScope.launch(Dispatchers.IO) {
-                    addToCart(product)
+                    try {
+                        addToCart(loadedProduct!!)
+                        withContext(Dispatchers.Main) {
+                            Toast.makeText(this@ProdutoActivity, "Produto adicionado ao carrinho!", Toast.LENGTH_SHORT).show()
+                        }
+                    } catch (e: Exception) {
+                        Log.e("ProdutoActivity", "Erro ao adicionar ao carrinho: ${e.message}")
+                    }
                 }
-            } ?: Toast.makeText(this, "Produto não carregado", Toast.LENGTH_SHORT).show()
-
+            } else {
+                Log.e("ProdutoActivity", "Produto é null!")
+                Toast.makeText(this@ProdutoActivity, "Produto não carregado", Toast.LENGTH_SHORT).show()
+            }
         }
 
         var isLiked = false
