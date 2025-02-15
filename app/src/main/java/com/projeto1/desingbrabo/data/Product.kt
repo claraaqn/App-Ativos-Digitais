@@ -8,7 +8,7 @@ data class Product(
     @PrimaryKey val id: Int,
     val name: String,
     val price: String,
-    val type: String,
+    val formatos: List<String>,
     val owner: String,
     val imageUrl: String
 )

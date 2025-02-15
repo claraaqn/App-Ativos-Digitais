@@ -10,5 +10,6 @@ data class Produto(
     val tamanho: String,
     val cores: List<String>,
     val likes: String,
-    val formatos: List<String>
+    val formatos: List<String>,
+    val licenca: String?
 )

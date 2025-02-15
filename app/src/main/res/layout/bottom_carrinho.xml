@@ -15,8 +15,8 @@
             android:id="@+id/checkBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/button"
-            android:layout_alignBottom="@+id/button"
+            android:layout_alignTop="@+id/button_finalizar"
+            android:layout_alignBottom="@+id/button_finalizar"
             android:layout_alignParentStart="true"
             android:layout_marginStart="0dp"
             android:layout_marginTop="8dp"
@@ -28,21 +28,19 @@
             tools:ignore="TouchTargetSizeCheck" />
 
         <TextView
-            android:id="@+id/textView7"
+            android:id="@+id/valor_total"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/checkBox"
             android:layout_alignBottom="@+id/checkBox"
-            android:layout_marginTop="4dp"
             android:layout_marginEnd="20dp"
             android:layout_marginBottom="4dp"
-            android:layout_toStartOf="@+id/button"
+            android:layout_toStartOf="@+id/button_finalizar"
             android:fontFamily="@font/poppins_bold"
-            android:text="R$99,99"
+            android:text="R$ 00,00"
             android:textColor="#010715" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/button_finalizar"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"

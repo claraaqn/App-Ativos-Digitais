@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.projeto1.desingbrabo.model.Image
@@ -30,6 +31,28 @@ class ImageAdapter(private var images: List<Image>, private val context: Context
             .load(image.url)
             .placeholder(R.drawable.placeholder_image)
             .into(holder.imageButton)
+
+        val iconResId = when (image.license) {
+            "premium" -> R.drawable.selo   // Ícone para imagens premium
+            null -> R.drawable.free           // Ícone para imagens grátis
+            else -> 0
+        }
+
+        val backgroundResId = when (image.license) {
+            "premium" -> R.drawable.btn_preto   // Drawable para premium
+            null -> R.drawable.btn_branco       // Drawable para grátis
+            else -> 0      // Padrão
+        }
+
+        holder.itemView.findViewById<ImageView>(R.id.iconLicense).apply {
+            if (iconResId != null) {
+                setImageResource(iconResId)
+                setBackgroundResource(backgroundResId)
+                visibility = View.VISIBLE
+            } else {
+                visibility = View.GONE
+            }
+        }
 
         holder.imageButton.setOnClickListener {
             val intent = Intent(context, ProdutoActivity::class.java)

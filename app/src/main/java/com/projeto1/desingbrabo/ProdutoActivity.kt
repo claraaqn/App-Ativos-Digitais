@@ -2,6 +2,7 @@ package com.projeto1.desingbrabo
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.widget.*
@@ -54,11 +55,13 @@ class ProdutoActivity : AppCompatActivity() {
         val buttonCurtir: ImageButton = findViewById(R.id.button_curtida)
         val buttonSeguir: Button = findViewById(R.id.button_seguir)
         val buttonAdicionarCarrinho: Button = findViewById(R.id.button_adicionar_carrinho)
+        val buttonDenuncia: Button = findViewById(R.id.button_denuciar)
 
         val imagem: ImageView = findViewById(R.id.produto1)
         val donoImagem: TextView = findViewById(R.id.nome_proprietario_imagem)
         val nomeProduto: TextView = findViewById(R.id.nome_produto)
         val likes: TextView = findViewById(R.id.curtidas)
+        val licenca: TextView = findViewById(R.id.tipo_licenca)
         val preco: TextView = findViewById(R.id.valor_preco)
         val formatos: TextView = findViewById(R.id.valor_formato)
         val tamanho: TextView = findViewById(R.id.valor_tamanho)
@@ -67,7 +70,6 @@ class ProdutoActivity : AppCompatActivity() {
         val db = AppDatabase.getDatabase(this)
         cartDao = db.cartDao()
 
-        // Carregar produto da API
         RetrofitInstance.api.getProduto(imageId).enqueue(object : Callback<Produto> {
             override fun onResponse(call: Call<Produto>, response: Response<Produto>) {
                 if (response.isSuccessful) {
@@ -81,6 +83,19 @@ class ProdutoActivity : AppCompatActivity() {
                         tamanho.text = "${produto.tamanho ?: ""} MB"
                         likes.text = "${produto.likes ?: ""} curtidas"
 
+                        val licencaText = produto.licenca
+
+                        if (licencaText == "premium") {
+                            licenca.text = "Premium "
+                            licenca.setTextColor(Color.parseColor("#7DF19E"))
+                            licenca.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.selo, 0)
+                        } else {
+                            licenca.text = "Grátis "
+                            licenca.setTextColor(Color.parseColor("#7DF19E"))
+                            licenca.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.free, 0)
+
+                        }
+
                         Glide.with(this@ProdutoActivity)
                             .load(produto.url)
                             .placeholder(R.drawable.placeholder_image)
@@ -90,20 +105,24 @@ class ProdutoActivity : AppCompatActivity() {
                         colorsRecyclerView.adapter = ColorsAdapter(produto.cores ?: emptyList(), this@ProdutoActivity)
 
 //                        // O ERRO DA PÁGINA TÁ AQUI
-//                        loadedProduct = Product(
-//                            id = produto.id ?: 0,
-//                            name = produto.nome ?: "Sem nome",
-//                            price = produto.preco ?: "R$ ${produto.preco ?: "0,00"}",
-//                            type = "Tipo padrão" ?: "...",
-//                            owner = produto.dono ?: "Desconhecido",
-//                            imageUrl = produto.url ?: ""
-//                        )
-//
-//                        loadedProduct?.let { product ->
-//                            lifecycleScope.launch(Dispatchers.IO) {
-//                                db.productDao().insertProduct(product)
-//                            }
-//                        } ?: Log.e("ProdutoActivity", "Produto é null, não foi possível salvar.")
+                        loadedProduct = Product(
+                            id = produto.id ?: 0,
+                            name = produto.nome ?: "Sem nome",
+                            price = produto.preco?.let { "R$ $it" } ?: "R$ 0,00",
+                            formatos = produto.formatos,
+                            owner = produto.dono ?: "Desconhecido",
+                            imageUrl = produto.url ?: ""
+                        )
+
+                        loadedProduct?.let { product ->
+                            lifecycleScope.launch(Dispatchers.IO) {
+                                try {
+                                    db.productDao().insertProduct(product)
+                                } catch (e: Exception) {
+                                    Log.e("ProdutoActivity", "Erro ao salvar produto no banco: ${e.message}")
+                                }
+                            }
+                        }
 
                     } else {
                         Toast.makeText(this@ProdutoActivity, "Produto não encontrado", Toast.LENGTH_SHORT).show()
@@ -121,12 +140,21 @@ class ProdutoActivity : AppCompatActivity() {
 
 
         buttonAdicionarCarrinho.setOnClickListener {
-            loadedProduct?.let { product ->
+            if (loadedProduct != null) {
                 lifecycleScope.launch(Dispatchers.IO) {
-                    addToCart(product)
+                    try {
+                        addToCart(loadedProduct!!)
+                        withContext(Dispatchers.Main) {
+                            Toast.makeText(this@ProdutoActivity, "Produto adicionado ao carrinho!", Toast.LENGTH_SHORT).show()
+                        }
+                    } catch (e: Exception) {
+                        Log.e("ProdutoActivity", "Erro ao adicionar ao carrinho: ${e.message}")
+                    }
                 }
-            } ?: Toast.makeText(this, "Produto não carregado", Toast.LENGTH_SHORT).show()
-
+            } else {
+                Log.e("ProdutoActivity", "Produto é null!")
+                Toast.makeText(this@ProdutoActivity, "Produto não carregado", Toast.LENGTH_SHORT).show()
+            }
         }
 
         var isLiked = false
@@ -197,17 +225,23 @@ class ProdutoActivity : AppCompatActivity() {
         buttonVoltar.setOnClickListener { finish() }
 
         findViewById<Button>(R.id.button_home).setOnClickListener {
-            startActivity(Intent(this, HomeActivity::class.java))
+            startActivity(Intent(this@ProdutoActivity, HomeActivity::class.java))
         }
         findViewById<Button>(R.id.button_meus_produtos).setOnClickListener {
-            startActivity(Intent(this, DownloadActivity::class.java))
+            startActivity(Intent(this@ProdutoActivity, DownloadActivity::class.java))
         }
         findViewById<Button>(R.id.button_carrinho).setOnClickListener {
-            startActivity(Intent(this, CarrinhoActivity::class.java))
+            startActivity(Intent(this@ProdutoActivity, CarrinhoActivity::class.java))
         }
         findViewById<Button>(R.id.button_perfil).setOnClickListener {
-            startActivity(Intent(this, PerfilActivity::class.java))
+            startActivity(Intent(this@ProdutoActivity, PerfilActivity::class.java))
         }
+
+        buttonDenuncia.setOnClickListener {
+            val bottomSheet = DenuciarSheet()
+            bottomSheet.show(supportFragmentManager, bottomSheet.tag)
+        }
+
     }
 
     private suspend fun addToCart(product: Product) {

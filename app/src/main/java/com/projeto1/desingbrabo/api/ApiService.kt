@@ -73,7 +73,7 @@ interface ApiService {
         @Query("isGratis") isGratis: Boolean,
         @Query("formats") formats: List<String>,
         @Query("categoria") categoria: String,
-        @Query("color") color: String
+        @Query("color") color: List<String>
     ): Call<List<Image>>
 
     @GET("imagens/categoria/{categoria}")
