@@ -10,7 +10,6 @@
     tools:layout_editor_absoluteY="0dp"
     >
 
-
     <Button
         android:id="@+id/button_sair"
         android:layout_width="195dp"
@@ -88,7 +87,7 @@
         android:fontFamily="@font/poppins_bold"
         android:gravity="center"
         android:text="@string/ademir_brabo"
-        android:textColor="#344859"
+        android:textColor="#010715"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.059"
@@ -103,7 +102,7 @@
         android:fontFamily="@font/poppins_medium"
         android:gravity="center"
         android:text="@string/ademiroemo_gmail_com"
-        android:textColor="#344859"
+        android:textColor="#010715"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.07"
@@ -120,7 +119,7 @@
         android:fontFamily="@font/poppins_regular"
         android:text="@string/descricao"
         android:textAlignment="viewStart"
-        android:textColor="#344859"
+        android:textColor="#010715"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.07"
