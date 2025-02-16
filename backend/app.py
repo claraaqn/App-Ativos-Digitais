@@ -504,7 +504,8 @@ def get_produto(produto_id):
                     GROUP_CONCAT(DISTINCT ic.hex) AS colors,
                     i.likes,
                     GROUP_CONCAT(DISTINCT ift.format) AS format,
-                    i.license
+                    i.license,
+                    i.uploaded_by
                 FROM images i
                 LEFT JOIN image_colors ic ON i.id = ic.image_id
                 LEFT JOIN image_format ift ON i.id = ift.image_id
@@ -528,7 +529,8 @@ def get_produto(produto_id):
             'cores': produto[6].split(",") if produto[6] else [],
             'likes': str(produto[7]),
             'formatos': produto[8].split(",") if produto[8] else [],
-            'licenca': produto[9]
+            'licenca': produto[9],
+            'idColaborador': produto[10]
         }
         
         print(dados_produto)
@@ -547,6 +549,9 @@ def get_produto(produto_id):
 @app.route('/search/images', methods=['GET'])
 def search_images():
     try:
+        
+        user_id = request.args.get('user_id')
+        
         tag = remove_acentos(request.args.get('tag', ''))
         categoria = request.args.get('categoria')
         colors= request.args.getlist('color')
@@ -572,6 +577,10 @@ def search_images():
             WHERE 1=1
         """
         params = []
+        
+        if user_id:
+            query += " AND images.uploaded_by = %s"
+            params.append(user_id)
 
         if tag:
             query += " AND images.caption LIKE %s"
@@ -757,6 +766,78 @@ def check_if_liked():
         print(f"Erro no banco de dados: {e}")
         return jsonify({"message": f"Erro no banco de dados: {e}"}), 500
 
+@app.route('/colaborador/<int:id>', methods=['GET'])
+def get_colaborador(id):
+    try:
+        conn = mysql.connection
+        cursor = conn.cursor()
+        print(id)
+        
+        query = """
+                SELECT 
+                    u.userName, 
+                    u.userProfile, 
+                    u.userCape, 
+                    u.userDescription,
+                    (SELECT COUNT(*) FROM follows WHERE followed_id = u.id) AS total_seguidores,
+                    (SELECT SUM(likes) FROM images WHERE uploaded_by = u.id) AS total_curtidas,
+                    (SELECT SUM(downloads) FROM images WHERE uploaded_by = u.id) AS total_downloads
+                FROM 
+                    ad_users u
+                WHERE 
+                    u.id = %s;
+        """
+
+        cursor.execute(query, (id,))
+        user = cursor.fetchone()
+        
+        dados = {
+                'id': id, 
+                'userName': user[0], 
+                'userProfile': user[1],
+                'userCape': user[2],
+                'userDescription': user[3],
+                'totalSeguidores': user[4],
+                'totalCurtidas': int(user[5]),
+                'totalDownloads': int(user[6])
+            }
+
+        print(dados)
+        if user:
+            return jsonify(dados), 200
+        else:
+            return jsonify({'message': 'User not found'}), 404
+
+    except Exception as e:
+        print(f"Erro: {str(e)}")
+        return jsonify({"success": False, "message": "Erro interno no servidor"}), 500
+
+@app.route('/image/<int:id>', methods=['GET']) # fazer paginação
+def get_images_colaborador(id):
+    try:
+        conn = mysql.connection
+        cursor = conn.cursor()
+        
+        query = "SELECT id, url, license FROM images WHERE status = 'active' AND uploaded_by = %s"
+        
+        cursor.execute(query, (id,))
+        images = cursor.fetchall()
+        
+        results = []
+        for row in images:
+            result = {
+                'id': row[0],
+                'url': row[1],
+                'license': row[2]
+            }
+            results.append(result)
+        
+        return jsonify(results), 200
+    except Exception as e:
+        print(f"Erro ao buscar imagens: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+    finally:
+        cursor.close()
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)

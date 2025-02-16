@@ -11,5 +11,6 @@ data class Produto(
     val cores: List<String>,
     val likes: String,
     val formatos: List<String>,
-    val licenca: String?
+    val licenca: String?,
+    val idColaborador: Int
 )

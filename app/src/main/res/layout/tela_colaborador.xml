@@ -25,8 +25,12 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentRight="true"
                 android:layout_marginTop="72dp"
+                android:adjustViewBounds="false"
+                android:scaleType="centerCrop"
                 android:elevation="8dp"
                 android:src="@drawable/foto_perfil_teste"
+                android:background="@drawable/oval_shape"
+                android:clipToOutline="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.498"
                 app:layout_constraintStart_toStartOf="parent"
@@ -40,9 +44,9 @@
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
                 android:layout_margin="0dp"
-                android:adjustViewBounds="true"
+                android:adjustViewBounds="false"
+                android:scaleType="centerCrop"
                 android:background="#00000000"
-                android:scaleType="fitCenter"
                 android:src="@drawable/produto4"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -104,7 +108,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:padding="16dp"
+                android:padding="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/button">
@@ -132,7 +136,33 @@
                         android:fontFamily="@font/archivo_regular"
                         android:text="Seguidores"
                         android:textColor="#010715"
-                        android:textSize="14sp" />
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/quantidade_views"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/archivo_bold"
+                        android:text="16.6K"
+                        android:textColor="#010715"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/archivo_regular"
+                        android:text="Viwes"
+                        android:textColor="#010715"
+                        android:textSize="12sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -158,7 +188,7 @@
                         android:fontFamily="@font/archivo_regular"
                         android:text="Downloads"
                         android:textColor="#010715"
-                        android:textSize="14sp" />
+                        android:textSize="12sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -184,7 +214,33 @@
                         android:fontFamily="@font/archivo_regular"
                         android:text="Curtidas"
                         android:textColor="#010715"
-                        android:textSize="14sp" />
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/quantidade_recurtos"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/archivo_bold"
+                        android:text="16.6K"
+                        android:textColor="#010715"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/archivo_regular"
+                        android:text="Recursos"
+                        android:textColor="#010715"
+                        android:textSize="12sp" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -199,8 +255,9 @@
                 android:textAlignment="viewStart"
                 android:textColor="#010715"
                 android:textSize="14sp"
+                android:layout_marginTop="0dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.00"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
                 tools:ignore="MissingConstraints" />
@@ -216,7 +273,7 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:padding="4dp"
-                app:layout_constraintEnd_toStartOf="@+id/button3"
+                app:layout_constraintEnd_toStartOf="@+id/button_filtros"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/descricao_perfil">
 
@@ -244,10 +301,11 @@
             </LinearLayout>
 
             <Button
-                android:id="@+id/button3"
+                android:id="@+id/button_filtros"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="14dp"
+                android:layout_marginEnd="4dp"
                 android:background="@android:color/transparent"
                 android:drawableStart="@drawable/icon_filtro"
                 android:text="Filtros"
@@ -276,6 +334,15 @@
                 tools:ignore="ContentDescription" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
+
+    <FrameLayout
+        android:id="@+id/barra_filtros2"
+        layout="@layout/barra_filtros"
+        android:layout_width="330dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"
+        android:translationX="330dp"
+        android:visibility="gone"/>
 
     <ImageView
         android:id="@+id/fundo_barra_baixo"

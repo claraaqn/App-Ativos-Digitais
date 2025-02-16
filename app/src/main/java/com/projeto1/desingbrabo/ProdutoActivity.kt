@@ -45,6 +45,8 @@ class ProdutoActivity : AppCompatActivity() {
             return
         }
 
+        val intentCo = Intent(this@ProdutoActivity, ColaboradorActivity::class.java)
+
         val sharedPref = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
         val userId = sharedPref.getInt("user_id", -1)
 
@@ -56,6 +58,8 @@ class ProdutoActivity : AppCompatActivity() {
         val buttonSeguir: Button = findViewById(R.id.button_seguir)
         val buttonAdicionarCarrinho: Button = findViewById(R.id.button_adicionar_carrinho)
         val buttonDenuncia: Button = findViewById(R.id.button_denuciar)
+
+        val btnPropImage: Button = findViewById(R.id.nome_proprietario_imagem)
 
         val imagem: ImageView = findViewById(R.id.produto1)
         val donoImagem: TextView = findViewById(R.id.nome_proprietario_imagem)
@@ -83,6 +87,8 @@ class ProdutoActivity : AppCompatActivity() {
                         tamanho.text = "${produto.tamanho ?: ""} MB"
                         likes.text = "${produto.likes ?: ""} curtidas"
 
+                        intentCo.putExtra("idColaborador", produto.idColaborador)
+
                         val licencaText = produto.licenca
 
                         if (licencaText == "premium") {
@@ -104,7 +110,6 @@ class ProdutoActivity : AppCompatActivity() {
 
                         colorsRecyclerView.adapter = ColorsAdapter(produto.cores ?: emptyList(), this@ProdutoActivity)
 
-//                        // O ERRO DA PÁGINA TÁ AQUI
                         loadedProduct = Product(
                             id = produto.id ?: 0,
                             name = produto.nome ?: "Sem nome",
@@ -136,8 +141,10 @@ class ProdutoActivity : AppCompatActivity() {
                 Toast.makeText(this@ProdutoActivity, "Erro: ${t.message}", Toast.LENGTH_LONG).show()
             }
         })
-        Log.d("ProdutoActivity", "SACO")
 
+        btnPropImage.setOnClickListener {
+            startActivity(intentCo)
+        }
 
         buttonAdicionarCarrinho.setOnClickListener {
             if (loadedProduct != null) {
@@ -241,7 +248,6 @@ class ProdutoActivity : AppCompatActivity() {
             val bottomSheet = DenuciarSheet()
             bottomSheet.show(supportFragmentManager, bottomSheet.tag)
         }
-
     }
 
     private suspend fun addToCart(product: Product) {

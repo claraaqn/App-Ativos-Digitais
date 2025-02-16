@@ -121,7 +121,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginStart="18dp"/>
 
-            <TextView
+            <Button
                 android:id="@+id/nome_proprietario_imagem"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
@@ -129,6 +129,7 @@
                 android:fontFamily="@font/archivo_bold"
                 android:textColor="#010715"
                 android:textSize="18sp"
+                android:background="@android:color/transparent"
                 android:textAlignment="textStart"
                 app:layout_constraintTop_toBottomOf="@id/button_curtida"
                 android:layout_marginTop="16dp"
