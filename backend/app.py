@@ -781,7 +781,9 @@ def get_colaborador(id):
                     u.userDescription,
                     (SELECT COUNT(*) FROM follows WHERE followed_id = u.id) AS total_seguidores,
                     (SELECT SUM(likes) FROM images WHERE uploaded_by = u.id) AS total_curtidas,
-                    (SELECT SUM(downloads) FROM images WHERE uploaded_by = u.id) AS total_downloads
+                    (SELECT SUM(downloads) FROM images WHERE uploaded_by = u.id) AS total_downloads,
+                    (SELECT SUM(views) FROM images WHERE uploaded_by = u.id) AS total_views,
+                    (SELECT COUNT(*) FROM images WHERE uploaded_by = u.id) AS total_recursos
                 FROM 
                     ad_users u
                 WHERE 
@@ -799,7 +801,9 @@ def get_colaborador(id):
                 'userDescription': user[3],
                 'totalSeguidores': user[4],
                 'totalCurtidas': int(user[5]),
-                'totalDownloads': int(user[6])
+                'totalDownloads': int(user[6]),
+                'totalViews': int(user[7]),
+                'totalRecursos': int(user[8])
             }
 
         print(dados)

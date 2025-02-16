@@ -42,6 +42,8 @@ class ColaboradorActivity : AppCompatActivity() {
         val nomeColaborador: TextView = findViewById(R.id.nome_usuario)
         val seguidores: TextView = findViewById(R.id.quantidade_seguidores)
         val downloads: TextView = findViewById(R.id.quantidade_downloads)
+        val views: TextView = findViewById(R.id.quantidade_views)
+        val recursos: TextView = findViewById(R.id.quantidade_recurtos)
         val curtidas: TextView = findViewById(R.id.quantidade_curtidas)
         val descricao: TextView = findViewById(R.id.descricao_perfil)
 
@@ -51,10 +53,10 @@ class ColaboradorActivity : AppCompatActivity() {
         recyclerView = findViewById(R.id.recyclerView)
 
         val btnFiltros: Button = findViewById(R.id.button_filtros)
-        barraFiltros = findViewById(R.id.barra_filtros2)
+        barraFiltros = findViewById(R.id.barra_filtros)
+        val btnFecharFiltros: Button = findViewById(R.id.fechar)
 
-        recyclerView.layoutManager =
-            StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        recyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         imageAdapter = ImageAdapter(emptyList(), this@ColaboradorActivity)
         recyclerView.adapter = imageAdapter
 
@@ -70,6 +72,8 @@ class ColaboradorActivity : AppCompatActivity() {
                         seguidores.text = colaborador.totalSeguidores.toString()
                         downloads.text = colaborador.totalDownloads.toString()
                         curtidas.text = colaborador.totalCurtidas.toString()
+                        views.text = colaborador.totalViews.toString()
+                        recursos.text = colaborador.totalRecursos.toString()
                         descricao.text = colaborador.userDescription
 
                         Glide.with(this@ColaboradorActivity)
@@ -100,36 +104,23 @@ class ColaboradorActivity : AppCompatActivity() {
         RetrofitInstance.api.getImagemColaborador(idColaborador)
             .enqueue(object : Callback<List<Image>> {
                 override fun onResponse(call: Call<List<Image>>, response: Response<List<Image>>) {
-                    response.body()?.let { images ->
+                    val images = response.body()
+                    if (images != null) {
                         imageAdapter.updateImages(images)
                     }
                 }
-
                 override fun onFailure(call: Call<List<Image>>, t: Throwable) {
-                    Toast.makeText(this@ColaboradorActivity, "${t.message}", Toast.LENGTH_LONG)
-                        .show()
+                    Toast.makeText(this@ColaboradorActivity, "${t.message}", Toast.LENGTH_LONG).show()
                 }
             })
-
+        val isFechado = false
         btnFiltros.setOnClickListener {
-//            if (barraFiltros.visibility == View.GONE) {
-//                // Mostrar a barra com animação
-//                barraFiltros.visibility = View.VISIBLE
-//                barraFiltros.animate()
-//                    .translationX(0f) // Move a barra para a posição 0 (dentro da tela)
-//                    .setDuration(300) // Duração da animação em milissegundos
-//                    .start()
-//            } else {
-//                // Ocultar a barra com animação
-//                barraFiltros.animate()
-//                    .translationX(barraFiltros.width.toFloat()) // Move a barra para fora da tela
-//                    .setDuration(300)
-//                    .withEndAction {
-//                        barraFiltros.visibility = View.GONE // Oculta após a animação
-//                    }
-//                    .start()
-//            }
+            barraFiltros.visibility = View.VISIBLE
        }
+
+        btnFecharFiltros.setOnClickListener {
+            barraFiltros.visibility = View.GONE
+        }
     }
 
     private fun setupSpinner() {
@@ -156,15 +147,13 @@ class ColaboradorActivity : AppCompatActivity() {
             userId = intent.getIntExtra("idColaborador", -1)
         ).enqueue(object : Callback<List<Image>> {
             override fun onResponse(call: Call<List<Image>>, response: Response<List<Image>>) {
-                response.body()?.let { images ->
-                    if (images.isEmpty()) {
-                        imageAdapter.clearImages()
-                    } else {
-                        imageAdapter.updateImages(images)
-                    }
-                } ?: Toast.makeText(this@ColaboradorActivity, "Erro ao buscar imagens", Toast.LENGTH_SHORT).show()
+                val images = response.body()!!
+                if (images.isEmpty()) {
+                    imageAdapter.clearImages()
+                } else {
+                    imageAdapter.updateImages(images)
+                }
             }
-
             override fun onFailure(call: Call<List<Image>>, t: Throwable) {
                 Toast.makeText(this@ColaboradorActivity, "Erro ao conectar ao servidor", Toast.LENGTH_SHORT).show()
             }

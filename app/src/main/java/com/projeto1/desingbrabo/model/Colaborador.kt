@@ -8,5 +8,7 @@ data class Colaborador(
     val userDescription: String,
     val totalSeguidores: Int,
     val totalCurtidas: Int,
-    val totalDownloads: Int
+    val totalDownloads: Int,
+    val totalViews: Int,
+    val totalRecursos:Int
 )
