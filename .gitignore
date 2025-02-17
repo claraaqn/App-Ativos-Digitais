@@ -17,6 +17,8 @@ local.properties
 
 # Log/OS Files
 *.log
+
+
 .env
 backend/.env
 backend/app_teste.py
