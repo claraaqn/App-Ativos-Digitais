@@ -19,5 +19,4 @@ local.properties
 *.log
 .env
 backend/.env
-backend/.env
-backend/.env
+backend/app_teste.py
