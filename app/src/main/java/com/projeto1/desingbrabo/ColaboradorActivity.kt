@@ -1,5 +1,6 @@
 package com.projeto1.desingbrabo
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -35,6 +36,13 @@ class ColaboradorActivity : AppCompatActivity() {
         setContentView(R.layout.tela_colaborador)
 
         val idColaborador = intent.getIntExtra("idColaborador", -1)
+
+        val sharedPreferences = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+        val idUsuario = sharedPreferences.getInt("user_id", -1)
+
+        if(idColaborador == idUsuario) {
+            startActivity(Intent(this@ColaboradorActivity, PerfilActivity::class.java))
+        }
 
         searchInput = findViewById(R.id.search_input)
         spinnerTags = findViewById(R.id.spinner_tags)
@@ -113,7 +121,6 @@ class ColaboradorActivity : AppCompatActivity() {
                     Toast.makeText(this@ColaboradorActivity, "${t.message}", Toast.LENGTH_LONG).show()
                 }
             })
-        val isFechado = false
         btnFiltros.setOnClickListener {
             barraFiltros.visibility = View.VISIBLE
        }
