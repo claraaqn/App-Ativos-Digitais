@@ -118,7 +118,7 @@
 
             <TextView
                 android:id="@+id/descricao_perfil"
-                android:layout_width="387dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="17dp"
                 android:layout_marginEnd="17dp"

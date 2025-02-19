@@ -23,6 +23,7 @@ class EditarPerfilActivity : AppCompatActivity() {
         nomeEditText = findViewById(R.id.edit_nome)
         emailEditText = findViewById(R.id.edit_text_email)
         telefoneEditText = findViewById(R.id.edit_text_telefone)
+        val descricao: EditText = findViewById(R.id.edit_text_descricao)
         salvarButton = findViewById(R.id.salvar_button)
 
         voltar.setOnClickListener{
@@ -40,11 +41,13 @@ class EditarPerfilActivity : AppCompatActivity() {
             val novoNome = nomeEditText.text.toString()
             val novoEmail = emailEditText.text.toString()
             val novoTelefone = telefoneEditText.text.toString()
+            val novaDescricao = descricao.text.toString()
 
-            if (novoNome.isNotEmpty() && novoEmail.isNotEmpty() && novoTelefone.isNotEmpty()) {
+            if (novoNome.isNotEmpty() && novoEmail.isNotEmpty() && novoTelefone.isNotEmpty() && novaDescricao.isNotEmpty()) {
                 editor.putString("user_name", novoNome)
                 editor.putString("user_email", novoEmail)
                 editor.putString("user_telefone", novoTelefone)
+                editor.putString("user_descricao", novaDescricao)
                 editor.apply()
 
                 Toast.makeText(this, "Perfil atualizado com sucesso!", Toast.LENGTH_SHORT).show()

@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.projeto1.desingbrabo.api.RetrofitInstance
 import com.projeto1.desingbrabo.model.Image
 import com.projeto1.desingbrabo.model.Perfil
+import org.w3c.dom.Text
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -29,6 +30,7 @@ class PerfilActivity : AppCompatActivity() {
     private lateinit var nomeUsuarioTextView: TextView
     private lateinit var emailUsuarioTextView: TextView
     private lateinit var fotoPerfilImageView: ImageView
+    private lateinit var descricaoTextView: TextView
     private lateinit var minhaAssinaturaButton: Button
     private lateinit var editarPerfilButton: Button
     private lateinit var configuracoesButton: Button
@@ -61,6 +63,7 @@ class PerfilActivity : AppCompatActivity() {
 
         nomeUsuarioTextView = findViewById(R.id.nome_usuario)
         emailUsuarioTextView = findViewById(R.id.email_perfil)
+        descricaoTextView = findViewById(R.id.descricao_perfil)
         fotoPerfilImageView = findViewById(R.id.foto_perfil)
 
         minhaAssinaturaButton = findViewById(R.id.button_minha_assinatura)
@@ -170,9 +173,12 @@ class PerfilActivity : AppCompatActivity() {
     private fun carregarDadosPerfil(sharedPreferences: SharedPreferences) {
         val nomeUsuario = sharedPreferences.getString("user_name", "Nome não encontrado")
         val emailUsuario = sharedPreferences.getString("user_email", "Email não encontrado")
+        val descricao = sharedPreferences.getString("user_descricao", "Sem descrição")
 
         nomeUsuarioTextView.text = nomeUsuario
         emailUsuarioTextView.text = emailUsuario
+        descricaoTextView.text = descricao
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
