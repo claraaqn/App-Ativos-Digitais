@@ -21,7 +21,7 @@
     <TextView
         android:id="@+id/nome_usuario"
         android:layout_width="wrap_content"
-        android:layout_height="27dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:fontFamily="@font/poppins_bold"
         android:gravity="center"
@@ -35,7 +35,7 @@
         android:id="@+id/button_minha_assinatura"
         android:layout_width="320dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="4dp"
         android:background="@android:color/transparent"
         android:drawableEnd="@drawable/icon_seta_ir"
         android:fontFamily="@font/archivo_bold"
@@ -43,7 +43,7 @@
         android:text="Minha assinatura"
         android:textAlignment="textStart"
         android:textColor="#010715"
-        android:textSize="12sp"
+        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nome_usuario"
         tools:ignore="TouchTargetSizeCheck" />
@@ -61,7 +61,7 @@
         android:padding="10dp"
         android:text="editar perfil"
         android:textColor="#010715"
-        android:textSize="12sp"
+        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button_minha_assinatura"
         tools:ignore="TouchTargetSizeCheck" />
@@ -79,7 +79,7 @@
         android:padding="10dp"
         android:text="Configurações"
         android:textColor="#010715"
-        android:textSize="12sp"
+        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button_editar_perfil"
         tools:ignore="TouchTargetSizeCheck" />
@@ -95,7 +95,7 @@
         android:padding="10dp"
         android:text="Sair"
         android:textColor="#F90A0E"
-        android:textSize="12sp"
+        android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button_configuracoes"
         tools:ignore="TouchTargetSizeCheck" />
