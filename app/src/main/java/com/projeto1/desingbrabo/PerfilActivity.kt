@@ -4,7 +4,9 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.Button
@@ -17,6 +19,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.projeto1.desingbrabo.api.RetrofitInstance
 import com.projeto1.desingbrabo.model.Image
 import com.projeto1.desingbrabo.model.Perfil
@@ -54,9 +58,13 @@ class PerfilActivity : AppCompatActivity() {
     private lateinit var barraPerfil: View
     private lateinit var barraFiltros: View
 
+    private lateinit var fotoPerfil: ImageView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.tela_perfil)
+
+        fotoPerfil = findViewById(R.id.foto_perfil)
 
         val sharedPreferences = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
         val idUsuario = sharedPreferences.getInt("user_id", -1)
@@ -174,10 +182,16 @@ class PerfilActivity : AppCompatActivity() {
         val nomeUsuario = sharedPreferences.getString("user_name", "Nome não encontrado")
         val emailUsuario = sharedPreferences.getString("user_email", "Email não encontrado")
         val descricao = sharedPreferences.getString("user_descricao", "Sem descrição")
+        val imageUrl = sharedPreferences.getString("user_profile_image", null)
 
         nomeUsuarioTextView.text = nomeUsuario
         emailUsuarioTextView.text = emailUsuario
         descricaoTextView.text = descricao
+        Glide.with(this@PerfilActivity)
+            .load(imageUrl)
+            .skipMemoryCache(true)
+            .diskCacheStrategy(DiskCacheStrategy.NONE)
+            .into(fotoPerfil)
 
     }
 

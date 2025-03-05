@@ -155,14 +155,16 @@ def update_profile():
         email = data.get('email')
         telefone = data.get('phone')
         descricao = data.get('descricao')
+        fotoPerfil = data.get('userProfile')
+        print(fotoPerfil)
         
         conn = mysql.connection
         cursor = conn.cursor()
         cursor.execute("""
             UPDATE ad_users
-            SET userName = %s, email = %s, userPhone = %s, userDescription = %s
+            SET userName = %s, email = %s, userPhone = %s, userDescription = %s, userProfile = %s
             WHERE id = %s
-        """, (nome, email, telefone, descricao,user_id))
+        """, (nome, email, telefone, descricao, fotoPerfil, user_id))
         conn.commit()
 
         return jsonify({"success": True, "message": "Perfil atualizado com sucesso"})

@@ -185,11 +185,13 @@
         android:layout_height="130dp"
         android:elevation="8dp"
         android:src="@drawable/foto_perfil_teste"
+        android:background="@drawable/oval_shape"
+        android:adjustViewBounds="false"
+        android:scaleType="centerCrop"
+        android:clipToOutline="true"
         android:layout_marginTop="40dp"
         android:layout_marginStart="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/perfil" />
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
