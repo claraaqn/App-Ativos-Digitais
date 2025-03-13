@@ -57,7 +57,7 @@ class ExplorarActivity : AppCompatActivity() {
 
     private fun setupRecyclerView() {
         recyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-        imageAdapter = ImageAdapter(emptyList(), this)
+        imageAdapter = ImageAdapter(emptyList(), this@ExplorarActivity)
         recyclerView.adapter = imageAdapter
     }
 
@@ -282,7 +282,8 @@ class ExplorarActivity : AppCompatActivity() {
             isGratis = licenseEstado[findViewById(R.id.button_gratis)] == true,
             formats = formats,
             categoria = selectedCategoria,
-            color = color
+            color = color,
+            userId = null
         )
 
         call.enqueue(object : Callback<List<Image>> {

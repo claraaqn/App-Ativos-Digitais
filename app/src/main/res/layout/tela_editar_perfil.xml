@@ -68,7 +68,7 @@
         tools:ignore="TouchTargetSizeCheck" />
 
     <Button
-        android:id="@+id/ediatr_foto"
+        android:id="@+id/editar_foto"
         android:layout_width="138dp"
         android:layout_height="30dp"
         android:layout_marginStart="8dp"
@@ -111,7 +111,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ediatr_foto"
+        app:layout_constraintTop_toBottomOf="@+id/editar_foto"
         tools:ignore="RtlSymmetry" />
 
     <EditText
@@ -126,7 +126,7 @@
         android:paddingStart="16dp"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintHorizontal_bias="0.50"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edit_text_email"
         tools:ignore="RtlSymmetry" />
@@ -169,7 +169,7 @@
         android:id="@+id/salvar_button"
         android:layout_width="130dp"
         android:layout_height="48dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="68dp"
         android:background="@drawable/bg_button_verde"
         android:fontFamily="@font/poppins_extra_bold"
         android:text="@string/salvar"
@@ -185,6 +185,10 @@
         android:layout_height="130dp"
         android:elevation="8dp"
         android:src="@drawable/foto_perfil_teste"
+        android:background="@drawable/oval_shape"
+        android:adjustViewBounds="false"
+        android:scaleType="centerCrop"
+        android:clipToOutline="true"
         android:layout_marginTop="40dp"
         android:layout_marginStart="10dp"
         app:layout_constraintStart_toStartOf="parent"

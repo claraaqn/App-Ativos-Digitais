@@ -1,6 +1,7 @@
 package com.projeto1.desingbrabo.api
 
 import com.projeto1.desingbrabo.model.Cadastro
+import com.projeto1.desingbrabo.model.Colaborador
 import com.projeto1.desingbrabo.model.FavoriteRequest
 import com.projeto1.desingbrabo.model.ForgotPasswordRequest
 import com.projeto1.desingbrabo.model.LoginRequest
@@ -73,11 +74,9 @@ interface ApiService {
         @Query("isGratis") isGratis: Boolean,
         @Query("formats") formats: List<String>,
         @Query("categoria") categoria: String,
-        @Query("color") color: List<String>
+        @Query("color") color: List<String>,
+        @Query("userId") userId: Int?
     ): Call<List<Image>>
-
-    @GET("imagens/categoria/{categoria}")
-    fun getImagensPorCategoria(@Path("categoria") categoria: String): Call<List<Image>>
 
     @POST("/add_favorite")
     fun addFavorite(@Body request: FavoriteRequest): Call<LikeResponse>
@@ -93,5 +92,11 @@ interface ApiService {
 
     @GET("/check_if_liked")
     fun checkIfLiked(@Query("image_id") imageId: Int, @Query("user_id") userId: Int): Call<LikeResponse>
+
+    @GET("colaborador/{id}")
+    fun getColaborador(@Path("id") userId: Int): Call<Colaborador>
+
+    @GET("image/{id}")
+    fun getImagemColaborador(@Path("id") userId: Int): Call<List<Image>>
 
 }
