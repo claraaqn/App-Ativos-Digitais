@@ -23,10 +23,10 @@ app.config['MYSQL_USER'] = os.getenv('MYSQL_USER')
 app.config['MYSQL_PASSWORD'] = os.getenv('MYSQL_PASSWORD')
 app.config['MYSQL_DB'] = os.getenv('MYSQL_DB')
 
-app.config['MAIL_SERVER'] = os.getenv('MAIL_SERVER')
-app.config['MAIL_PORT'] = os.getenv('MAIL_PORT')
-app.config['MAIL_USE_TLS'] = os.getenv('MAIL_USE_TLS')
-app.config['MAIL_USE_SSL'] = os.getenv('MAIL_USE_SSL')
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USE_SSL'] = False
 app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
 app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
 app.config['MAIL_DEFAULT_SENDER'] = os.getenv('MAIL_DEFAULT_SENDER')
@@ -156,7 +156,6 @@ def update_profile():
         telefone = data.get('phone')
         descricao = data.get('descricao')
         fotoPerfil = data.get('userProfile')
-        print(fotoPerfil)
         
         conn = mysql.connection
         cursor = conn.cursor()
@@ -452,7 +451,7 @@ def validar_codigo_email():
         
         cursor.execute("""
             UPDATE ad_users
-            SET isVerify = 1
+            SET isVerified = 1
             WHERE email = %s
         """, (email,))
         conn.commit()

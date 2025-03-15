@@ -115,7 +115,6 @@ class CadastroActivity : AppCompatActivity() {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 if (response.isSuccessful) {
                     Toast.makeText(this@CadastroActivity, "Cadastro realizado com sucesso!", Toast.LENGTH_LONG).show()
-
                     enviarCodigoVerificacao(email)
                 } else {
                     Toast.makeText(this@CadastroActivity, "Erro ao cadastrar usuário", Toast.LENGTH_LONG).show()
@@ -136,10 +135,14 @@ class CadastroActivity : AppCompatActivity() {
             override fun onResponse(call: Call<GenericResponse>, response: Response<GenericResponse>) {
                 if (response.isSuccessful) {
                     Toast.makeText(this@CadastroActivity, "Código de verificação enviado!", Toast.LENGTH_LONG).show()
+
+                    val sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE)
+                    val editor = sharedPreferences.edit()
+                    editor.putString("email", email)
+                    editor.apply()
+
                     val intent = Intent(this@CadastroActivity, VerificacaoEmailActivity::class.java)
-                    intent.putExtra("email", email)
                     startActivity(intent)
-                    finish()
                 } else {
                     Toast.makeText(this@CadastroActivity, "Erro ao enviar código de verificação", Toast.LENGTH_LONG).show()
                 }

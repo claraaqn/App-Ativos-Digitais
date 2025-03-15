@@ -33,7 +33,7 @@ import java.util.Properties
 class EditarPerfilActivity : AppCompatActivity() {
 
     private lateinit var fotoPerfil: ImageView
-    private lateinit var selectedImageUri: Uri
+    private var selectedImageUri: Uri? = null
 
     private val REQUEST_CODE_GALLERY = 100
     private val REQUEST_CODE_CROP = 101
@@ -65,7 +65,6 @@ class EditarPerfilActivity : AppCompatActivity() {
         Glide.with(this@EditarPerfilActivity)
             .load(currentImageUrl)
             .skipMemoryCache(true)
-            .diskCacheStrategy(DiskCacheStrategy.NONE)
             .into(fotoPerfil)
 
         btnFotoPerfil.setOnClickListener {
@@ -135,7 +134,10 @@ class EditarPerfilActivity : AppCompatActivity() {
                     val resultUri = data?.let { UCrop.getOutput(it) }
                     if (resultUri != null) {
                         selectedImageUri = resultUri
-                        fotoPerfil.setImageURI(resultUri)
+                        Glide.with(this@EditarPerfilActivity)
+                            .load(resultUri)
+                            .skipMemoryCache(true)
+                            .into(fotoPerfil)
                     } else {
                         Toast.makeText(this, "Erro ao obter imagem cortada", Toast.LENGTH_SHORT).show()
                     }

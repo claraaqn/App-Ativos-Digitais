@@ -181,7 +181,7 @@ class PerfilActivity : AppCompatActivity() {
     private fun carregarDadosPerfil(sharedPreferences: SharedPreferences) {
         val nomeUsuario = sharedPreferences.getString("user_name", "Nome não encontrado")
         val emailUsuario = sharedPreferences.getString("user_email", "Email não encontrado")
-        val descricao = sharedPreferences.getString("user_descricao", "Sem descrição")
+        val descricao = sharedPreferences.getString("user_descricao", "")
         val imageUrl = sharedPreferences.getString("user_profile_image", null)
 
         nomeUsuarioTextView.text = nomeUsuario
@@ -192,7 +192,6 @@ class PerfilActivity : AppCompatActivity() {
             .skipMemoryCache(true)
             .diskCacheStrategy(DiskCacheStrategy.NONE)
             .into(fotoPerfil)
-
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
