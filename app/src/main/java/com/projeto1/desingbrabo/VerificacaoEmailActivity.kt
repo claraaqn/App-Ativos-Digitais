@@ -35,7 +35,7 @@ class VerificacaoEmailActivity : AppCompatActivity() {
         setContentView(R.layout.tela_verificacao_esqueceu_senha)
 
         val sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE)
-        val email = sharedPreferences.getString("user_email_redefinicao", null)
+        val email = sharedPreferences.getString("email", null)
 
         if (email == null) {
             Toast.makeText(this, "E-mail não encontrado. Tente novamente.", Toast.LENGTH_SHORT).show()

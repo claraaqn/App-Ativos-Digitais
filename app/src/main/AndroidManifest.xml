@@ -32,6 +32,9 @@
         <activity android:name=".LoginActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
 
+        <activity android:name=".CadastroActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+
         <activity android:name=".EditarPerfilActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
 
