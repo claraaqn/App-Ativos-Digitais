@@ -22,8 +22,8 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.projeto1.desingbrabo.api.RetrofitInstance
+import com.projeto1.desingbrabo.model.Colaborador
 import com.projeto1.desingbrabo.model.Image
-import com.projeto1.desingbrabo.model.Perfil
 import org.w3c.dom.Text
 import retrofit2.Call
 import retrofit2.Callback
@@ -69,6 +69,14 @@ class PerfilActivity : AppCompatActivity() {
         val sharedPreferences = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
         val idUsuario = sharedPreferences.getInt("user_id", -1)
 
+        val capa: ImageView = findViewById(R.id.produto1)
+        val seguidores: TextView = findViewById(R.id.quantidade_seguidores)
+        val downloads: TextView = findViewById(R.id.quantidade_downloads)
+        val views: TextView = findViewById(R.id.quantidade_views)
+        val recursos: TextView = findViewById(R.id.quantidade_recurtos)
+        val curtidas: TextView = findViewById(R.id.quantidade_curtidas)
+        val descricao: TextView = findViewById(R.id.descricao_perfil)
+
         nomeUsuarioTextView = findViewById(R.id.nome_usuario)
         emailUsuarioTextView = findViewById(R.id.email_perfil)
         descricaoTextView = findViewById(R.id.descricao_perfil)
@@ -93,6 +101,8 @@ class PerfilActivity : AppCompatActivity() {
         barraFiltros = findViewById(R.id.barra_filtros)
         val btnFecharFiltros: Button = findViewById(R.id.fechar)
 
+        val buttonSeguir: Button = findViewById(R.id.button_seguir)
+
         searchInput = findViewById(R.id.search_input)
         spinnerTags = findViewById(R.id.spinner_tags)
         recyclerView = findViewById(R.id.recyclerView)
@@ -101,10 +111,28 @@ class PerfilActivity : AppCompatActivity() {
         imageAdapter = ImageAdapter(emptyList(), this@PerfilActivity)
         recyclerView.adapter = imageAdapter
 
+        RetrofitInstance.api.getImagemColaborador(idUsuario)
+            .enqueue(object : Callback<List<Image>> {
+                override fun onResponse(call: Call<List<Image>>, response: Response<List<Image>>) {
+                    Log.d("API_RESPONSE", "Status: ${response.code()}")
+                    Log.d("API_RESPONSE", "Body: ${response.body()}")
+                    val images = response.body()
+                    if (images != null) {
+                        Log.d("API_RESPONSE", "Número de imagens: ${images.size}")
+                        imageAdapter.updateImages(images)
+                    } else {
+                        Log.d("API_RESPONSE", "Resposta vazia ou nula")
+                    }
+                }
+                override fun onFailure(call: Call<List<Image>>, t: Throwable) {
+                    Log.e("API_ERROR", "Erro: ${t.message}", t)
+                    Toast.makeText(this@PerfilActivity, "${t.message}", Toast.LENGTH_LONG).show()
+                }
+            })
+
         setupButtons()
         setupSpinner()
 
-        carregarDadosPerfil(sharedPreferences)
 
         editarPerfilButton.setOnClickListener {
             val intent = Intent(this, EditarPerfilActivity::class.java)
@@ -164,43 +192,55 @@ class PerfilActivity : AppCompatActivity() {
             barraFiltros.visibility = View.GONE
         }
 
-        RetrofitInstance.api.getImagemColaborador(idUsuario)
-            .enqueue(object : Callback<List<Image>> {
-                override fun onResponse(call: Call<List<Image>>, response: Response<List<Image>>) {
-                    val images = response.body()
-                    if (images != null) {
-                        imageAdapter.updateImages(images)
+
+
+        RetrofitInstance.api.getColaborador(idUsuario).enqueue(object : Callback<Colaborador> {
+            override fun onResponse(call: Call<Colaborador>, response: Response<Colaborador>) {
+                if (response.isSuccessful) {
+                    val colaborador = response.body()
+                    if (colaborador != null) {
+                        nomeUsuarioTextView.text = colaborador.userName ?: ""
+                        seguidores.text = colaborador.totalSeguidores.toString()
+                        downloads.text = colaborador.totalDownloads.toString()
+                        curtidas.text = colaborador.totalCurtidas.toString()
+                        views.text = colaborador.totalViews.toString()
+                        recursos.text = colaborador.totalRecursos.toString()
+                        descricao.text = colaborador.userDescription
+
+                        Glide.with(this@PerfilActivity)
+                            .load(colaborador.userProfile)
+                            .placeholder(R.drawable.placeholder_image)
+                            .error(R.drawable.produto4)
+                            .into(fotoPerfil)
+
+                        Glide.with(this@PerfilActivity)
+                            .load(colaborador.userCape)
+                            .placeholder(R.drawable.placeholder_image)
+                            .error(R.drawable.produto4)
+                            .into(capa)
+                    } else {
+                        Toast.makeText(this@PerfilActivity, "Produto não encontrado", Toast.LENGTH_SHORT).show()
                     }
+                } else {
+                    Toast.makeText(this@PerfilActivity, "Erro ao carregar produto", Toast.LENGTH_SHORT).show()
                 }
-                override fun onFailure(call: Call<List<Image>>, t: Throwable) {
-                    Toast.makeText(this@PerfilActivity, "${t.message}", Toast.LENGTH_LONG).show()
-                }
-            })
-    }
+            }
 
-    private fun carregarDadosPerfil(sharedPreferences: SharedPreferences) {
-        val nomeUsuario = sharedPreferences.getString("user_name", "Nome não encontrado")
-        val emailUsuario = sharedPreferences.getString("user_email", "Email não encontrado")
-        val descricao = sharedPreferences.getString("user_descricao", "")
-        val imageUrl = sharedPreferences.getString("user_profile_image", null)
+            override fun onFailure(call: Call<Colaborador>, t: Throwable) {
+                Toast.makeText(this@PerfilActivity, "Erro: ${t.message}", Toast.LENGTH_LONG)
+                    .show()
+            }
+        })
 
-        nomeUsuarioTextView.text = nomeUsuario
-        emailUsuarioTextView.text = emailUsuario
-        descricaoTextView.text = descricao
-        Glide.with(this@PerfilActivity)
-            .load(imageUrl)
-            .skipMemoryCache(true)
-            .diskCacheStrategy(DiskCacheStrategy.NONE)
-            .into(fotoPerfil)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 1 && resultCode == RESULT_OK) {
-            val sharedPreferences = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
-            carregarDadosPerfil(sharedPreferences)
+        var isSeguindo = false
+        buttonSeguir.setOnClickListener {
+            isSeguindo = !isSeguindo
+            buttonSeguir.text = if (isSeguindo) "Seguindo" else "Seguir"
+            buttonSeguir.setBackgroundResource(if (isSeguindo) R.drawable.bg_button_seguindo else R.drawable.bg_button_seguir)
+            buttonSeguir.setCompoundDrawablesWithIntrinsicBounds(0, 0, if (isSeguindo) R.drawable.ic_check else R.drawable.ic_plus, 0)
         }
     }
+
 
     private fun setupSpinner() {
         val tagsArray = resources.getStringArray(R.array.tags)

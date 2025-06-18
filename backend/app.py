@@ -133,12 +133,44 @@ def get_user(id):
     try:
         conn = mysql.connection
         cursor = conn.cursor()
+        
+        query = """
+                SELECT 
+                    u.userName, 
+                    u.userProfile, 
+                    u.email,
+                    u.userCape, 
+                    u.userDescription,
+                    (SELECT COUNT(*) FROM follows WHERE followed_id = u.id) AS total_seguidores,
+                    (SELECT SUM(likes) FROM images WHERE uploaded_by = u.id) AS total_curtidas,
+                    (SELECT COUNT(*) FROM downloads WHERE user_id = u.id) AS total_downloads,
+                    (SELECT SUM(views) FROM images WHERE uploaded_by = u.id) AS total_views,
+                    (SELECT COUNT(*) FROM images WHERE uploaded_by = u.id) AS total_recursos
+                FROM 
+                    ad_users u
+                WHERE 
+                    u.id = %s;
+        """
 
-        cursor.execute("SELECT userName, email FROM ad_users WHERE id = %s", (id,))
+        cursor.execute(query, (id,))
         user = cursor.fetchone()
+        
+        dados = {
+                'id': id, 
+                'userName': user[0], 
+                'userProfile': user[1],
+                'userEmail': user[2],
+                'userCape': user[3],
+                'userDescription': user[4],
+                'totalSeguidores': user[5],
+                'totalCurtidas': int(user[6]),
+                'totalDownloads': int(user[7]),
+                'totalViews': int(user[8]),
+                'totalRecursos': int(user[9])
+            }
 
         if user:
-            return jsonify({'id': id, 'name': user[0], 'email': user[1]}), 200
+            return jsonify(dados), 200
         else:
             return jsonify({'message': 'User not found'}), 404
 
@@ -468,7 +500,7 @@ def get_images():
         conn = mysql.connection
         cursor = conn.cursor()
         
-        query = "SELECT id, url, license FROM images"
+        query = "SELECT id, url, license FROM images WHERE status = 1"
         
         cursor.execute(query)
         images = cursor.fetchall()
@@ -783,7 +815,7 @@ def get_colaborador(id):
                     u.userDescription,
                     (SELECT COUNT(*) FROM follows WHERE followed_id = u.id) AS total_seguidores,
                     (SELECT SUM(likes) FROM images WHERE uploaded_by = u.id) AS total_curtidas,
-                    (SELECT SUM(downloads) FROM images WHERE uploaded_by = u.id) AS total_downloads,
+                    (SELECT COUNT(*) FROM downloads WHERE user_id = u.id) AS total_downloads,
                     (SELECT SUM(views) FROM images WHERE uploaded_by = u.id) AS total_views,
                     (SELECT COUNT(*) FROM images WHERE uploaded_by = u.id) AS total_recursos
                 FROM 
@@ -824,7 +856,7 @@ def get_images_colaborador(id):
         conn = mysql.connection
         cursor = conn.cursor()
         
-        query = "SELECT id, url, license FROM images WHERE status = 'active' AND uploaded_by = %s"
+        query = "SELECT id, url, license FROM images WHERE status = 1 AND uploaded_by = %s"
         
         cursor.execute(query, (id,))
         images = cursor.fetchall()

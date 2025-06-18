@@ -8,6 +8,7 @@ import com.projeto1.desingbrabo.model.LoginRequest
 import com.projeto1.desingbrabo.model.LoginResponse
 import com.projeto1.desingbrabo.model.UpdateProfileRequest
 import com.projeto1.desingbrabo.model.GenericResponse
+import com.projeto1.desingbrabo.model.GetPerfil
 import com.projeto1.desingbrabo.model.PasswordChangeRequest
 import com.projeto1.desingbrabo.model.ResetPasswordRequest
 import com.projeto1.desingbrabo.model.UserProfileResponse
@@ -34,8 +35,7 @@ interface ApiService {
     @POST("/login")
     fun loginUser(@Body loginRequest: LoginRequest): Call<LoginResponse>
 
-    @GET("user/{id}")
-    fun getUser(@Path("id") userId: Int): Call<UserProfileResponse>
+
 
     @POST("update_profile")
     fun updateProfile(@Body updateRequest: UpdateProfileRequest): Call<GenericResponse>
@@ -98,5 +98,8 @@ interface ApiService {
 
     @GET("image/{id}")
     fun getImagemColaborador(@Path("id") userId: Int): Call<List<Image>>
+
+    @GET("user/{id")
+    fun getUser(@Path("id") userId: Int): Call<GetPerfil>
 
 }

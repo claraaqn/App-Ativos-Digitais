@@ -121,6 +121,7 @@ class ColaboradorActivity : AppCompatActivity() {
                     Toast.makeText(this@ColaboradorActivity, "${t.message}", Toast.LENGTH_LONG).show()
                 }
             })
+
         btnFiltros.setOnClickListener {
             barraFiltros.visibility = View.VISIBLE
        }

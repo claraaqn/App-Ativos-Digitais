@@ -73,7 +73,7 @@
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/poppins_bold"
                 android:gravity="center"
-                android:text="@string/ademir_brabo"
+                android:text="NOME NOME"
                 android:textColor="#010715"
                 android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
