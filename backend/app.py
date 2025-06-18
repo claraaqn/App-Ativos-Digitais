@@ -468,7 +468,7 @@ def get_images():
         conn = mysql.connection
         cursor = conn.cursor()
         
-        query = "SELECT id, url, license FROM images WHERE status = 'active'"
+        query = "SELECT id, url, license FROM images"
         
         cursor.execute(query)
         images = cursor.fetchall()
