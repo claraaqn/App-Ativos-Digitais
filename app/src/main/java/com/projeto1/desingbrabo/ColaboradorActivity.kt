@@ -3,10 +3,14 @@ package com.projeto1.desingbrabo
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.*
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -17,6 +21,9 @@ import com.projeto1.desingbrabo.model.Image
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.net.ConnectException
+import java.net.SocketTimeoutException
+import javax.net.ssl.SSLHandshakeException
 
 class ColaboradorActivity : AppCompatActivity() {
 
@@ -31,6 +38,9 @@ class ColaboradorActivity : AppCompatActivity() {
 
     private lateinit var barraFiltros: View
 
+    private lateinit var aviso: TextView
+
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.tela_colaborador)
@@ -45,7 +55,6 @@ class ColaboradorActivity : AppCompatActivity() {
         }
 
         searchInput = findViewById(R.id.search_input)
-        spinnerTags = findViewById(R.id.spinner_tags)
 
         val nomeColaborador: TextView = findViewById(R.id.nome_usuario)
         val seguidores: TextView = findViewById(R.id.quantidade_seguidores)
@@ -57,6 +66,8 @@ class ColaboradorActivity : AppCompatActivity() {
 
         val fotoPerfil: ImageView = findViewById(R.id.foto_perfil)
         val capa: ImageView = findViewById(R.id.capa)
+
+        aviso = findViewById(R.id.aviso)
 
         recyclerView = findViewById(R.id.recyclerView)
 
@@ -131,29 +142,94 @@ class ColaboradorActivity : AppCompatActivity() {
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.M)
     private fun searchImages(tag: String, formats: List<String>, color: List<String>) {
-        RetrofitInstance.api.searchImages(
-            tag = tag,
+        // Verificar conexão com internet primeiro
+        if (!isNetworkAvailable()) {
+            Toast.makeText(this@ColaboradorActivity, "Sem conexão com a internet", Toast.LENGTH_LONG).show()
+            aviso.text = "Sem conexão com a internet"
+            aviso.visibility = View.VISIBLE
+            return
+        }
+
+        // Mostrar loading
+        aviso.text = "Carregando..."
+        aviso.visibility = View.VISIBLE
+
+        val call = RetrofitInstance.api.searchImages(
+            tag = if (tag.isNotEmpty()) tag else null,
             isPremium = licenseEstado[findViewById(R.id.button_premium)] == true,
             isGratis = licenseEstado[findViewById(R.id.button_gratis)] == true,
-            formats = formats,
-            color = color,
+            formats = if (formats.isNotEmpty()) formats else emptyList(),
+            color = if (color.isNotEmpty()) color else emptyList(),
             userId = intent.getIntExtra("idColaborador", -1)
-        ).enqueue(object : Callback<List<Image>> {
+        )
+
+        call.enqueue(object : Callback<List<Image>> {
             override fun onResponse(call: Call<List<Image>>, response: Response<List<Image>>) {
-                val images = response.body()!!
-                if (images.isEmpty()) {
-                    imageAdapter.clearImages()
-                } else {
-                    imageAdapter.updateImages(images)
+                when {
+                    response.isSuccessful && response.body() != null -> {
+                        val images = response.body()!!
+                        if (images.isEmpty()) {
+                            aviso.text = "Nenhuma imagem encontrada"
+                            aviso.visibility = View.VISIBLE
+                        } else {
+                            aviso.visibility = View.GONE
+                        }
+                        imageAdapter.updateImages(images)
+                    }
+                    response.code() == 404 -> {
+                        aviso.text = "Nenhum resultado encontrado"
+                        aviso.visibility = View.VISIBLE
+                    }
+                    response.code() in 500..599 -> {
+                        aviso.text = "Problema no servidor. Tente novamente mais tarde."
+                        aviso.visibility = View.VISIBLE
+                    }
+                    else -> {
+                        aviso.text = "Erro desconhecido: ${response.code()}"
+                        aviso.visibility = View.VISIBLE
+                        Toast.makeText(
+                            this@ColaboradorActivity,
+                            "Erro na resposta do servidor",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
             }
+
             override fun onFailure(call: Call<List<Image>>, t: Throwable) {
-                Toast.makeText(this@ColaboradorActivity, "Erro ao conectar ao servidor", Toast.LENGTH_SHORT).show()
+                aviso.text = when (t) {
+                    is SocketTimeoutException -> "Tempo de conexão esgotado"
+                    is ConnectException -> "Não foi possível conectar ao servidor"
+                    is SSLHandshakeException -> "Problema de segurança na conexão"
+                    else -> "Erro de conexão: ${t.localizedMessage}"
+                }
+                aviso.visibility = View.VISIBLE
+
+                Toast.makeText(
+                    this@ColaboradorActivity,
+                    "Falha na conexão: ${t.localizedMessage}",
+                    Toast.LENGTH_LONG
+                ).show()
+
+                Log.e("API_ERROR", "Erro na chamada da API", t)
             }
         })
     }
 
+    // Função para verificar conexão com internet
+    @RequiresApi(Build.VERSION_CODES.M)
+    private fun isNetworkAvailable(): Boolean {
+        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork = connectivityManager.activeNetwork
+        val networkCapabilities = connectivityManager.getNetworkCapabilities(activeNetwork)
+        return networkCapabilities != null &&
+                (networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
+                        networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR))
+    }
+
+    @RequiresApi(Build.VERSION_CODES.M)
     private fun setupButtons() {
         val licenseButtons = mapOf(
             findViewById<Button>(R.id.button_premium) to "premium",
@@ -161,19 +237,14 @@ class ColaboradorActivity : AppCompatActivity() {
         )
 
         val formatButtons = mapOf(
-            findViewById<Button>(R.id.button_jpg) to "JPG",
-            findViewById<Button>(R.id.button_png) to "PNG",
-            findViewById<Button>(R.id.button_svg) to "SVG",
             findViewById<Button>(R.id.button_psd) to "PSD",
-            findViewById<Button>(R.id.button_pdf) to "PDF",
-            findViewById<Button>(R.id.button_vetores) to "Vetores",
-            findViewById<Button>(R.id.button_fotos) to "Fotos",
-            findViewById<Button>(R.id.button_ai) to "IA",
-            findViewById<Button>(R.id.button_icones) to "Ícones",
-            findViewById<Button>(R.id.button_motions) to "Motions",
-            findViewById<Button>(R.id.button_mockups) to "Mockups",
-            findViewById<Button>(R.id.button_3d) to "3D",
-            findViewById<Button>(R.id.button_textura) to "Textura"
+            findViewById<Button>(R.id.button_png) to "PNG",
+            findViewById<Button>(R.id.button_jpg) to "JPG",
+            findViewById<Button>(R.id.button_jpeg) to "JPEG",
+            findViewById<Button>(R.id.button_svg) to "SVG",
+            findViewById<Button>(R.id.button_ai) to "AI",
+            findViewById<Button>(R.id.button_eps) to "EPS"
+
         )
 
         licenseButtons.forEach { (button, license) ->

@@ -77,7 +77,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
                 android:layout_below="@+id/nome_usuario"
-                android:layout_marginStart="40dp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/bg_button_preto"
                 android:drawableStart="@drawable/icon_track_verde"
@@ -88,28 +87,10 @@
                 android:text="@string/premium"
                 android:textAlignment="textStart"
                 android:textColor="#48DBBB"
-                app:layout_constraintStart_toStartOf="@+id/linearLayout2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/nome_usuario"
                 tools:ignore="RtlSymmetry,TouchTargetSizeCheck" />
-
-            <Button
-                android:id="@+id/button_seguir"
-                android:layout_width="wrap_content"
-                android:layout_height="35dp"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/bg_button_seguir"
-                android:drawableEnd="@drawable/ic_plus"
-                android:drawablePadding="8dp"
-                android:gravity="center"
-                android:padding="8dp"
-                android:text="Seguir"
-                android:textColor="#010715"
-                android:textSize="12sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@+id/button"
-                app:layout_constraintTop_toBottomOf="@+id/nome_usuario"
-                tools:ignore="TouchTargetSizeCheck" />
 
             <LinearLayout
                 android:id="@+id/linearLayout2"
@@ -352,16 +333,33 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/descricao_perfil" />
 
+            <TextView
+                android:id="@+id/aviso"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:background="@android:color/transparent"
+                android:drawablePadding="8dp"
+                android:fontFamily="@font/archivo_bold"
+                android:gravity="center"
+                android:text="Procure por uma imagem"
+                android:textColor="#010715"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.497"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="0dp"
+                android:layout_marginTop="-10dp"
                 android:padding="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-                tools:listitem="@layout/item_imagem"/>
+                app:layout_constraintTop_toBottomOf="@+id/aviso"
+                tools:listitem="@layout/item_imagem" />
 
             <ImageView
                 android:id="@+id/fundo_branco"

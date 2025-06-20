@@ -11,7 +11,6 @@ import com.projeto1.desingbrabo.model.GenericResponse
 import com.projeto1.desingbrabo.model.GetPerfil
 import com.projeto1.desingbrabo.model.PasswordChangeRequest
 import com.projeto1.desingbrabo.model.ResetPasswordRequest
-import com.projeto1.desingbrabo.model.UserProfileResponse
 import com.projeto1.desingbrabo.model.ValidacaoEmailRequest
 import com.projeto1.desingbrabo.model.ValidarCodigoEmailRequest
 import com.projeto1.desingbrabo.model.ValidarCodigoRequest
@@ -35,7 +34,8 @@ interface ApiService {
     @POST("/login")
     fun loginUser(@Body loginRequest: LoginRequest): Call<LoginResponse>
 
-
+    @GET("user/{id}")
+    fun getPerfil(@Path("id") userId: Int): Call<GetPerfil>
 
     @POST("update_profile")
     fun updateProfile(@Body updateRequest: UpdateProfileRequest): Call<GenericResponse>

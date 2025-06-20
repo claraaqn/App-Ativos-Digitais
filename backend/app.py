@@ -584,7 +584,7 @@ def get_produto(produto_id):
 def search_images():
     try:
         # Obter parâmetros da requisição
-        user_id = request.args.get('user_id')
+        user_id = request.args.get('userId')
         tag = remove_acentos(request.args.get('tag', '').lower())
         colors = [color.lower() for color in request.args.getlist('color')]
         is_premium = request.args.get('isPremium', 'false').lower() == 'true'

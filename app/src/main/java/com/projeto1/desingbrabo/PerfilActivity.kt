@@ -2,13 +2,13 @@ package com.projeto1.desingbrabo
 
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.graphics.Color
-import android.net.Uri
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.AdapterView
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
@@ -16,18 +16,21 @@ import android.widget.ImageView
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.projeto1.desingbrabo.api.RetrofitInstance
-import com.projeto1.desingbrabo.model.Colaborador
 import com.projeto1.desingbrabo.model.Image
-import org.w3c.dom.Text
+import com.projeto1.desingbrabo.model.GetPerfil
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.net.ConnectException
+import java.net.SocketTimeoutException
+import javax.net.ssl.SSLHandshakeException
+import kotlin.properties.Delegates
 
 class PerfilActivity : AppCompatActivity() {
 
@@ -52,6 +55,8 @@ class PerfilActivity : AppCompatActivity() {
     private val formatEstado = mutableMapOf<Button, Boolean>()
     private val coresEstado = mutableMapOf<ImageButton, Boolean>()
 
+    private lateinit var aviso: TextView
+
     private lateinit var recyclerView: RecyclerView
     private lateinit var imageAdapter: ImageAdapter
 
@@ -59,7 +64,9 @@ class PerfilActivity : AppCompatActivity() {
     private lateinit var barraFiltros: View
 
     private lateinit var fotoPerfil: ImageView
+    private var  idUsuario by Delegates.notNull<Int>()
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.tela_perfil)
@@ -67,7 +74,7 @@ class PerfilActivity : AppCompatActivity() {
         fotoPerfil = findViewById(R.id.foto_perfil)
 
         val sharedPreferences = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
-        val idUsuario = sharedPreferences.getInt("user_id", -1)
+        idUsuario = sharedPreferences.getInt("user_id", -1)
 
         val capa: ImageView = findViewById(R.id.produto1)
         val seguidores: TextView = findViewById(R.id.quantidade_seguidores)
@@ -101,7 +108,7 @@ class PerfilActivity : AppCompatActivity() {
         barraFiltros = findViewById(R.id.barra_filtros)
         val btnFecharFiltros: Button = findViewById(R.id.fechar)
 
-        val buttonSeguir: Button = findViewById(R.id.button_seguir)
+        aviso = findViewById(R.id.aviso)
 
         searchInput = findViewById(R.id.search_input)
         recyclerView = findViewById(R.id.recyclerView)
@@ -192,27 +199,28 @@ class PerfilActivity : AppCompatActivity() {
 
 
 
-        RetrofitInstance.api.getColaborador(idUsuario).enqueue(object : Callback<Colaborador> {
-            override fun onResponse(call: Call<Colaborador>, response: Response<Colaborador>) {
+        RetrofitInstance.api.getPerfil(idUsuario).enqueue(object : Callback<GetPerfil> {
+            override fun onResponse(call: Call<GetPerfil>, response: Response<GetPerfil>) {
                 if (response.isSuccessful) {
-                    val colaborador = response.body()
-                    if (colaborador != null) {
-                        nomeUsuarioTextView.text = colaborador.userName ?: ""
-                        seguidores.text = colaborador.totalSeguidores.toString()
-                        downloads.text = colaborador.totalDownloads.toString()
-                        curtidas.text = colaborador.totalCurtidas.toString()
-                        views.text = colaborador.totalViews.toString()
-                        recursos.text = colaborador.totalRecursos.toString()
-                        descricao.text = colaborador.userDescription
+                    val usuario = response.body()
+                    if (usuario != null) {
+                        nomeUsuarioTextView.text = usuario.userName ?: ""
+                        emailUsuarioTextView.text = usuario.userEmail ?: ""
+                        seguidores.text = usuario.totalSeguidores.toString()
+                        downloads.text = usuario.totalDownloads.toString()
+                        curtidas.text = usuario.totalCurtidas.toString()
+                        views.text = usuario.totalViews.toString()
+                        recursos.text = usuario.totalRecursos.toString()
+                        descricao.text = usuario.userDescription
 
                         Glide.with(this@PerfilActivity)
-                            .load(colaborador.userProfile)
+                            .load(usuario.userProfile)
                             .placeholder(R.drawable.placeholder_image)
                             .error(R.drawable.produto4)
                             .into(fotoPerfil)
 
                         Glide.with(this@PerfilActivity)
-                            .load(colaborador.userCape)
+                            .load(usuario.userCape)
                             .placeholder(R.drawable.placeholder_image)
                             .error(R.drawable.produto4)
                             .into(capa)
@@ -224,46 +232,102 @@ class PerfilActivity : AppCompatActivity() {
                 }
             }
 
-            override fun onFailure(call: Call<Colaborador>, t: Throwable) {
+            override fun onFailure(call: Call<GetPerfil>, t: Throwable) {
                 Toast.makeText(this@PerfilActivity, "Erro: ${t.message}", Toast.LENGTH_LONG)
                     .show()
             }
         })
-
-        var isSeguindo = false
-        buttonSeguir.setOnClickListener {
-            isSeguindo = !isSeguindo
-            buttonSeguir.text = if (isSeguindo) "Seguindo" else "Seguir"
-            buttonSeguir.setBackgroundResource(if (isSeguindo) R.drawable.bg_button_seguindo else R.drawable.bg_button_seguir)
-            buttonSeguir.setCompoundDrawablesWithIntrinsicBounds(0, 0, if (isSeguindo) R.drawable.ic_check else R.drawable.ic_plus, 0)
-        }
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.M)
     private fun searchImages(tag: String, formats: List<String>, color: List<String>) {
+        // Verificar conexão com internet primeiro
+        if (!isNetworkAvailable()) {
+            Toast.makeText(this@PerfilActivity, "Sem conexão com a internet", Toast.LENGTH_LONG).show()
+            aviso.text = "Sem conexão com a internet"
+            aviso.visibility = View.VISIBLE
+            return
+        }
 
-        RetrofitInstance.api.searchImages(
-            tag = tag,
+        // Mostrar loading
+        aviso.text = "Carregando..."
+        aviso.visibility = View.VISIBLE
+
+        val call = RetrofitInstance.api.searchImages(
+            tag = if (tag.isNotEmpty()) tag else null,
             isPremium = licenseEstado[findViewById(R.id.button_premium)] == true,
             isGratis = licenseEstado[findViewById(R.id.button_gratis)] == true,
-            formats = formats,
-            color = color,
-            userId = intent.getIntExtra("idColaborador", -1)
-        ).enqueue(object : Callback<List<Image>> {
+            formats = if (formats.isNotEmpty()) formats else emptyList(),
+            color = if (color.isNotEmpty()) color else emptyList(),
+            userId =  idUsuario
+        )
+
+        call.enqueue(object : Callback<List<Image>> {
             override fun onResponse(call: Call<List<Image>>, response: Response<List<Image>>) {
-                val images = response.body()!!
-                if (images.isEmpty()) {
-                    imageAdapter.clearImages()
-                } else {
-                    imageAdapter.updateImages(images)
+                when {
+                    response.isSuccessful && response.body() != null -> {
+                        val images = response.body()!!
+                        if (images.isEmpty()) {
+                            aviso.text = "Nenhuma imagem encontrada"
+                            aviso.visibility = View.VISIBLE
+                        } else {
+                            aviso.visibility = View.GONE
+                        }
+                        imageAdapter.updateImages(images)
+                    }
+                    response.code() == 404 -> {
+                        aviso.text = "Nenhum resultado encontrado"
+                        aviso.visibility = View.VISIBLE
+                    }
+                    response.code() in 500..599 -> {
+                        aviso.text = "Problema no servidor. Tente novamente mais tarde."
+                        aviso.visibility = View.VISIBLE
+                    }
+                    else -> {
+                        aviso.text = "Erro desconhecido: ${response.code()}"
+                        aviso.visibility = View.VISIBLE
+                        Toast.makeText(
+                            this@PerfilActivity,
+                            "Erro na resposta do servidor",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
             }
+
             override fun onFailure(call: Call<List<Image>>, t: Throwable) {
-                Toast.makeText(this@PerfilActivity, "Erro ao conectar ao servidor", Toast.LENGTH_SHORT).show()
+                aviso.text = when (t) {
+                    is SocketTimeoutException -> "Tempo de conexão esgotado"
+                    is ConnectException -> "Não foi possível conectar ao servidor"
+                    is SSLHandshakeException -> "Problema de segurança na conexão"
+                    else -> "Erro de conexão: ${t.localizedMessage}"
+                }
+                aviso.visibility = View.VISIBLE
+
+                Toast.makeText(
+                    this@PerfilActivity,
+                    "Falha na conexão: ${t.localizedMessage}",
+                    Toast.LENGTH_LONG
+                ).show()
+
+                Log.e("API_ERROR", "Erro na chamada da API", t)
             }
         })
     }
 
+    // Função para verificar conexão com internet
+    @RequiresApi(Build.VERSION_CODES.M)
+    private fun isNetworkAvailable(): Boolean {
+        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork = connectivityManager.activeNetwork
+        val networkCapabilities = connectivityManager.getNetworkCapabilities(activeNetwork)
+        return networkCapabilities != null &&
+                (networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
+                        networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR))
+    }
+
+    @RequiresApi(Build.VERSION_CODES.M)
     private fun setupButtons() {
         val licenseButtons = mapOf(
             findViewById<Button>(R.id.button_premium) to "premium",
@@ -271,19 +335,14 @@ class PerfilActivity : AppCompatActivity() {
         )
 
         val formatButtons = mapOf(
-            findViewById<Button>(R.id.button_jpg) to "JPG",
-            findViewById<Button>(R.id.button_png) to "PNG",
-            findViewById<Button>(R.id.button_svg) to "SVG",
             findViewById<Button>(R.id.button_psd) to "PSD",
-            findViewById<Button>(R.id.button_pdf) to "PDF",
-            findViewById<Button>(R.id.button_vetores) to "Vetores",
-            findViewById<Button>(R.id.button_fotos) to "Fotos",
-            findViewById<Button>(R.id.button_ai) to "IA",
-            findViewById<Button>(R.id.button_icones) to "Ícones",
-            findViewById<Button>(R.id.button_motions) to "Motions",
-            findViewById<Button>(R.id.button_mockups) to "Mockups",
-            findViewById<Button>(R.id.button_3d) to "3D",
-            findViewById<Button>(R.id.button_textura) to "Textura"
+            findViewById<Button>(R.id.button_png) to "PNG",
+            findViewById<Button>(R.id.button_jpg) to "JPG",
+            findViewById<Button>(R.id.button_jpeg) to "JPEG",
+            findViewById<Button>(R.id.button_svg) to "SVG",
+            findViewById<Button>(R.id.button_ai) to "AI",
+            findViewById<Button>(R.id.button_eps) to "EPS"
+
         )
 
         licenseButtons.forEach { (button, license) ->

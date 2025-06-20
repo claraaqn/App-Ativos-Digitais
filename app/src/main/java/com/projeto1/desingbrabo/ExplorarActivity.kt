@@ -136,7 +136,6 @@ class ExplorarActivity : AppCompatActivity() {
 
         )
 
-        // Configura os botões de licença
         licenseButtons.forEach { (button, license) ->
             button.tag = license
             button.setOnClickListener {
