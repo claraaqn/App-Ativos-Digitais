@@ -11,5 +11,6 @@ data class GetPerfil(
     val totalDownloads: Int,
     val totalCurtidas: Int,
     val totalViews: Int,
-    val totalRecursos: Int
+    val totalRecursos: Int,
+    val license: String?
 )

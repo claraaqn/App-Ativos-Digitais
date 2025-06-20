@@ -18,6 +18,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.bumptech.glide.Glide
@@ -215,15 +216,37 @@ class PerfilActivity : AppCompatActivity() {
 
                         Glide.with(this@PerfilActivity)
                             .load(usuario.userProfile)
-                            .placeholder(R.drawable.placeholder_image)
+                            .placeholder(R.drawable.usuario)
                             .error(R.drawable.produto4)
                             .into(fotoPerfil)
 
                         Glide.with(this@PerfilActivity)
                             .load(usuario.userCape)
-                            .placeholder(R.drawable.placeholder_image)
-                            .error(R.drawable.produto4)
+                            .placeholder(R.drawable.usuario)
+                            .error(R.drawable.bg_button_cinza)
                             .into(capa)
+
+                        if (usuario.license == "Gratuito") {
+                            findViewById<Button>(R.id.button).apply {
+                                setText("GRATUITO")
+                                setCompoundDrawablesWithIntrinsicBounds(
+                                    ContextCompat.getDrawable(context, R.drawable.free), // Your free icon
+                                    null,
+                                    null,
+                                    null
+                                )
+                            }
+                        } else {
+                            findViewById<Button>(R.id.button).apply {
+                                setText("PREMIUM")
+                                setCompoundDrawablesWithIntrinsicBounds(
+                                    ContextCompat.getDrawable(context, R.drawable.icon_track_verde),
+                                    null,
+                                    null,
+                                    null
+                                )
+                            }
+                        }
                     } else {
                         Toast.makeText(this@PerfilActivity, "Produto não encontrado", Toast.LENGTH_SHORT).show()
                     }

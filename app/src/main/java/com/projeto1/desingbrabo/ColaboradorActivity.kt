@@ -12,6 +12,7 @@ import android.view.View
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.bumptech.glide.Glide
@@ -65,7 +66,8 @@ class ColaboradorActivity : AppCompatActivity() {
         val descricao: TextView = findViewById(R.id.descricao_perfil)
 
         val fotoPerfil: ImageView = findViewById(R.id.foto_perfil)
-        val capa: ImageView = findViewById(R.id.capa)
+        val cardView = findViewById<CardView>(R.id.capa_perdil)
+        val imageView = cardView.findViewById<ImageView>(R.id.produto1)
 
         aviso = findViewById(R.id.aviso)
 
@@ -96,15 +98,15 @@ class ColaboradorActivity : AppCompatActivity() {
 
                         Glide.with(this@ColaboradorActivity)
                             .load(colaborador.userProfile)
-                            .placeholder(R.drawable.placeholder_image)
+                            .placeholder(R.drawable.usuario)
                             .error(R.drawable.produto4)
                             .into(fotoPerfil)
 
                         Glide.with(this@ColaboradorActivity)
                             .load(colaborador.userCape)
-                            .placeholder(R.drawable.placeholder_image)
+                            .placeholder(R.drawable.placeholder)
                             .error(R.drawable.produto4)
-                            .into(capa)
+                            .into(imageView)
                     } else {
                         Toast.makeText(this@ColaboradorActivity, "Produto não encontrado", Toast.LENGTH_SHORT).show()
                     }
