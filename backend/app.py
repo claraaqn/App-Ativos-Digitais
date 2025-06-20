@@ -141,11 +141,12 @@ def get_user(id):
                     u.email,
                     u.userCape, 
                     u.userDescription,
+                    u.licenca,
                     (SELECT COUNT(*) FROM follows WHERE followed_id = u.id) AS total_seguidores,
-                    (SELECT SUM(likes) FROM images WHERE uploaded_by = u.id) AS total_curtidas,
-                    (SELECT COUNT(*) FROM downloads WHERE user_id = u.id) AS total_downloads,
-                    (SELECT SUM(views) FROM images WHERE uploaded_by = u.id) AS total_views,
-                    (SELECT COUNT(*) FROM images WHERE uploaded_by = u.id) AS total_recursos
+                    IFNULL((SELECT SUM(likes) FROM images WHERE uploaded_by = u.id), 0) AS total_curtidas,
+                    IFNULL((SELECT COUNT(*) FROM downloads WHERE user_id = u.id), 0) AS total_downloads,
+                    IFNULL((SELECT SUM(views) FROM images WHERE uploaded_by = u.id), 0) AS total_views,
+                    IFNULL((SELECT COUNT(*) FROM images WHERE uploaded_by = u.id), 0) AS total_recursos
                 FROM 
                     ad_users u
                 WHERE 
@@ -155,24 +156,26 @@ def get_user(id):
         cursor.execute(query, (id,))
         user = cursor.fetchone()
         
-        dados = {
-                'id': id, 
-                'userName': user[0], 
-                'userProfile': user[1],
-                'userEmail': user[2],
-                'userCape': user[3],
-                'userDescription': user[4],
-                'totalSeguidores': user[5],
-                'totalCurtidas': int(user[6]),
-                'totalDownloads': int(user[7]),
-                'totalViews': int(user[8]),
-                'totalRecursos': int(user[9])
-            }
-
-        if user:
-            return jsonify(dados), 200
-        else:
+        if not user:
             return jsonify({'message': 'User not found'}), 404
+            
+        dados = {
+            'id': id, 
+            'userName': user[0], 
+            'userProfile': user[1],
+            'userEmail': user[2],
+            'userCape': user[3],
+            'userDescription': user[4],
+            'license': user[5],
+            'totalSeguidores': user[6] or 0,  # Handle NULL for count
+            'totalCurtidas': user[7] or 0,
+            'totalDownloads': user[8] or 0,   # Fixed index from 78 to 8
+            'totalViews': user[9] or 0,
+            'totalRecursos': user[10] or 0
+        }
+        
+        print(dados)
+        return jsonify(dados), 200
 
     except Exception as e:
         print(f"Erro: {str(e)}")
@@ -526,6 +529,10 @@ def get_produto(produto_id):
     try:
         conn = mysql.connection
         cursor = conn.cursor()
+        
+        update_query = "UPDATE images SET views = views + 1 WHERE id = %s"
+        cursor.execute(update_query, (produto_id,))
+        conn.commit()
 
         query = """
                 SELECT 

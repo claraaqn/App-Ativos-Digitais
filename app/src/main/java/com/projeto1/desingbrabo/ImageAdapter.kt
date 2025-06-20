@@ -29,18 +29,18 @@ class ImageAdapter(private var images: List<Image>, private val context: Context
 
         Glide.with(context)
             .load(image.url)
-            .placeholder(R.drawable.placeholder_image)
+            .placeholder(R.drawable.placeholder)
             .into(holder.imageButton)
 
         val iconResId = when (image.license) {
             "premium" -> R.drawable.selo   // Ícone para imagens premium
-            null -> R.drawable.free           // Ícone para imagens grátis
+            "free" -> R.drawable.free           // Ícone para imagens grátis
             else -> 0
         }
 
         val backgroundResId = when (image.license) {
             "premium" -> R.drawable.btn_preto   // Drawable para premium
-            null -> R.drawable.btn_branco       // Drawable para grátis
+            "free" -> R.drawable.btn_branco       // Drawable para grátis
             else -> 0      // Padrão
         }
 

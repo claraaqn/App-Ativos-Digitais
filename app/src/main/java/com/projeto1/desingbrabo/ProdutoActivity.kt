@@ -104,7 +104,7 @@ class ProdutoActivity : AppCompatActivity() {
 
                         Glide.with(this@ProdutoActivity)
                             .load(produto.url)
-                            .placeholder(R.drawable.placeholder_image)
+                            .placeholder(R.drawable.placeholder)
                             .error(R.drawable.produto4)
                             .into(imagem)
 
