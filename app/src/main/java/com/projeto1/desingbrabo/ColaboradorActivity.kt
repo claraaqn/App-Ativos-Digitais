@@ -69,7 +69,6 @@ class ColaboradorActivity : AppCompatActivity() {
         recyclerView.adapter = imageAdapter
 
         setupButtons()
-        setupSpinner()
 
         RetrofitInstance.api.getColaborador(idColaborador).enqueue(object : Callback<Colaborador> {
             override fun onResponse(call: Call<Colaborador>, response: Response<Colaborador>) {
@@ -131,26 +130,13 @@ class ColaboradorActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupSpinner() {
-        val tagsArray = resources.getStringArray(R.array.tags)
-        spinnerTags.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                searchImages(searchInput.text.toString().trim(), getSelectedFormats(), tagsArray[position], getSelectedColor())
-            }
 
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
-        }
-    }
-
-    private fun searchImages(tag: String, formats: List<String>, categoria: String, color: List<String>) {
-        val selectedCategoria = if (spinnerTags.selectedItem.toString() != "CATEGORIAS") categoria else ""
-
+    private fun searchImages(tag: String, formats: List<String>, color: List<String>) {
         RetrofitInstance.api.searchImages(
             tag = tag,
             isPremium = licenseEstado[findViewById(R.id.button_premium)] == true,
             isGratis = licenseEstado[findViewById(R.id.button_gratis)] == true,
             formats = formats,
-            categoria = selectedCategoria,
             color = color,
             userId = intent.getIntExtra("idColaborador", -1)
         ).enqueue(object : Callback<List<Image>> {
@@ -199,7 +185,6 @@ class ColaboradorActivity : AppCompatActivity() {
                 searchImages(
                     searchInput.text.toString().trim(),
                     getSelectedFormats(),
-                    spinnerTags.selectedItem.toString(),
                     getSelectedColor()
                 )
             }
@@ -214,7 +199,6 @@ class ColaboradorActivity : AppCompatActivity() {
                 searchImages(
                     searchInput.text.toString().trim(),
                     getSelectedFormats(),
-                    spinnerTags.selectedItem.toString(),
                     getSelectedColor()
                 )
             }
@@ -243,7 +227,6 @@ class ColaboradorActivity : AppCompatActivity() {
                 searchImages(
                     searchInput.text.toString().trim(),
                     getSelectedFormats(),
-                    spinnerTags.selectedItem.toString(),
                     getSelectedColor()
                 )
             }
@@ -253,7 +236,6 @@ class ColaboradorActivity : AppCompatActivity() {
             searchImages(
                 searchInput.text.toString().trim(),
                 getSelectedFormats(),
-                spinnerTags.selectedItem.toString(),
                 getSelectedColor()
             )
         }

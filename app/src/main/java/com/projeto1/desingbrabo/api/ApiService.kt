@@ -73,7 +73,6 @@ interface ApiService {
         @Query("isPremium") isPremium: Boolean,
         @Query("isGratis") isGratis: Boolean,
         @Query("formats") formats: List<String>,
-        @Query("categoria") categoria: String,
         @Query("color") color: List<String>,
         @Query("userId") userId: Int?
     ): Call<List<Image>>

@@ -104,7 +104,6 @@ class PerfilActivity : AppCompatActivity() {
         val buttonSeguir: Button = findViewById(R.id.button_seguir)
 
         searchInput = findViewById(R.id.search_input)
-        spinnerTags = findViewById(R.id.spinner_tags)
         recyclerView = findViewById(R.id.recyclerView)
 
         recyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
@@ -131,7 +130,6 @@ class PerfilActivity : AppCompatActivity() {
             })
 
         setupButtons()
-        setupSpinner()
 
 
         editarPerfilButton.setOnClickListener {
@@ -242,26 +240,13 @@ class PerfilActivity : AppCompatActivity() {
     }
 
 
-    private fun setupSpinner() {
-        val tagsArray = resources.getStringArray(R.array.tags)
-        spinnerTags.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                searchImages(searchInput.text.toString().trim(), getSelectedFormats(), tagsArray[position], getSelectedColor())
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
-        }
-    }
-
-    private fun searchImages(tag: String, formats: List<String>, categoria: String, color: List<String>) {
-        val selectedCategoria = if (spinnerTags.selectedItem.toString() != "CATEGORIAS") categoria else ""
+    private fun searchImages(tag: String, formats: List<String>, color: List<String>) {
 
         RetrofitInstance.api.searchImages(
             tag = tag,
             isPremium = licenseEstado[findViewById(R.id.button_premium)] == true,
             isGratis = licenseEstado[findViewById(R.id.button_gratis)] == true,
             formats = formats,
-            categoria = selectedCategoria,
             color = color,
             userId = intent.getIntExtra("idColaborador", -1)
         ).enqueue(object : Callback<List<Image>> {
@@ -310,7 +295,6 @@ class PerfilActivity : AppCompatActivity() {
                 searchImages(
                     searchInput.text.toString().trim(),
                     getSelectedFormats(),
-                    spinnerTags.selectedItem.toString(),
                     getSelectedColor()
                 )
             }
@@ -325,7 +309,6 @@ class PerfilActivity : AppCompatActivity() {
                 searchImages(
                     searchInput.text.toString().trim(),
                     getSelectedFormats(),
-                    spinnerTags.selectedItem.toString(),
                     getSelectedColor()
                 )
             }
@@ -354,7 +337,6 @@ class PerfilActivity : AppCompatActivity() {
                 searchImages(
                     searchInput.text.toString().trim(),
                     getSelectedFormats(),
-                    spinnerTags.selectedItem.toString(),
                     getSelectedColor()
                 )
             }
@@ -364,7 +346,6 @@ class PerfilActivity : AppCompatActivity() {
             searchImages(
                 searchInput.text.toString().trim(),
                 getSelectedFormats(),
-                spinnerTags.selectedItem.toString(),
                 getSelectedColor()
             )
         }

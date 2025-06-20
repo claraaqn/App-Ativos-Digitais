@@ -46,7 +46,6 @@ class ExplorarSheet(context: Context, private val recyclerView: RecyclerView, pr
 
     private fun searchImages() {
         val tag = searchInput.text.toString().trim()
-        val categoria = spinnerTags.selectedItem.toString()
         val formats = getSelectedFormats()
         val colors = getSelectedColor()
 
@@ -55,7 +54,6 @@ class ExplorarSheet(context: Context, private val recyclerView: RecyclerView, pr
             isPremium = licenseEstado[view.findViewById(R.id.button_premium)] == true,
             isGratis = licenseEstado[view.findViewById(R.id.button_gratis)] == true,
             formats = formats,
-            categoria = categoria,
             color = colors,
             userId = idColaborador
         ).enqueue(object : Callback<List<Image>> {
