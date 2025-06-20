@@ -14,6 +14,7 @@ import com.projeto1.desingbrabo.data.AppDatabase
 import com.projeto1.desingbrabo.data.CartItem
 import com.projeto1.desingbrabo.data.Product
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -36,7 +37,12 @@ class CarrinhoActivity : AppCompatActivity(), CartAdapter.OnItemRemovedListener 
         cartAdapter.setOnItemRemovedListener(this@CarrinhoActivity)
 
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerViewcarrinho)
-        recyclerView.layoutManager = LinearLayoutManager(this@CarrinhoActivity)
+        recyclerView.setHasFixedSize(true)
+        recyclerView.itemAnimator = null
+        recyclerView.layoutManager = LinearLayoutManager(this@CarrinhoActivity).apply {
+            isItemPrefetchEnabled = true
+        }
+        recyclerView.isNestedScrollingEnabled = false
         recyclerView.adapter = cartAdapter
 
         selectAllCheckBox.setOnCheckedChangeListener { _, isChecked ->
@@ -82,10 +88,12 @@ class CarrinhoActivity : AppCompatActivity(), CartAdapter.OnItemRemovedListener 
         }
     }
     override fun onItemRemoved(productId: Int, wasSelected: Boolean) {
-        if (wasSelected) {
-            updateTotalValue()
+        lifecycleScope.launch(Dispatchers.Main) {
+            cartAdapter.safeRemoveItem(productId)
+            if (wasSelected) {
+                updateTotalValue()
+            }
         }
-        cartAdapter.checkIfAllItemsRemoved()
     }
     override fun onItemSelectionChanged(totalValue: Double) {
         valorTotal.text = "R$ %.2f".format(totalValue)
