@@ -8,9 +8,9 @@ import com.projeto1.desingbrabo.model.LoginRequest
 import com.projeto1.desingbrabo.model.LoginResponse
 import com.projeto1.desingbrabo.model.UpdateProfileRequest
 import com.projeto1.desingbrabo.model.GenericResponse
+import com.projeto1.desingbrabo.model.GetPerfil
 import com.projeto1.desingbrabo.model.PasswordChangeRequest
 import com.projeto1.desingbrabo.model.ResetPasswordRequest
-import com.projeto1.desingbrabo.model.UserProfileResponse
 import com.projeto1.desingbrabo.model.ValidacaoEmailRequest
 import com.projeto1.desingbrabo.model.ValidarCodigoEmailRequest
 import com.projeto1.desingbrabo.model.ValidarCodigoRequest
@@ -35,7 +35,7 @@ interface ApiService {
     fun loginUser(@Body loginRequest: LoginRequest): Call<LoginResponse>
 
     @GET("user/{id}")
-    fun getUser(@Path("id") userId: Int): Call<UserProfileResponse>
+    fun getPerfil(@Path("id") userId: Int): Call<GetPerfil>
 
     @POST("update_profile")
     fun updateProfile(@Body updateRequest: UpdateProfileRequest): Call<GenericResponse>
@@ -73,7 +73,6 @@ interface ApiService {
         @Query("isPremium") isPremium: Boolean,
         @Query("isGratis") isGratis: Boolean,
         @Query("formats") formats: List<String>,
-        @Query("categoria") categoria: String,
         @Query("color") color: List<String>,
         @Query("userId") userId: Int?
     ): Call<List<Image>>
@@ -98,5 +97,8 @@ interface ApiService {
 
     @GET("image/{id}")
     fun getImagemColaborador(@Path("id") userId: Int): Call<List<Image>>
+
+    @GET("user/{id")
+    fun getUser(@Path("id") userId: Int): Call<GetPerfil>
 
 }

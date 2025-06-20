@@ -1,8 +1,13 @@
 package com.projeto1.desingbrabo
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.Button
@@ -11,6 +16,7 @@ import android.widget.ImageButton
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -20,6 +26,9 @@ import com.projeto1.desingbrabo.model.Image
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.net.ConnectException
+import java.net.SocketTimeoutException
+import javax.net.ssl.SSLHandshakeException
 
 
 class ExplorarActivity : AppCompatActivity() {
@@ -37,6 +46,7 @@ class ExplorarActivity : AppCompatActivity() {
 
     private lateinit var spinnerTags: Spinner
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.tela_explorar)
@@ -45,14 +55,12 @@ class ExplorarActivity : AppCompatActivity() {
         setupRecyclerView()
         setupFiltros()
         setupButtons()
-        setupSpinner()
     }
 
     private fun initViews() {
         searchInput = findViewById(R.id.search_input)
         recyclerView = findViewById(R.id.recyclerView)
         aviso = findViewById(R.id.aviso)
-        spinnerTags = findViewById(R.id.spinner_tags)
     }
 
     private fun setupRecyclerView() {
@@ -68,21 +76,14 @@ class ExplorarActivity : AppCompatActivity() {
             findViewById<TextView>(R.id.licenca),
             findViewById<Button>(R.id.button_premium),
             findViewById<Button>(R.id.button_gratis),
-            findViewById<TextView>(R.id.Tipos),
-            findViewById<Button>(R.id.button_vetores),
-            findViewById<Button>(R.id.button_fotos),
-            findViewById<Button>(R.id.button_ai),
-            findViewById<Button>(R.id.button_icones),
-            findViewById<Button>(R.id.button_3d),
-            findViewById<Button>(R.id.button_motions),
-            findViewById<Button>(R.id.button_mockups),
-            findViewById<Button>(R.id.button_textura),
-            findViewById<Button>(R.id.formatos),
-            findViewById<Button>(R.id.button_jpg),
-            findViewById<Button>(R.id.button_png),
-            findViewById<Button>(R.id.button_svg),
+            findViewById<TextView>(R.id.formatos),
             findViewById<Button>(R.id.button_psd),
-            findViewById<Button>(R.id.button_pdf),
+            findViewById<Button>(R.id.button_png),
+            findViewById<Button>(R.id.button_jpg),
+            findViewById<Button>(R.id.button_jpeg),
+            findViewById<Button>(R.id.button_svg),
+            findViewById<Button>(R.id.button_ai),
+            findViewById<Button>(R.id.button_eps),
             findViewById<TextView>(R.id.cores),
             findViewById<ImageButton>(R.id.button_vermelho),
             findViewById<ImageButton>(R.id.button_azul),
@@ -94,7 +95,9 @@ class ExplorarActivity : AppCompatActivity() {
             findViewById<ImageButton>(R.id.button_marrom),
             findViewById<ImageButton>(R.id.button_cinza),
             findViewById<ImageButton>(R.id.button_preto),
-            findViewById<ImageButton>(R.id.button_branco)
+            findViewById<ImageButton>(R.id.button_branco),
+            findViewById<TextView>(R.id.popularidade),
+            findViewById<Button>(R.id.button_em_alta)
         )
 
         filtros.forEach { it.visibility = View.GONE }
@@ -113,31 +116,26 @@ class ExplorarActivity : AppCompatActivity() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     private fun setupButtons() {
         // Botões de licença (premium e gratis)
         val licenseButtons = mapOf(
             findViewById<Button>(R.id.button_premium) to "premium",
-            findViewById<Button>(R.id.button_gratis) to "gratis"
+            findViewById<Button>(R.id.button_gratis) to "free"
         )
 
         // Botões de formatos (JPG, PNG, etc.)
         val formatButtons = mapOf(
-            findViewById<Button>(R.id.button_jpg) to "JPG",
-            findViewById<Button>(R.id.button_png) to "PNG",
-            findViewById<Button>(R.id.button_svg) to "SVG",
             findViewById<Button>(R.id.button_psd) to "PSD",
-            findViewById<Button>(R.id.button_pdf) to "PDF",
-            findViewById<Button>(R.id.button_vetores) to "Vetores",
-            findViewById<Button>(R.id.button_fotos) to "Fotos",
-            findViewById<Button>(R.id.button_ai) to "IA",
-            findViewById<Button>(R.id.button_icones) to "Ícones",
-            findViewById<Button>(R.id.button_motions) to "Motions",
-            findViewById<Button>(R.id.button_mockups) to "Mockups",
-            findViewById<Button>(R.id.button_3d) to "3D",
-            findViewById<Button>(R.id.button_textura) to "Textura"
+            findViewById<Button>(R.id.button_png) to "PNG",
+            findViewById<Button>(R.id.button_jpg) to "JPG",
+            findViewById<Button>(R.id.button_jpeg) to "JPEG",
+            findViewById<Button>(R.id.button_svg) to "SVG",
+            findViewById<Button>(R.id.button_ai) to "AI",
+            findViewById<Button>(R.id.button_eps) to "EPS"
+
         )
 
-        // Configura os botões de licença
         licenseButtons.forEach { (button, license) ->
             button.tag = license
             button.setOnClickListener {
@@ -147,7 +145,6 @@ class ExplorarActivity : AppCompatActivity() {
                 searchImages(
                     searchInput.text.toString().trim(),
                     getSelectedFormats(),
-                    spinnerTags.selectedItem.toString(),
                     getSelectedColor()
                 )
             }
@@ -162,13 +159,12 @@ class ExplorarActivity : AppCompatActivity() {
                 searchImages(
                     searchInput.text.toString().trim(),
                     getSelectedFormats(),
-                    spinnerTags.selectedItem.toString(),
                     getSelectedColor()
                 )
             }
         }
 
-        // Configura os botões de cores (mantido igual)
+        // Configura os botões de cores
         val colorButtons = mapOf(
             findViewById<ImageButton>(R.id.button_vermelho) to "vermelho",
             findViewById<ImageButton>(R.id.button_azul) to "azul",
@@ -192,7 +188,6 @@ class ExplorarActivity : AppCompatActivity() {
                 searchImages(
                     searchInput.text.toString().trim(),
                     getSelectedFormats(),
-                    spinnerTags.selectedItem.toString(),
                     getSelectedColor()
                 )
             }
@@ -202,7 +197,6 @@ class ExplorarActivity : AppCompatActivity() {
             searchImages(
                 searchInput.text.toString().trim(),
                 getSelectedFormats(),
-                spinnerTags.selectedItem.toString(),
                 getSelectedColor()
             )
         }
@@ -225,20 +219,6 @@ class ExplorarActivity : AppCompatActivity() {
 
         findViewById<Button>(R.id.button_carrinho).setOnClickListener {
             startActivity(Intent(this@ExplorarActivity, CarrinhoActivity::class.java))
-        }
-    }
-
-    private fun setupSpinner() {
-        val tagsArray = resources.getStringArray(R.array.tags)
-
-        spinnerTags.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                val selectedCategoria = tagsArray[position]
-                searchImages(searchInput.text.toString().trim(), getSelectedFormats(), selectedCategoria, getSelectedColor())
-            }
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                // Chamado quando nada é selecionado (opcional)
-            }
         }
     }
 
@@ -272,40 +252,90 @@ class ExplorarActivity : AppCompatActivity() {
             .mapNotNull { it.key.tag?.toString() }
     }
 
-    private fun searchImages(tag: String, formats: List<String>, categoria: String, color: List<String>) {
-        val selectedCategoria = if (spinnerTags.selectedItem.toString() != "CATEGORIAS") categoria else ""
+    @RequiresApi(Build.VERSION_CODES.M)
+    private fun searchImages(tag: String, formats: List<String>, color: List<String>) {
+        // Verificar conexão com internet primeiro
+        if (!isNetworkAvailable()) {
+            Toast.makeText(this@ExplorarActivity, "Sem conexão com a internet", Toast.LENGTH_LONG).show()
+            aviso.text = "Sem conexão com a internet"
+            aviso.visibility = View.VISIBLE
+            return
+        }
+
+        // Mostrar loading
+        aviso.text = "Carregando..."
+        aviso.visibility = View.VISIBLE
 
         val call = RetrofitInstance.api.searchImages(
-
-            tag = tag,
+            tag = if (tag.isNotEmpty()) tag else null,
             isPremium = licenseEstado[findViewById(R.id.button_premium)] == true,
             isGratis = licenseEstado[findViewById(R.id.button_gratis)] == true,
-            formats = formats,
-            categoria = selectedCategoria,
-            color = color,
+            formats = if (formats.isNotEmpty()) formats else emptyList(),
+            color = if (color.isNotEmpty()) color else emptyList(),
             userId = null
         )
 
         call.enqueue(object : Callback<List<Image>> {
             override fun onResponse(call: Call<List<Image>>, response: Response<List<Image>>) {
-                if (response.isSuccessful && response.body() != null) {
-                    val images = response.body()!!
-                    if (images.isEmpty()) {
-                        aviso.text = "Nenhuma imagem encontrada"
-                        aviso.visibility = View.VISIBLE
-                        imageAdapter.clearImages()
-                    } else {
-                        aviso.visibility = View.GONE
+                when {
+                    response.isSuccessful && response.body() != null -> {
+                        val images = response.body()!!
+                        if (images.isEmpty()) {
+                            aviso.text = "Nenhuma imagem encontrada"
+                            aviso.visibility = View.VISIBLE
+                        } else {
+                            aviso.visibility = View.GONE
+                        }
                         imageAdapter.updateImages(images)
                     }
-                } else {
-                    Toast.makeText(this@ExplorarActivity, "Erro ao buscar imagens", Toast.LENGTH_SHORT).show()
+                    response.code() == 404 -> {
+                        aviso.text = "Nenhum resultado encontrado"
+                        aviso.visibility = View.VISIBLE
+                    }
+                    response.code() in 500..599 -> {
+                        aviso.text = "Problema no servidor. Tente novamente mais tarde."
+                        aviso.visibility = View.VISIBLE
+                    }
+                    else -> {
+                        aviso.text = "Erro desconhecido: ${response.code()}"
+                        aviso.visibility = View.VISIBLE
+                        Toast.makeText(
+                            this@ExplorarActivity,
+                            "Erro na resposta do servidor",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
             }
 
             override fun onFailure(call: Call<List<Image>>, t: Throwable) {
-                Toast.makeText(this@ExplorarActivity, "Erro ao conectar ao servidor", Toast.LENGTH_SHORT).show()
+                aviso.text = when (t) {
+                    is SocketTimeoutException -> "Tempo de conexão esgotado"
+                    is ConnectException -> "Não foi possível conectar ao servidor"
+                    is SSLHandshakeException -> "Problema de segurança na conexão"
+                    else -> "Erro de conexão: ${t.localizedMessage}"
+                }
+                aviso.visibility = View.VISIBLE
+
+                Toast.makeText(
+                    this@ExplorarActivity,
+                    "Falha na conexão: ${t.localizedMessage}",
+                    Toast.LENGTH_LONG
+                ).show()
+
+                Log.e("API_ERROR", "Erro na chamada da API", t)
             }
         })
+    }
+
+    // Função para verificar conexão com internet
+    @RequiresApi(Build.VERSION_CODES.M)
+    private fun isNetworkAvailable(): Boolean {
+        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork = connectivityManager.activeNetwork
+        val networkCapabilities = connectivityManager.getNetworkCapabilities(activeNetwork)
+        return networkCapabilities != null &&
+                (networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
+                        networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR))
     }
 }

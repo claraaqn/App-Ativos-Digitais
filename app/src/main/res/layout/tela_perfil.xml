@@ -57,50 +57,197 @@
 
             <ImageView
                 android:id="@+id/foto_perfil"
-                android:layout_width="130dp"
-                android:layout_height="130dp"
-                android:layout_marginTop="40dp"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
                 android:layout_marginStart="10dp"
-                android:src="@drawable/foto_perfil_teste"
-                android:background="@drawable/oval_shape"
+                android:layout_marginTop="72dp"
                 android:adjustViewBounds="false"
-                android:scaleType="centerCrop"
+                android:background="@drawable/oval_shape"
                 android:clipToOutline="true"
-                app:layout_constraintEnd_toEndOf="parent"
                 android:elevation="8dp"
-                app:layout_constraintHorizontal_bias="0.0"
+                android:scaleType="centerCrop"
+                android:src="@drawable/placeholder"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <Button
-                android:layout_width="123dp"
-                android:layout_height="31dp"
+                android:id="@+id/button"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_below="@+id/nome_usuario"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
                 android:background="@drawable/bg_button_preto"
                 android:drawableStart="@drawable/icon_track_verde"
-                android:drawablePadding="10dp"
+                android:drawablePadding="6dp"
                 android:fontFamily="@font/archivo_bold"
-                android:padding="4dp"
+                android:paddingStart="26dp"
+                android:paddingEnd="28dp"
                 android:text="@string/premium"
                 android:textAlignment="textStart"
                 android:textColor="#48DBBB"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/capa_perdil"
-                tools:ignore="TouchTargetSizeCheck" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/nome_usuario"
+                tools:ignore="RtlSymmetry,TouchTargetSizeCheck" />
+
+            <LinearLayout
+                android:id="@+id/linearLayout2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/button">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/quantidade_seguidores"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/archivo_bold"
+                        android:text="16.6K"
+                        android:textColor="#010715"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/archivo_regular"
+                        android:text="Seguidores"
+                        android:textColor="#010715"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/quantidade_views"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/archivo_bold"
+                        android:text="16.6K"
+                        android:textColor="#010715"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/archivo_regular"
+                        android:text="Viwes"
+                        android:textColor="#010715"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/quantidade_downloads"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/archivo_bold"
+                        android:text="16.6K"
+                        android:textColor="#010715"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/archivo_regular"
+                        android:text="Downloads"
+                        android:textColor="#010715"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/quantidade_curtidas"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/archivo_bold"
+                        android:text="16.6K"
+                        android:textColor="#010715"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/archivo_regular"
+                        android:text="Curtidas"
+                        android:textColor="#010715"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/quantidade_recurtos"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/archivo_bold"
+                        android:text="16.6K"
+                        android:textColor="#010715"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/archivo_regular"
+                        android:text="Recursos"
+                        android:textColor="#010715"
+                        android:textSize="12sp" />
+                </LinearLayout>
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/nome_usuario"
                 android:layout_width="wrap_content"
                 android:layout_height="27dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="12dp"
                 android:fontFamily="@font/poppins_bold"
                 android:gravity="center"
-                android:text="@string/ademir_brabo"
+                android:text="NOME NOME"
                 android:textColor="#010715"
                 android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.059"
+                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/foto_perfil" />
 
@@ -108,16 +255,15 @@
                 android:id="@+id/email_perfil"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
                 android:fontFamily="@font/poppins_medium"
                 android:gravity="center"
-                android:text="@string/ademiroemo_gmail_com"
+                android:text="exemplo@exemplo.com"
                 android:textColor="#010715"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.07"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/nome_usuario"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
                 tools:ignore="MissingConstraints" />
 
             <TextView
@@ -187,16 +333,33 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/descricao_perfil" />
 
+            <TextView
+                android:id="@+id/aviso"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:background="@android:color/transparent"
+                android:drawablePadding="8dp"
+                android:fontFamily="@font/archivo_bold"
+                android:gravity="center"
+                android:text="Procure por uma imagem"
+                android:textColor="#010715"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.497"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="0dp"
+                android:layout_marginTop="-10dp"
                 android:padding="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-                tools:listitem="@layout/item_imagem"/>
+                app:layout_constraintTop_toBottomOf="@+id/aviso"
+                tools:listitem="@layout/item_imagem" />
 
             <ImageView
                 android:id="@+id/fundo_branco"
@@ -222,7 +385,7 @@
     <include
         android:id="@+id/barra_perfil"
         layout="@layout/barra_perfil"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="end"
         android:visibility="gone"/>

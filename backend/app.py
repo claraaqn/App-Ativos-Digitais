@@ -1,7 +1,7 @@
 from decimal import Decimal
 from MySQLdb import MySQLError
 import MySQLdb
-from flask import Flask, request, jsonify
+from flask import Flask, logging, request, jsonify
 from flask_mysqldb import MySQL
 from flask_cors import CORS
 import bcrypt
@@ -133,12 +133,44 @@ def get_user(id):
     try:
         conn = mysql.connection
         cursor = conn.cursor()
+        
+        query = """
+                SELECT 
+                    u.userName, 
+                    u.userProfile, 
+                    u.email,
+                    u.userCape, 
+                    u.userDescription,
+                    (SELECT COUNT(*) FROM follows WHERE followed_id = u.id) AS total_seguidores,
+                    (SELECT SUM(likes) FROM images WHERE uploaded_by = u.id) AS total_curtidas,
+                    (SELECT COUNT(*) FROM downloads WHERE user_id = u.id) AS total_downloads,
+                    (SELECT SUM(views) FROM images WHERE uploaded_by = u.id) AS total_views,
+                    (SELECT COUNT(*) FROM images WHERE uploaded_by = u.id) AS total_recursos
+                FROM 
+                    ad_users u
+                WHERE 
+                    u.id = %s;
+        """
 
-        cursor.execute("SELECT userName, email FROM ad_users WHERE id = %s", (id,))
+        cursor.execute(query, (id,))
         user = cursor.fetchone()
+        
+        dados = {
+                'id': id, 
+                'userName': user[0], 
+                'userProfile': user[1],
+                'userEmail': user[2],
+                'userCape': user[3],
+                'userDescription': user[4],
+                'totalSeguidores': user[5],
+                'totalCurtidas': int(user[6]),
+                'totalDownloads': int(user[7]),
+                'totalViews': int(user[8]),
+                'totalRecursos': int(user[9])
+            }
 
         if user:
-            return jsonify({'id': id, 'name': user[0], 'email': user[1]}), 200
+            return jsonify(dados), 200
         else:
             return jsonify({'message': 'User not found'}), 404
 
@@ -468,7 +500,7 @@ def get_images():
         conn = mysql.connection
         cursor = conn.cursor()
         
-        query = "SELECT id, url, license FROM images WHERE status = 'active'"
+        query = "SELECT id, url, license FROM images WHERE status = 1"
         
         cursor.execute(query)
         images = cursor.fetchall()
@@ -551,77 +583,120 @@ def get_produto(produto_id):
 @app.route('/search/images', methods=['GET'])
 def search_images():
     try:
-        
-        user_id = request.args.get('user_id')
-        
-        tag = remove_acentos(request.args.get('tag', ''))
-        categoria = request.args.get('categoria')
-        colors= request.args.getlist('color')
-        colors = [colors.lower() for colors in colors]
+        # Obter parâmetros da requisição
+        user_id = request.args.get('userId')
+        tag = remove_acentos(request.args.get('tag', '').lower())
+        colors = [color.lower() for color in request.args.getlist('color')]
         is_premium = request.args.get('isPremium', 'false').lower() == 'true'
         is_gratis = request.args.get('isGratis', 'false').lower() == 'true'
-        formats = request.args.getlist('formats')
-        formats = [format.lower() for format in formats]
-        
+        formats = [format.lower() for format in request.args.getlist('formats')]
+        categoria = request.args.get('categoria', '').lower()
+
+        # Normalizar cores
         normalized_colors = [normalize_color(color) for color in colors]
 
-        print(f"Parâmetros recebidos: tag={tag}, categoria={categoria}, color={normalized_colors}, isPremium={is_premium}, isGratis={is_gratis}, formats={formats}")
+        print(f"Parâmetros de busca - tag: {tag}, cores: {normalized_colors}, premium: {is_premium}, "
+              f"gratis: {is_gratis}, formatos: {formats}, categoria: {categoria}, user_id: {user_id}")
 
         conn = mysql.connection
-        cursor = conn.cursor()
+        cursor = conn.cursor()  # Removido dictionary=True
 
+        # Construção da query principal
         query = """
-            SELECT DISTINCT images.id, images.url, images.license
-            FROM images
-            LEFT JOIN image_tags ON images.id = image_tags.image_id
-            LEFT JOIN image_colors ON images.id = image_colors.image_id
-            LEFT JOIN image_format ON images.id = image_format.image_id
+            SELECT DISTINCT i.id, i.url, i.license, i.caption, i.category
+                FROM images i
+                LEFT JOIN image_tags it ON i.id = it.image_id
+                LEFT JOIN image_colors ic ON i.id = ic.image_id
+                LEFT JOIN image_format ifmt ON i.id = ifmt.image_id
             WHERE 1=1
         """
         params = []
         
+        # Filtro por usuário
         if user_id:
-            query += " AND images.uploaded_by = %s"
+            query += " AND i.uploaded_by = %s"
             params.append(user_id)
 
+        # Filtro por termo de busca
         if tag:
-            query += " AND images.caption LIKE %s"
-            params.append(f'%{tag}%')
+            search_terms = tag.split()
+            tag_conditions = []
+            
+            for term in search_terms:
+                term_conditions = []
+                term_conditions.append("i.caption LIKE %s")
+                params.append(f'%{term}%')
+                
+                term_conditions.append("it.name LIKE %s")
+                params.append(f'%{term}%')
+                
+                term_conditions.append("i.category LIKE %s")
+                params.append(f'%{term}%')
+                
+                term_conditions.append("ifmt.format LIKE %s")
+                params.append(f'%{term}%')
+                
+                tag_conditions.append(f"({' OR '.join(term_conditions)})")
+            
+            query += " AND (" + " AND ".join(tag_conditions) + ")"
 
+        # Filtro por categoria
         if categoria and categoria != "categorias":
-            query += " AND images.category = %s"
+            query += " AND LOWER(i.category) = %s"
             params.append(categoria)
 
+        # Filtro por cores
         if normalized_colors:
-            placeholders = ', '.join(['%s'] * len(normalized_colors))
-            query += f"""
-                AND LOWER(
-                    CASE
-                        WHEN image_colors.name LIKE '%%claro' THEN LOWER(SUBSTRING_INDEX(image_colors.name, ' ', 1))
-                        WHEN image_colors.name LIKE '%%escuro' THEN LOWER(SUBSTRING_INDEX(image_colors.name, ' ', 1))
-                        ELSE LOWER(image_colors.name)
-                    END
-                ) IN ({placeholders})
-            """
-            params.extend(normalized_colors)
+            color_conditions = []
+            for color in normalized_colors:
+                color_conditions.append("""
+                    (LOWER(
+                        CASE
+                            WHEN ic.name LIKE %s THEN LOWER(SUBSTRING_INDEX(ic.name, ' ', 1))
+                            ELSE LOWER(ic.name)
+                        END
+                    ) = %s)
+                """)
+                params.append(f'%{color}%')
+                params.append(color)
+            
+            query += " AND (" + " OR ".join(color_conditions) + ")"
 
+        # Filtro por licença
         if is_premium and not is_gratis:
-            query += " AND images.license = 'premium'"
+            query += " AND i.license = 'premium'"
         elif is_gratis and not is_premium:
-            query += " AND images.license IS NULL"
+            query += " AND (i.license IS NULL OR i.license = 'free')"
+        elif is_premium and is_gratis:
+            query += " AND (i.license = 'premium' OR i.license IS NULL OR i.license = 'free')"
 
+        # Filtro por formatos
         if formats:
-            placeholders = ', '.join(['%s'] * len(formats))
-            query += f" AND (image_format.format IN ({placeholders}) OR images.type IN ({placeholders}))"
-            params.extend(formats)
-            params.extend(formats)
+            format_conditions = []
+            for fmt in formats:
+                format_conditions.append("(LOWER(ifmt.format) = %s OR LOWER(i.type) = %s)")
+                params.extend([fmt, fmt])
+            
+            query += " AND (" + " OR ".join(format_conditions) + ")"
 
-        print(f"Parâmetros da query: {params}")
+        # Ordenação e limite
+        query += " GROUP BY i.id ORDER BY i.upload_date DESC LIMIT 100"
+
+        print(f"Parâmetros: {params}")
 
         cursor.execute(query, params)
-        results = cursor.fetchall()
+        columns = [col[0] for col in cursor.description]  # Obter nomes das colunas
+        results = [dict(zip(columns, row)) for row in cursor.fetchall()]  # Converter para dicionário
 
-        images = [{'id': row[0], 'url': row[1], 'license': row[2]} for row in results]
+        # Formatar resposta
+        images = []
+        for row in results:
+            image_data = {
+                'id': row['id'],
+                'url': row['url'],
+                'license': row['license']
+            }
+            images.append(image_data)
 
         cursor.close()
 
@@ -629,10 +704,19 @@ def search_images():
 
     except MySQLError as e:
         print(f"Erro de MySQL: {str(e)}")
-        return jsonify({"success": False, "message": "Erro no banco de dados"}), 500
+        return jsonify({
+            'success': False,
+            'message': 'Erro no banco de dados',
+            'error': str(e)
+        }), 500
+        
     except Exception as e:
         print(f"Erro geral: {str(e)}")
-        return jsonify({"success": False, "message": "Erro interno no servidor"}), 500
+        return jsonify({
+            'success': False,
+            'message': 'Erro interno no servidor',
+            'error': str(e)
+        }), 500
 
 def remove_acentos(texto):
     return ''.join(
@@ -783,7 +867,7 @@ def get_colaborador(id):
                     u.userDescription,
                     (SELECT COUNT(*) FROM follows WHERE followed_id = u.id) AS total_seguidores,
                     (SELECT SUM(likes) FROM images WHERE uploaded_by = u.id) AS total_curtidas,
-                    (SELECT SUM(downloads) FROM images WHERE uploaded_by = u.id) AS total_downloads,
+                    (SELECT COUNT(*) FROM downloads WHERE user_id = u.id) AS total_downloads,
                     (SELECT SUM(views) FROM images WHERE uploaded_by = u.id) AS total_views,
                     (SELECT COUNT(*) FROM images WHERE uploaded_by = u.id) AS total_recursos
                 FROM 
@@ -824,7 +908,7 @@ def get_images_colaborador(id):
         conn = mysql.connection
         cursor = conn.cursor()
         
-        query = "SELECT id, url, license FROM images WHERE status = 'active' AND uploaded_by = %s"
+        query = "SELECT id, url, license FROM images WHERE status = 1 AND uploaded_by = %s"
         
         cursor.execute(query, (id,))
         images = cursor.fetchall()

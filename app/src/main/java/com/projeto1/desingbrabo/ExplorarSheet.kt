@@ -15,38 +15,21 @@ import retrofit2.Response
 class ExplorarSheet(context: Context, private val recyclerView: RecyclerView, private val idColaborador: Int, private val searchInput: EditText) {
 
     private val view: View = LayoutInflater.from(context).inflate(R.layout.barra_filtros, null)
-    private val spinnerTags: Spinner = view.findViewById(R.id.spinner_tags)
     private val licenseEstado = mutableMapOf<Button, Boolean>()
     private val formatEstado = mutableMapOf<Button, Boolean>()
     private val coresEstado = mutableMapOf<ImageButton, Boolean>()
 
     init {
         setupButtons()
-        setupSpinner()
     }
 
     fun getView(): View {
         return view
     }
 
-    private fun setupSpinner() {
-        val tagsArray = arrayOf("Todas", "Natureza", "Cidades", "Pessoas", "Animais")
-        val adapter = ArrayAdapter(view.context, android.R.layout.simple_spinner_item, tagsArray)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spinnerTags.adapter = adapter
-
-        spinnerTags.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                searchImages()
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
-        }
-    }
 
     private fun searchImages() {
         val tag = searchInput.text.toString().trim()
-        val categoria = spinnerTags.selectedItem.toString()
         val formats = getSelectedFormats()
         val colors = getSelectedColor()
 
@@ -55,7 +38,6 @@ class ExplorarSheet(context: Context, private val recyclerView: RecyclerView, pr
             isPremium = licenseEstado[view.findViewById(R.id.button_premium)] == true,
             isGratis = licenseEstado[view.findViewById(R.id.button_gratis)] == true,
             formats = formats,
-            categoria = categoria,
             color = colors,
             userId = idColaborador
         ).enqueue(object : Callback<List<Image>> {

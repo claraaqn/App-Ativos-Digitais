@@ -26,27 +26,7 @@ class HomeActivity: AppCompatActivity() {
             popLoginCadastro()
         }
 
-        val buttonComida: Button = findViewById(R.id.comida)
-        val buttonPresente: Button = findViewById(R.id.presentes)
-        val buttonModa: Button = findViewById(R.id.moda)
-        val buttonTecnologia: Button = findViewById(R.id.tecnologia)
-
         val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
-
-        val buttonsToCategory = mapOf(
-            buttonComida to "arte",
-            buttonPresente to "Presentes",
-            buttonModa to "Moda",
-            buttonTecnologia to "Tecnologia"
-        )
-
-        buttonsToCategory.forEach { (button, category) ->
-            button.setOnClickListener {
-                val intent = Intent(this, ExplorarActivity::class.java)
-                intent.putExtra("categoria", category)
-                startActivity(intent)
-            }
-        }
 
         recyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
 
@@ -61,10 +41,6 @@ class HomeActivity: AppCompatActivity() {
                 Toast.makeText(this@HomeActivity, "${t.message}", Toast.LENGTH_LONG).show()
             }
         })
-
-        findViewById<Button>(R.id.mais).setOnClickListener {
-            startActivity(Intent(this@HomeActivity, ExplorarActivity::class.java))
-        }
 
         findViewById<Button>(R.id.button_home).setOnClickListener {
             startActivity(Intent(this@HomeActivity, HomeActivity::class.java))

@@ -102,20 +102,27 @@ class CartAdapter(private var products: List<Pair<Product, Int>>,  private val c
     override fun getItemCount(): Int = products.size
 
     fun updateData(newProducts: List<Pair<Product, Int>>) {
-        products = newProducts
-        selectedItems.clear() // Limpa o mapa de seleção
+        // Preserve selection states for remaining items
+        val newSelectedItems = mutableMapOf<Int, Boolean>()
         for ((product, _) in newProducts) {
-            selectedItems[product.id] = selectedItems[product.id] ?: false
+            newSelectedItems[product.id] = selectedItems[product.id] ?: false
         }
+
+        products = newProducts
+        selectedItems.clear()
+        selectedItems.putAll(newSelectedItems)
+
         notifyDataSetChanged()
     }
 
     private fun removeItemFromDatabase(productId: Int) {
         val db = AppDatabase.getDatabase(context)
-        val cartDao = db.cartDao()
-
         kotlinx.coroutines.GlobalScope.launch(kotlinx.coroutines.Dispatchers.IO) {
-            cartDao.removeCartItem(productId)
+            try {
+                db.cartDao().removeCartItem(productId)
+            } catch (e: Exception) {
+                // Handle error if needed
+            }
         }
     }
 
@@ -155,6 +162,23 @@ class CartAdapter(private var products: List<Pair<Product, Int>>,  private val c
     fun checkIfAllItemsRemoved() {
         if (products.isEmpty()) {
             onItemRemovedListener?.onAllItemsRemoved()
+        }
+    }
+
+    fun safeRemoveItem(productId: Int) {
+        val position = products.indexOfFirst { it.first.id == productId }
+        if (position != -1) {
+            val wasSelected = selectedItems[productId] ?: false
+
+            removeItemFromDatabase(productId)
+
+            val updatedProducts = products.toMutableList()
+            updatedProducts.removeAt(position)
+            updateData(updatedProducts)
+
+            onItemRemovedListener?.onItemRemoved(productId, wasSelected)
+            updateTotalValue()
+            checkIfAllItemsRemoved()
         }
     }
 
