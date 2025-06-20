@@ -529,6 +529,10 @@ def get_produto(produto_id):
     try:
         conn = mysql.connection
         cursor = conn.cursor()
+        
+        update_query = "UPDATE images SET views = views + 1 WHERE id = %s"
+        cursor.execute(update_query, (produto_id,))
+        conn.commit()
 
         query = """
                 SELECT 
