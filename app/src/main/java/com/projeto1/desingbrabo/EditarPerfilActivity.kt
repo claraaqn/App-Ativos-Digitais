@@ -59,12 +59,16 @@ class EditarPerfilActivity : AppCompatActivity() {
 
         nomeEditText.setText(sharedPreferences.getString("user_name", ""))
         emailEditText.setText(sharedPreferences.getString("user_email", ""))
-        telefoneEditText.setText(sharedPreferences.getString("user_phone", ""))
-        descricaoEditText.setText(sharedPreferences.getString("user_descricao", ""))
+        telefoneEditText.setText(sharedPreferences.getString("user_phone", ""))  // Corrigido para "user_phone"
+        descricaoEditText.setText(sharedPreferences.getString("user_description", ""))
+
         val currentImageUrl = sharedPreferences.getString("user_profile_image", "")
+        Log.d("EditarPerfil", "URL da imagem: $currentImageUrl")
+
         Glide.with(this@EditarPerfilActivity)
             .load(currentImageUrl)
             .skipMemoryCache(true)
+            .error(R.drawable.icon_fechar)
             .into(fotoPerfil)
 
         btnFotoPerfil.setOnClickListener {
@@ -97,7 +101,6 @@ class EditarPerfilActivity : AppCompatActivity() {
             }
         }
 
-
         voltar.setOnClickListener { finish() }
     }
 
@@ -105,8 +108,8 @@ class EditarPerfilActivity : AppCompatActivity() {
         val editor = getSharedPreferences("user_prefs", Context.MODE_PRIVATE).edit()
         editor.putString("user_name", nome)
         editor.putString("user_email", email)
-        editor.putString("user_telefone", phone)
-        editor.putString("user_descricao", descricao)
+        editor.putString("user_phone", phone)
+        editor.putString("user_description", descricao)
         editor.putString("user_profile_image", imageUrl)
         editor.apply()
 

@@ -65,6 +65,7 @@ class CartAdapter(private var products: List<Pair<Product, Int>>,  private val c
         Glide.with(context)
             .load(product.imageUrl)
             .placeholder(R.drawable.placeholder)
+            .error(R.drawable.icon_fechar)
             .into(holder.ImageButton)
 
         holder.checkBox.isChecked = selectedItems[product.id] ?: false

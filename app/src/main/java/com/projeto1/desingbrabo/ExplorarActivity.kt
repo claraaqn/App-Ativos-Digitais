@@ -44,7 +44,6 @@ class ExplorarActivity : AppCompatActivity() {
     private val formatEstado  = mutableMapOf<Button, Boolean>()
     private val coresEstado = mutableMapOf<ImageButton, Boolean>()
 
-    private lateinit var spinnerTags: Spinner
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -106,13 +106,13 @@ class ProdutoActivity : AppCompatActivity() {
                         Glide.with(this@ProdutoActivity)
                             .load(produto.url)
                             .placeholder(R.drawable.placeholder)
-                            .error(R.drawable.produto4)
+                            .error(R.drawable.icon_fechar)
                             .into(imagem)
 
                         Glide.with(this@ProdutoActivity)
                             .load(produto.fotoDono)
                             .placeholder(R.drawable.placeholder)
-                            .error(R.drawable.produto4)
+                            .error(R.drawable.icon_fechar)
                             .into(uderPhoto)
 
                         colorsRecyclerView.adapter = ColorsAdapter(produto.cores ?: emptyList(), this@ProdutoActivity)

@@ -30,6 +30,7 @@ class ImageAdapter(private var images: List<Image>, private val context: Context
         Glide.with(context)
             .load(image.url)
             .placeholder(R.drawable.placeholder)
+            .error(R.drawable.icon_fechar)
             .into(holder.imageButton)
 
         val iconResId = when (image.license) {
