@@ -535,43 +535,52 @@ def get_produto(produto_id):
         conn.commit()
 
         query = """
-                SELECT 
-                    i.caption, 
-                    i.price,
-                    i.upload_date, 
-                    i.url, 
-                    u.username AS uploaded_by, 
-                    i.size, 
-                    GROUP_CONCAT(DISTINCT ic.hex) AS colors,
-                    i.likes,
-                    GROUP_CONCAT(DISTINCT ift.format) AS format,
-                    i.license,
-                    i.uploaded_by
-                FROM images i
-                LEFT JOIN image_colors ic ON i.id = ic.image_id
-                LEFT JOIN image_format ift ON i.id = ift.image_id
-                LEFT JOIN ad_users u ON i.uploaded_by = u.id
-                WHERE i.id = %s
-                GROUP BY i.id, u.username
-            """
+            SELECT 
+                i.caption, 
+                i.price,
+                i.upload_date, 
+                i.url, 
+                u.username AS uploaded_by, 
+                u.userProfile as userProfile,
+                i.size, 
+                GROUP_CONCAT(DISTINCT ic.hex) AS colors,
+                i.likes,
+                i.views,
+                GROUP_CONCAT(DISTINCT ift.format) AS format,
+                i.license,
+                i.uploaded_by,
+                GROUP_CONCAT(DISTINCT it.name) AS tags
+            FROM images i
+            LEFT JOIN image_colors ic ON i.id = ic.image_id
+            LEFT JOIN image_format ift ON i.id = ift.image_id
+            LEFT JOIN ad_users u ON i.uploaded_by = u.id
+            LEFT JOIN image_tags it ON i.id = it.image_id
+            WHERE i.id = %s
+            GROUP BY i.id, u.username, u.userProfile
+        """
 
         cursor.execute(query, (produto_id,))
         produto = cursor.fetchone()
 
-        
+        if not produto:
+            return jsonify({'message': 'Produto não encontrado'}), 404
+
         dados_produto = {
             'id': produto_id,
             'nome': produto[0],
             'preco': str(Decimal(produto[1])),
-            'dataPublicacao': produto[2].strftime("%d/%m/%Y") if produto[2] else None,                
+            'dataPublicacao': produto[2].strftime("%d/%m/%Y") if produto[2] else None,
             'url': produto[3],
             'dono': produto[4],
-            'tamanho': str(produto[5]),
-            'cores': produto[6].split(",") if produto[6] else [],
-            'likes': str(produto[7]),
-            'formatos': produto[8].split(",") if produto[8] else [],
-            'licenca': produto[9],
-            'idColaborador': produto[10]
+            'fotoDono': produto[5],
+            'tamanho': str(produto[6]),
+            'cores': produto[7].split(",") if produto[7] else [],
+            'likes': str(produto[8]),
+            'views': str(produto[9]),
+            'formatos': produto[10].split(",") if produto[10] else [],
+            'licenca': produto[11],
+            'idColaborador': produto[12],
+            'categorias': produto[13].split(",") if produto[13] else []
         }
         
         print(dados_produto)
