@@ -7,10 +7,12 @@ data class Produto(
     val dataPublicacao: String,
     val url: String,
     val dono: String,
+    val fotoDono: String,
     val tamanho: String,
     val cores: List<String>,
     val likes: String,
     val formatos: List<String>,
     val licenca: String?,
-    val idColaborador: Int
+    val idColaborador: Int,
+    val categorias:Array<String>
 )

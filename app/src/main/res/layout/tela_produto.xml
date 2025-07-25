@@ -111,30 +111,37 @@
                 app:layout_constraintTop_toBottomOf="@+id/rolar_imagem"
                 tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 
-            <ImageView
+            <ImageButton
                 android:id="@+id/foto_perfil"
                 android:layout_width="55dp"
                 android:layout_height="55dp"
-                android:src="@drawable/foto_perfil_teste"
-                app:layout_constraintTop_toBottomOf="@id/button_curtida"
+                android:layout_marginStart="18dp"
                 android:layout_marginTop="10dp"
+                android:adjustViewBounds="true"
+                android:background="@drawable/oval_shape"
+                android:clipToOutline="true"
+                android:padding="0dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/usuario"
                 app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="18dp"/>
+                app:layout_constraintTop_toBottomOf="@id/button_curtida"
+                tools:ignore="SpeakableTextPresentCheck" />
 
             <Button
                 android:id="@+id/nome_proprietario_imagem"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
-                android:text="@string/dono_imagem"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="16dp"
+                android:background="@android:color/transparent"
                 android:fontFamily="@font/archivo_bold"
+                android:text="@string/dono_imagem"
+                android:textAlignment="textStart"
                 android:textColor="#010715"
                 android:textSize="18sp"
-                android:background="@android:color/transparent"
-                android:textAlignment="textStart"
-                app:layout_constraintTop_toBottomOf="@id/button_curtida"
-                android:layout_marginTop="16dp"
                 app:layout_constraintStart_toEndOf="@id/foto_perfil"
-                android:layout_marginStart="10dp"/>
+                app:layout_constraintTop_toBottomOf="@id/button_curtida"
+                tools:ignore="TouchTargetSizeCheck" />
 
             <TextView
                 android:id="@+id/textView8"
@@ -195,43 +202,45 @@
                 app:layout_constraintVertical_bias="0.0" />
 
             <TextView
-                android:id="@+id/preco"
+                android:id="@+id/data"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="18dp"
-                android:layout_marginTop="2dp"
+                android:layout_marginTop="6dp"
                 android:fontFamily="@font/archivo_bold"
-                android:text="Preço:"
+                android:text="Data de Publicação:"
                 android:textColor="#010715"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/licenca" />
 
             <TextView
-                android:id="@+id/valor_preco"
+                android:id="@+id/valor_data"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="8dp"
                 android:fontFamily="@font/archivo_regular"
-                android:text="R$"
+                android:text=""
                 android:textColor="#010715"
                 android:textSize="18sp"
-                android:layout_marginStart="5dp"
-                app:layout_constraintBottom_toBottomOf="@+id/preco"
-                app:layout_constraintStart_toEndOf="@+id/preco"
-                app:layout_constraintTop_toTopOf="@+id/preco" />
+                app:layout_constraintBottom_toBottomOf="@+id/data"
+                app:layout_constraintStart_toEndOf="@+id/data"
+                app:layout_constraintTop_toTopOf="@+id/data"
+                app:layout_constraintVertical_bias="1.0" />
 
             <TextView
                 android:id="@+id/formato"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Formatos:"
+                android:layout_marginStart="18dp"
+                android:layout_marginTop="6dp"
                 android:fontFamily="@font/archivo_bold"
+                android:text="Formatos Disponíveis:"
                 android:textColor="#010715"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="18dp"
-                app:layout_constraintTop_toBottomOf="@+id/preco"
-                android:layout_marginTop="2dp"/>
+                app:layout_constraintTop_toBottomOf="@+id/data" />
 
             <TextView
                 android:id="@+id/valor_formato"
@@ -249,44 +258,72 @@
                 app:layout_constraintVertical_bias="0.25" />
 
             <TextView
-                android:id="@+id/cores"
+                android:id="@+id/tamanho"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Cores:"
+                android:layout_marginStart="18dp"
+                android:layout_marginTop="6dp"
                 android:fontFamily="@font/archivo_bold"
+                android:text="Tamanho:"
                 android:textColor="#010715"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="18dp"
                 app:layout_constraintTop_toBottomOf="@+id/formato"
-                android:layout_marginTop="2dp"/>
+                app:layout_goneMarginStart="18dp" />
+
+            <TextView
+                android:id="@+id/categoria"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="18dp"
+                android:layout_marginTop="6dp"
+                android:fontFamily="@font/archivo_bold"
+                android:text="Categoria:"
+                android:textColor="#010715"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tamanho" />
+
+            <TextView
+                android:id="@+id/valor_categora"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/archivo_regular"
+                android:text=""
+                android:layout_marginStart="5dp"
+                android:textColor="#010715"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@+id/categoria"
+                app:layout_constraintStart_toEndOf="@+id/categoria"
+                app:layout_constraintTop_toTopOf="@+id/categoria" />
+
+            <TextView
+                android:id="@+id/Cores"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="18dp"
+                android:layout_marginTop="6dp"
+                android:fontFamily="@font/archivo_bold"
+                android:text="Cores:"
+                android:textColor="#010715"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/categoria" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/colorsRecyclerView"
                 android:layout_width="308dp"
                 android:layout_height="31dp"
-                android:layout_marginStart="4dp"
+                android:layout_marginTop="7dp"
                 android:background="#f2f2f2"
                 android:scrollbars="none"
-                app:layout_constraintBottom_toTopOf="@+id/valor_tamanho"
-                app:layout_constraintStart_toEndOf="@+id/cores"
-                app:layout_constraintTop_toBottomOf="@+id/valor_formato"
-                app:layout_constraintVertical_bias="1.0"
+                android:paddingStart="4dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.285"
+                app:layout_constraintStart_toEndOf="@+id/Cores"
+                app:layout_constraintTop_toBottomOf="@+id/categoria"
                 tools:ignore="SpeakableTextPresentCheck"
                 tools:listitem="@layout/cor" />
-
-            <TextView
-                android:id="@+id/tamanho"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Tamanho:"
-                android:fontFamily="@font/archivo_bold"
-                android:textColor="#010715"
-                android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="18dp"
-                app:layout_constraintTop_toBottomOf="@+id/cores"
-                android:layout_marginTop="2dp"/>
 
             <TextView
                 android:id="@+id/valor_tamanho"
@@ -301,51 +338,21 @@
                 app:layout_constraintStart_toEndOf="@+id/tamanho"
                 app:layout_constraintTop_toTopOf="@+id/tamanho" />
 
-            <TextView
-                android:id="@+id/data"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Data de Publicação:"
-                android:fontFamily="@font/archivo_bold"
-                android:textColor="#010715"
-                android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="18dp"
-                app:layout_constraintTop_toBottomOf="@+id/tamanho"
-                android:layout_marginTop="2dp"/>
-
-            <TextView
-                android:id="@+id/valor_data"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="8dp"
-                android:fontFamily="@font/archivo_regular"
-                android:text=""
-                android:textColor="#010715"
-                android:textSize="18sp"
-                app:layout_constraintBottom_toBottomOf="@+id/data"
-                app:layout_constraintStart_toEndOf="@+id/data"
-                app:layout_constraintTop_toTopOf="@+id/data"
-                app:layout_constraintVertical_bias="1.0" />
-
             <Button
                 android:id="@+id/button_adicionar_carrinho"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="28dp"
                 android:background="@drawable/bg_button_adicionar_carrinho"
                 android:fontFamily="@font/archivo_bold"
                 android:gravity="bottom"
                 android:padding="12dp"
                 android:text="Adicionar ao Carrinho"
                 android:textColor="#F2F2F2"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.497"
+                app:layout_constraintHorizontal_bias="0.477"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/data"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintTop_toBottomOf="@+id/colorsRecyclerView" />
 
             <ImageView
                 android:id="@+id/fundo_branco"

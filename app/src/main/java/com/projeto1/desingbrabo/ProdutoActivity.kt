@@ -63,12 +63,13 @@ class ProdutoActivity : AppCompatActivity() {
 
         val imagem: ImageView = findViewById(R.id.produto1)
         val donoImagem: TextView = findViewById(R.id.nome_proprietario_imagem)
+        val uderPhoto: ImageButton = findViewById(R.id.foto_perfil)
         val nomeProduto: TextView = findViewById(R.id.nome_produto)
         val likes: TextView = findViewById(R.id.curtidas)
         val licenca: TextView = findViewById(R.id.tipo_licenca)
-        val preco: TextView = findViewById(R.id.valor_preco)
         val formatos: TextView = findViewById(R.id.valor_formato)
         val tamanho: TextView = findViewById(R.id.valor_tamanho)
+        val categoria: TextView = findViewById(R.id.valor_categora)
         val data: TextView = findViewById(R.id.valor_data)
 
         val db = AppDatabase.getDatabase(this)
@@ -81,7 +82,7 @@ class ProdutoActivity : AppCompatActivity() {
                     if (produto != null) {
                         nomeProduto.text = produto.nome ?: ""
                         donoImagem.text = produto.dono ?: ""
-                        preco.text = "R$ ${produto.preco ?: ""}"
+                        categoria.text = produto.categorias.joinToString() ?: ""
                         formatos.text = produto.formatos?.joinToString(", ") ?: ""
                         data.text = produto.dataPublicacao ?: ""
                         tamanho.text = "${produto.tamanho ?: ""} MB"
@@ -105,8 +106,14 @@ class ProdutoActivity : AppCompatActivity() {
                         Glide.with(this@ProdutoActivity)
                             .load(produto.url)
                             .placeholder(R.drawable.placeholder)
-                            .error(R.drawable.produto4)
+                            .error(R.drawable.icon_fechar)
                             .into(imagem)
+
+                        Glide.with(this@ProdutoActivity)
+                            .load(produto.fotoDono)
+                            .placeholder(R.drawable.placeholder)
+                            .error(R.drawable.icon_fechar)
+                            .into(uderPhoto)
 
                         colorsRecyclerView.adapter = ColorsAdapter(produto.cores ?: emptyList(), this@ProdutoActivity)
 
@@ -139,6 +146,7 @@ class ProdutoActivity : AppCompatActivity() {
 
             override fun onFailure(call: Call<Produto>, t: Throwable) {
                 Toast.makeText(this@ProdutoActivity, "Erro: ${t.message}", Toast.LENGTH_LONG).show()
+                Log.e("Produto", "Erro:  ${t.message}")
             }
         })
 

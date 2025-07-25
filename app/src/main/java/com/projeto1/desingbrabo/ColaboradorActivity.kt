@@ -99,13 +99,13 @@ class ColaboradorActivity : AppCompatActivity() {
                         Glide.with(this@ColaboradorActivity)
                             .load(colaborador.userProfile)
                             .placeholder(R.drawable.usuario)
-                            .error(R.drawable.produto4)
+                            .error(R.drawable.icon_fechar)
                             .into(fotoPerfil)
 
                         Glide.with(this@ColaboradorActivity)
                             .load(colaborador.userCape)
                             .placeholder(R.drawable.placeholder)
-                            .error(R.drawable.produto4)
+                            .error(R.drawable.icon_fechar)
                             .into(imageView)
                     } else {
                         Toast.makeText(this@ColaboradorActivity, "Produto não encontrado", Toast.LENGTH_SHORT).show()

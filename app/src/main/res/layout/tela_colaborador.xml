@@ -27,7 +27,7 @@
                 android:adjustViewBounds="false"
                 android:scaleType="centerCrop"
                 android:elevation="8dp"
-                android:src="@drawable/foto_perfil_teste"
+                android:src="@drawable/usuario"
                 android:background="@drawable/oval_shape"
                 android:clipToOutline="true"
                 app:layout_constraintEnd_toEndOf="parent"

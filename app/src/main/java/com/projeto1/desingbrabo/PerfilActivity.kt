@@ -217,14 +217,14 @@ class PerfilActivity : AppCompatActivity() {
                         Glide.with(this@PerfilActivity)
                             .load(usuario.userProfile)
                             .placeholder(R.drawable.usuario)
-                            .error(R.drawable.produto4)
+                            .error(R.drawable.icon_fechar)
                             .into(fotoPerfil)
 
-                        Glide.with(this@PerfilActivity)
-                            .load(usuario.userCape)
-                            .placeholder(R.drawable.usuario)
-                            .error(R.drawable.bg_button_cinza)
-                            .into(capa)
+//                        Glide.with(this@PerfilActivity)
+//                            .load(usuario.userCape)
+//                            .placeholder(R.drawable.usuario)
+//                            .error(R.drawable.icon_fechar)
+//                            .into(capa)
 
                         if (usuario.license == "Gratuito") {
                             findViewById<Button>(R.id.button).apply {
