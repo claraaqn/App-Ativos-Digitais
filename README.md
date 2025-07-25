@@ -1,6 +1,6 @@
 # Plataforma de Comercialização de Ativos Digitais para Design Gráfico
 
-Este projeto tem como objetivo o desenvolvimento de uma **plataforma completa para a comercialização de ativos digitais voltados para design gráfico**, oferecendo modelos de **venda por assinatura e compra individual**, semelhante a plataformas como **Freepik** e **Designi**. O projeto cobre desde a concepção da interface do usuário até a implementação da infraestrutura backend, garantindo uma experiência fluida e segura para os usuários.
+Este projeto tem como objetivo o desenvolvimento de uma plataforma completa para a comercialização de ativos digitais voltados para design gráfico, oferecendo modelos de venda por assinatura e compra individual, semelhante a plataformas como Freepik e Designi.Além disso, o projeto surge como solução para um problema comum nesse mercado: a falta de versões mobile em muitas plataformas de ativos digitais, o que limita a acessibilidade e a experiência dos usuários. Este aplicativo busca preencher essa lacuna, proporcionando uma experiência otimizada para dispositivos móveis, permitindo que designers e criadores naveguem, visualizem e adquiram ativos de forma rápida e intuitiva diretamente de seus smartphones.
 
 ## 🏗️ Arquitetura do Projeto
 
