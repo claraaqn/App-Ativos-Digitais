@@ -7,3 +7,4 @@ python-dotenv==1.0.0
 Flask-Mail==0.9.1
 boto3==1.28.0
 PyMySQL==1.1.0
+gunicorn
